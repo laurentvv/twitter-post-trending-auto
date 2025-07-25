@@ -1,119 +1,198 @@
-# GitHub Tweet Bot
+# 🚀 GitHub Tweet Bot
 
-Ce bot Twitter recherche les dépôts GitHub tendance, génère un résumé à l'aide de l'IA et publie un tweet avec une capture d'écran du dépôt.
+Un bot Twitter intelligent qui découvre automatiquement les dépôts GitHub tendance, génère des résumés avec l'IA et publie des tweets engageants avec captures d'écran.
+
+## ✨ Fonctionnalités
+
+- 🔥 **Détection automatique** des dépôts GitHub trending
+- 🤖 **Résumés IA** générés avec Ollama (français avec accents)
+- 📸 **Screenshots automatiques** centrés sur le README
+- 🐦 **Publication Twitter** avec thread de réponse
+- 📚 **Historique intelligent** évite les doublons
+- 🎯 **Tweets optimisés** respectant les limites de caractères
+
+## 🛠️ Installation
+
+### Prérequis
+
+1. **Python 3.11+**
+2. **Ollama** installé et configuré
+3. **Compte Twitter Developer** avec API v2
+
+### Installation rapide
+
+```bash
+# Cloner le projet
+git clone https://github.com/votre-username/twitter-post-trending-auto.git
+cd twitter-post-trending-auto
+
+# Installer les dépendances
+pip install -r requirements.txt
+
+# Installer Playwright browsers
+playwright install chromium
+
+# Installer et démarrer Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull qwen3:14b
+```
+
+### Configuration
+
+1. **Créer le fichier `.env`** (basé sur `.env.example`) :
+
+```env
+# Twitter OAuth 1.0a (obligatoire pour poster)
+TWITTER_API_KEY=votre_api_key
+TWITTER_API_SECRET=votre_api_secret
+TWITTER_ACCESS_TOKEN=votre_access_token
+TWITTER_ACCESS_TOKEN_SECRET=votre_access_token_secret
+TWITTER_BEARER_TOKEN=votre_bearer_token
+
+# Ollama Configuration
+OLLAMA_MODEL=qwen3:14b
+OLLAMA_HOST=http://localhost:11434
+```
+
+2. **Obtenir les clés Twitter** :
+   - Aller sur [developer.twitter.com](https://developer.twitter.com)
+   - Créer une app avec permissions **Read and Write**
+   - Activer **OAuth 1.0a**
+   - Générer les tokens d'accès
 
 ## 🚀 Utilisation
 
-### Installation
+### Lancement simple
 
-1.  **Installer Ollama**
-    ```bash
-    curl -fsSL https://ollama.com/install.sh | sh
-    ```
+```bash
+python -m src.main
+```
 
-2.  **Télécharger Qwen3:14b**
-    ```bash
-    ollama pull qwen3:14b
-    ```
+### Workflow automatique
 
-3.  **Installer les dépendances Python**
-    ```bash
-    pip install -r requirements.txt
-    ```
+Le bot exécute automatiquement :
 
-4.  **Remplir `.env` avec vos clés Twitter**
-    Créez un fichier `.env` à la racine du projet et ajoutez vos clés API Twitter en vous basant sur le fichier `.env.example`.
+1. **📊 Récupération** des 20 dépôts GitHub trending
+2. **🔍 Filtrage** des dépôts non encore postés
+3. **📸 Capture** d'écran du README
+4. **🤖 Génération** du résumé IA en français
+5. **🐦 Publication** du tweet principal + thread
+6. **💾 Sauvegarde** dans l'historique
 
-5.  **Lancer le bot**
-    ```bash
-    python src/main.py
-    ```
+### Exemple de sortie
 
-## 🚀 Guide pas à pas pour créer ton app Twitter
+```
+🐍 awesome-python
+⭐ 123,456 stars
 
-### Étape 1 : Créer un compte développeur
+Bibliothèque Python révolutionnaire pour l'automatisation intelligente des tâches quotidiennes !
+#GitHub
 
-1. Rends-toi sur [https://developer.twitter.com](https://developer.twitter.com)
-2. Clique sur **"Apply for a developer account"**
-3. Choisis le type de compte : **"Hobbyist"** → **"Student or enthusiast"** (si c'est pour apprendre/personnel)
-4. Réponds aux questions :
-   - Nom de ton projet : *"Tweet GitHub Projects"*
-   - Description : *"Automatiser des tweets à partir de dépôts GitHub"*
-   - Utilisation de l'API : *"Post tweets with images and replies"*
+Thread de réponse :
+• Interface intuitive
+• Performance optimisée  
+• Documentation complète
 
-⚠️ Twitter peut mettre quelques heures à valider ton compte.
+🔗 https://github.com/user/awesome-python
+#Code
+```
 
----
+## 📁 Structure du projet
 
-### Étape 2 : Créer une application
+```
+twitter-post-trending-auto/
+├── src/                    # Code source principal
+│   ├── core/              # Configuration et logging
+│   ├── services/          # Services métier
+│   └── main_complete.py   # Point d'entrée
+├── data/                  # Données persistantes
+│   └── posted_repos.json # Historique des posts
+├── screenshots/           # Captures d'écran générées
+├── logs/                  # Fichiers de logs
+├── .env                   # Variables d'environnement
+└── requirements.txt       # Dépendances Python
+```
 
-1. Une fois approuvé, va dans **"Dashboard"** → **"Create App"**
-2. Nom de l'app : par exemple `GitHubTweetBot`
-3. Tu obtiens alors :
-   - **API Key** (Consumer Key)
-   - **API Secret Key** (Consumer Secret)
+## ⚙️ Configuration avancée
 
----
+### Modèle Ollama
 
-### Étape 3 : Configurer les permissions
-
-1. Dans l'onglet **"App settings"** → **"User authentication settings"**
-2. Active **"OAuth 1.0a"**
-3. Coche :
-   - **Read**
-   - **Write**
-4. Définis le **"Callback URI"** comme : `http://localhost`
-
----
-
-### Étape 4 : Générer les tokens
-
-1. Toujours dans **"Keys and tokens"**
-2. Clique sur **"Generate"** pour :
-   - **Access Token and Secret**
-3. Note bien ces 4 éléments :
+Vous pouvez changer le modèle IA dans `.env` :
 
 ```env
-TWITTER_API_KEY = "xxx"
-TWITTER_API_SECRET = "yyy"
-TWITTER_ACCESS_TOKEN = "zzz"
-TWITTER_ACCESS_TOKEN_SECRET = "aaa"
+OLLAMA_MODEL=llama3.2:3b    # Plus rapide
+OLLAMA_MODEL=qwen3:14b      # Recommandé (défaut)
+OLLAMA_MODEL=llama3.2:70b   # Plus précis
 ```
 
-> ⚠️ Garde ces clés **secrètes** ! Ne les publie jamais.
+### Historique
+
+L'historique est automatiquement nettoyé après 7 jours si aucun nouveau dépôt n'est disponible.
+
+### Logs
+
+Les logs détaillés sont disponibles dans `logs/app.log` avec format JSON structuré.
+
+## 🔧 Dépannage
+
+### Problèmes courants
+
+**❌ Erreur 403 Twitter**
+- Vérifiez que OAuth 1.0a est activé
+- Confirmez les permissions Read and Write
+- Régénérez les tokens d'accès
+
+**❌ Ollama non accessible**
+```bash
+ollama serve  # Démarrer le service
+ollama pull qwen3:14b  # Télécharger le modèle
+```
+
+**❌ Screenshots vides**
+- Vérifiez que Playwright est installé : `playwright install chromium`
+- Désactivez le firewall temporairement
+
+### Debug
+
+```bash
+# Tester les composants individuellement
+python -c "from src.services.github_service import GitHubService; print(GitHubService().get_trending_repositories(1))"
+python -c "from src.services.ai_service import AIService; print(AIService().summarize_readme('Test README'))"
+```
+
+## 📊 Monitoring
+
+Le bot génère des logs structurés pour monitoring :
+
+```json
+{
+  "step": "workflow_success",
+  "repo_name": "awesome-project", 
+  "duration": "15.32s",
+  "main_tweet_id": "1234567890",
+  "timestamp": "2025-01-26T10:30:00Z"
+}
+```
+
+## 🤝 Contribution
+
+1. Fork le projet
+2. Créer une branche feature (`git checkout -b feature/amazing-feature`)
+3. Commit les changements (`git commit -m 'Add amazing feature'`)
+4. Push vers la branche (`git push origin feature/amazing-feature`)
+5. Ouvrir une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 🙏 Remerciements
+
+- [Ollama](https://ollama.com) pour l'IA locale
+- [Tweepy](https://tweepy.readthedocs.io) pour l'API Twitter
+- [Playwright](https://playwright.dev) pour les screenshots
+- [GitHub API](https://docs.github.com/en/rest) pour les données trending
 
 ---
 
-### Étape 5 : Obtenir le Bearer Token
-
-1. Dans le même onglet, clique sur **"Generate"** pour le **Bearer Token**
-2. Tu auras ainsi les 5 variables nécessaires :
-
-```env
-TWITTER_BEARER_TOKEN = "bbb"
-```
-
-## 📁 Structure du Projet
-
-```
-github-tweet-bot/
-├── .env                    # Variables d'environnement
-├── .gitignore             # Fichiers à ignorer
-├── requirements.txt       # Dépendances
-├── config/
-│   └── settings.py        # Configuration globale
-├── src/
-│   ├── __init__.py
-│   ├── main.py           # Point d'entrée principal
-│   ├── github_analyzer.py # Analyse des dépôts GitHub
-│   ├── screenshot.py     # Capture d'écran
-│   ├── ai_summarizer.py  # Résumé avec IA locale
-│   ├── twitter_bot.py    # Gestion des tweets
-│   ├── scheduler.py      # Planification
-│   └── utils.py          # Fonctions utilitaires
-├── data/
-│   └── trending_repos.json # Dépôts tendance
-├── logs/
-│   └── app.log           # Logs de l'application
-└── README.md             # Documentation
-```
+⭐ **N'hésitez pas à star le projet si il vous a été utile !**
