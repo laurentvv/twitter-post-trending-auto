@@ -62,9 +62,17 @@ OLLAMA_HOST=http://localhost:11434
 
 ## 🚀 Utilisation
 
-### Lancement simple
+### Mode Production (Recommandé)
 
 ```bash
+# Lancer le scheduler automatique
+python scheduler.py
+```
+
+### Mode Manuel
+
+```bash
+# Post unique
 python -m src.main
 ```
 
@@ -103,8 +111,9 @@ Thread de réponse :
 twitter-post-trending-auto/
 ├── src/                    # Code source principal
 │   ├── core/              # Configuration et logging
-│   ├── services/          # Services métier
-│   └── main_complete.py   # Point d'entrée
+│   ├── services/          # Services métier (GitHub, AI, Twitter, etc.)
+│   └── main.py            # Point d'entrée principal
+├── scheduler.py           # Scheduler automatique (30min)
 ├── data/                  # Données persistantes
 │   └── posted_repos.json # Historique des posts
 ├── screenshots/           # Captures d'écran générées
@@ -113,16 +122,38 @@ twitter-post-trending-auto/
 └── requirements.txt       # Dépendances Python
 ```
 
+## 🤖 Scheduler Automatique
+
+### Configuration
+
+- **Fréquence** : Toutes les 30 minutes
+- **Heures actives** : 8h00 - 23h30 (France)
+- **Limite mensuelle** : 500 tweets max (≈16/jour)
+- **Gestion intelligente** : Skip si hors heures actives
+
+### Lancement du scheduler
+
+```bash
+python scheduler.py
+```
+
+**Sortie exemple** :
+```
+🚀 GitHub Tweet Bot Scheduler Started
+📅 Schedule: Every 30 minutes
+⏰ Active hours: 8h00 - 23h30 (France time)
+📊 Max tweets/month: 500 (≈16/day)
+[2025-01-26 09:00:00] ✅ Bot executed successfully
+```
+
 ## ⚙️ Configuration avancée
 
 ### Modèle Ollama
 
-Vous pouvez changer le modèle IA dans `.env` :
+Modèle recommandé dans `.env` :
 
 ```env
-OLLAMA_MODEL=llama3.2:3b    # Plus rapide
-OLLAMA_MODEL=qwen3:14b      # Recommandé (défaut)
-OLLAMA_MODEL=llama3.2:70b   # Plus précis
+OLLAMA_MODEL=qwen3:14b      # Recommandé (pas de thinking mode)
 ```
 
 ### Historique

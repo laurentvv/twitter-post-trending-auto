@@ -1,6 +1,5 @@
 """AI service using Ollama for content generation."""
 import ollama
-import re
 from typing import List
 
 from ..core.config import settings
@@ -42,15 +41,12 @@ Phrase accrocheuse:"""
             response = self.client.generate(
                 model=self.model,
                 prompt=prompt,
+                think=False,  # Disable thinking mode
                 options={
                     "temperature": 0.5,
                     "num_predict": 80
                 }
             )
-            
-            summary = response['response'].strip()
-            # Remove think tags
-            summary = re.sub(r"<think>.*?</think>\n?", "", summary, flags=re.DOTALL).strip()
             
             summary = response['response'].strip()
             
@@ -120,15 +116,12 @@ Fonctionnalités:"""
             response = self.client.generate(
                 model=self.model,
                 prompt=prompt,
+                think=False,  # Disable thinking mode
                 options={
                     "temperature": 0.4,
                     "num_predict": 50
                 }
             )
-            
-            features_text = response['response'].strip()
-            # Remove think tags
-            features_text = re.sub(r"<think>.*?</think>\n?", "", features_text, flags=re.DOTALL).strip()
             
             features_text = response['response'].strip()
             features = [f.strip() for f in features_text.split('\n') if f.strip()][:3]

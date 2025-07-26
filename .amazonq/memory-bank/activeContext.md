@@ -1,34 +1,49 @@
-# Active Context: PRODUCTION READY ✅
+# Active Context: PROJET FINALISÉ ✅
 
-## Current Status
-Le bot Twitter GitHub est maintenant **100% fonctionnel** et prêt pour la production.
+## Status Final : PRODUCTION READY + SCHEDULER
 
-## Fonctionnalités Implémentées
+Le bot Twitter GitHub est maintenant **100% complet** avec scheduler automatique intégré.
+
+## Fonctionnalités Finales
 - ✅ **GitHub Trending** : Récupération automatique des dépôts populaires
-- ✅ **Screenshots** : Capture d'écran centrée sur README avec masquage des éléments inutiles
-- ✅ **IA Ollama** : Génération de résumés français avec correction automatique des accents
+- ✅ **Screenshots** : Capture d'écran centrée sur README avec masquage intelligent
+- ✅ **IA Ollama** : Génération de résumés français avec qwen3:14b (think=False)
 - ✅ **Twitter Posting** : Publication avec OAuth 1.0a, upload d'images, thread de réponse
 - ✅ **Historique** : Système anti-doublons avec nettoyage automatique (7 jours)
 - ✅ **Logs structurés** : Monitoring complet avec JSON structuré
-- ✅ **Architecture moderne** : Services modulaires, configuration centralisée
+- ✅ **Scheduler** : Exécution automatique toutes les 30 minutes (8h-23h30)
 
-## Dernières Améliorations
-- Correction du positionnement des screenshots (200px au-dessus du README)
-- Système de correction automatique des accents français
-- Intégration complète de l'historique pour éviter les doublons
-- Upload d'images fonctionnel avec OAuth 1.0a
-- Nettoyage complet du projet (suppression des anciens fichiers)
+## Scheduler Automatique
+- **Fréquence** : Toutes les 30 minutes
+- **Heures actives** : 8h00 - 23h30 (France)
+- **Limite respectée** : 500 tweets/mois max (≈16/jour)
+- **Gestion intelligente** : Skip automatique hors heures actives
+- **Commande** : `python scheduler.py`
 
 ## Configuration Finale
-- **Modèle IA** : qwen3:14b avec `think=False`
+- **Modèle IA** : qwen3:14b avec `think=False` (pas de thinking mode)
 - **Screenshots** : Playwright avec masquage intelligent des éléments
 - **Twitter** : OAuth 1.0a pour posting complet avec médias
 - **Historique** : JSON persistant avec nettoyage automatique
+- **Dependencies** : schedule ajouté pour automation
 
-## Workflow de Production
+## Commandes de Production
 ```bash
+# Mode production (recommandé)
+python scheduler.py
+
+# Mode manuel
 python -m src.main
 ```
 
-**Durée moyenne** : 15-25 secondes par post
-**Succès rate** : 100% avec gestion d'erreurs complète
+## Architecture Finale
+```
+src/
+├── core/          # Configuration et logging
+├── services/      # GitHub, AI, Screenshot, Twitter, History  
+└── main.py        # Workflow principal
+
+scheduler.py       # Scheduler automatique 30min
+```
+
+**Le bot est prêt pour utilisation continue en production !** 🚀
