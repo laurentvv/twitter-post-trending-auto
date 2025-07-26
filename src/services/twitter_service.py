@@ -52,7 +52,7 @@ class TwitterService:
     
     def create_tweet(self, text: str, media_path: Optional[str] = None) -> Optional[str]:
         """
-        Create a tweet with optional media.
+        Create a tweet with optional media (with 3 retry attempts).
         
         Args:
             text: Tweet text content
@@ -61,91 +61,104 @@ class TwitterService:
         Returns:
             Tweet ID if successful, None otherwise
         """
-        try:
-            logger.info(
-                "Creating tweet",
-                **log_step("tweet_create", text_length=len(text), has_media=bool(media_path))
-            )
-            
-            media_ids = None
-            if media_path and Path(media_path).exists() and self._has_oauth1_credentials():
-                try:
-                    # Use OAuth 1.0a API for media upload
-                    auth = tweepy.OAuth1UserHandler(
-                        consumer_key=settings.twitter_api_key,
-                        consumer_secret=settings.twitter_api_secret,
-                        access_token=settings.twitter_access_token,
-                        access_token_secret=settings.twitter_access_token_secret
-                    )
-                    api = tweepy.API(auth)
-                    
-                    media = api.media_upload(media_path)
-                    media_ids = [media.media_id]
-                    
-                    logger.info(
-                        "Media uploaded successfully",
-                        **log_step("media_upload_success", media_id=media.media_id)
-                    )
-                except Exception as e:
-                    logger.warning(
-                        "Media upload failed, posting without image",
-                        **log_step("media_upload_error", error=str(e))
-                    )
-            
-            response = self.client.create_tweet(text=text, media_ids=media_ids)
-            
-            if response.data:
-                tweet_id = response.data['id']
+        for attempt in range(3):
+            try:
                 logger.info(
-                    "Tweet created successfully",
-                    **log_step("tweet_success", tweet_id=tweet_id)
+                    "Creating tweet",
+                    **log_step("tweet_create", text_length=len(text), has_media=bool(media_path), attempt=attempt+1)
                 )
-                return tweet_id
-            
-        except Exception as e:
-            logger.error(
-                "Tweet creation failed",
-                **log_step("tweet_error", error=str(e))
-            )
+                
+                media_ids = None
+                if media_path and Path(media_path).exists() and self._has_oauth1_credentials():
+                    try:
+                        # Use OAuth 1.0a API for media upload
+                        auth = tweepy.OAuth1UserHandler(
+                            consumer_key=settings.twitter_api_key,
+                            consumer_secret=settings.twitter_api_secret,
+                            access_token=settings.twitter_access_token,
+                            access_token_secret=settings.twitter_access_token_secret
+                        )
+                        api = tweepy.API(auth)
+                        
+                        media = api.media_upload(media_path)
+                        media_ids = [media.media_id]
+                        
+                        logger.info(
+                            "Media uploaded successfully",
+                            **log_step("media_upload_success", media_id=media.media_id)
+                        )
+                    except Exception as e:
+                        logger.warning(
+                            "Media upload failed, posting without image",
+                            **log_step("media_upload_error", error=str(e))
+                        )
+                
+                response = self.client.create_tweet(text=text, media_ids=media_ids)
+                
+                if response.data:
+                    tweet_id = response.data['id']
+                    logger.info(
+                        "Tweet created successfully",
+                        **log_step("tweet_success", tweet_id=tweet_id, attempt=attempt+1)
+                    )
+                    return tweet_id
+                
+            except Exception as e:
+                logger.warning(
+                    f"Tweet creation attempt {attempt+1} failed",
+                    **log_step("tweet_retry", error=str(e), attempt=attempt+1)
+                )
+                if attempt == 2:  # Last attempt
+                    logger.error(
+                        "Tweet creation failed after 3 attempts",
+                        **log_step("tweet_error", error=str(e))
+                    )
         
         return None
     
-    def reply_to_tweet(self, tweet_id: str, text: str) -> bool:
+    def reply_to_tweet(self, tweet_id: str, text: str) -> Optional[str]:
         """
-        Reply to a tweet.
+        Reply to a tweet (with 3 retry attempts).
         
         Args:
             tweet_id: ID of tweet to reply to
             text: Reply text
             
         Returns:
-            True if successful, False otherwise
+            Reply tweet ID if successful, None otherwise
         """
-        try:
-            logger.info(
-                "Creating reply",
-                **log_step("reply_create", tweet_id=tweet_id, text_length=len(text))
-            )
-            
-            response = self.client.create_tweet(
-                text=text,
-                in_reply_to_tweet_id=tweet_id
-            )
-            
-            if response.data:
+        for attempt in range(3):
+            try:
                 logger.info(
-                    "Reply created successfully",
-                    **log_step("reply_success", reply_id=response.data['id'])
+                    "Creating reply",
+                    **log_step("reply_create", tweet_id=tweet_id, text_length=len(text), attempt=attempt+1)
                 )
-                return True
                 
-        except Exception as e:
-            logger.error(
-                "Reply creation failed",
-                **log_step("reply_error", error=str(e))
-            )
+                response = self.client.create_tweet(
+                    text=text,
+                    in_reply_to_tweet_id=tweet_id
+                )
+                
+                if response.data:
+                    reply_id = response.data['id']
+                    logger.info(
+                        "Reply created successfully",
+                        **log_step("reply_success", reply_id=reply_id, attempt=attempt+1)
+                    )
+                    return reply_id
+                    
+            except Exception as e:
+                logger.warning(
+                    f"Reply creation attempt {attempt+1} failed",
+                    **log_step("reply_retry", error=str(e), attempt=attempt+1)
+                )
+                if attempt == 2:  # Last attempt
+                    logger.error(
+                        "Reply creation failed after 3 attempts",
+                        **log_step("reply_error", error=str(e))
+                    )
         
-        return False
+        return None
     
     def create_viral_tweet_text(self, repo_data: Dict[str, Any], summary: str) -> str:
         """

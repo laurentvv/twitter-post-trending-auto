@@ -56,7 +56,7 @@ class ScreenshotService:
     
     async def capture_repository(self, url: str, filename: str) -> str:
         """
-        Capture screenshot of GitHub repository.
+        Capture screenshot of GitHub repository (with 3 retry attempts).
         
         Args:
             url: Repository URL
@@ -70,90 +70,96 @@ class ScreenshotService:
         
         filepath = self.screenshots_dir / filename
         
-        logger.info(
-            "Starting screenshot capture",
-            **log_step("screenshot_start", url=url, filename=filename)
-        )
-        
-        try:
-            # Create new page with optimized settings
-            page = await self.browser.new_page(
-                viewport={"width": 1200, "height": 800},
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-            )
-            
-            # Navigate with timeout
-            await page.goto(
-                url,
-                wait_until="domcontentloaded",
-                timeout=settings.screenshot_timeout * 1000
-            )
-            
-            # Wait for GitHub README to load and position properly
+        for attempt in range(3):
             try:
-                await page.wait_for_selector("article", timeout=10000)
+                logger.info(
+                    "Starting screenshot capture",
+                    **log_step("screenshot_start", url=url, filename=filename, attempt=attempt+1)
+                )
                 
-                # Hide file browser and focus on README
-                await page.evaluate("""
-                    // Hide multiple file tree selectors
-                    const selectors = [
-                        '[data-testid="repos-file-tree-container"]',
-                        '.react-directory-filename-column',
-                        '.js-navigation-container',
-                        '[aria-labelledby="folders-and-files"]',
-                        '.Box-sc-g0xbh4-0.fSWWem'
-                    ];
+                # Create new page with optimized settings
+                page = await self.browser.new_page(
+                    viewport={"width": 1200, "height": 800},
+                    user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                )
+                
+                # Navigate with timeout
+                await page.goto(
+                    url,
+                    wait_until="domcontentloaded",
+                    timeout=settings.screenshot_timeout * 1000
+                )
+                
+                # Wait for GitHub README to load and position properly
+                try:
+                    await page.wait_for_selector("article", timeout=10000)
                     
-                    selectors.forEach(selector => {
-                        const elements = document.querySelectorAll(selector);
-                        elements.forEach(el => el.style.display = 'none');
-                    });
-                    
-                    // Hide header
-                    const header = document.querySelector('header');
-                    if (header) header.style.display = 'none';
-                    
-                    // Wait a bit then position at README top
-                    setTimeout(() => {
-                        const readme = document.querySelector('#readme');
-                        if (readme) {
-                            // Get README position and scroll well above it
-                            const rect = readme.getBoundingClientRect();
-                            const scrollTop = window.pageYOffset + rect.top - 200;
-                            window.scrollTo(0, Math.max(0, scrollTop));
-                        } else {
-                            window.scrollTo(0, 400);
-                        }
-                    }, 500);
-                """)
-                await asyncio.sleep(4)
-                await asyncio.sleep(3)
-            except:
-                await page.evaluate("window.scrollTo(0, 600)")
-                await asyncio.sleep(2)
-            
-            # Take screenshot
-            await page.screenshot(
-                path=str(filepath),
-                full_page=False,
-                clip={"x": 0, "y": 0, "width": 1000, "height": 600}
-            )
-            
-            await page.close()
-            
-            logger.info(
-                "Screenshot captured successfully",
-                **log_step("screenshot_success", filepath=str(filepath))
-            )
-            
-            return str(filepath)
-            
-        except Exception as e:
-            logger.error(
-                "Screenshot capture failed",
-                **log_step("screenshot_error", error=str(e), url=url)
-            )
-            raise
+                    # Hide file browser and focus on README
+                    await page.evaluate("""
+                        // Hide multiple file tree selectors
+                        const selectors = [
+                            '[data-testid="repos-file-tree-container"]',
+                            '.react-directory-filename-column',
+                            '.js-navigation-container',
+                            '[aria-labelledby="folders-and-files"]',
+                            '.Box-sc-g0xbh4-0.fSWWem'
+                        ];
+                        
+                        selectors.forEach(selector => {
+                            const elements = document.querySelectorAll(selector);
+                            elements.forEach(el => el.style.display = 'none');
+                        });
+                        
+                        // Hide header
+                        const header = document.querySelector('header');
+                        if (header) header.style.display = 'none';
+                        
+                        // Wait a bit then position at README top
+                        setTimeout(() => {
+                            const readme = document.querySelector('#readme');
+                            if (readme) {
+                                // Get README position and scroll well above it
+                                const rect = readme.getBoundingClientRect();
+                                const scrollTop = window.pageYOffset + rect.top - 200;
+                                window.scrollTo(0, Math.max(0, scrollTop));
+                            } else {
+                                window.scrollTo(0, 400);
+                            }
+                        }, 500);
+                    """)
+                    await asyncio.sleep(4)
+                    await asyncio.sleep(3)
+                except:
+                    await page.evaluate("window.scrollTo(0, 600)")
+                    await asyncio.sleep(2)
+                
+                # Take screenshot
+                await page.screenshot(
+                    path=str(filepath),
+                    full_page=False,
+                    clip={"x": 0, "y": 0, "width": 1000, "height": 600}
+                )
+                
+                await page.close()
+                
+                logger.info(
+                    "Screenshot captured successfully",
+                    **log_step("screenshot_success", filepath=str(filepath), attempt=attempt+1)
+                )
+                
+                return str(filepath)
+                
+            except Exception as e:
+                logger.warning(
+                    f"Screenshot attempt {attempt+1} failed",
+                    **log_step("screenshot_retry", error=str(e), attempt=attempt+1)
+                )
+                if attempt == 2:  # Last attempt
+                    logger.error(
+                        "Screenshot capture failed after 3 attempts",
+                        **log_step("screenshot_error", error=str(e), url=url)
+                    )
+                    raise
     
     async def capture_multiple(self, urls_and_filenames: list[tuple[str, str]]) -> list[str]:
         """

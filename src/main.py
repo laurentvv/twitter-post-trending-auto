@@ -123,27 +123,31 @@ async def process_trending_repository():
             history_service.mark_as_posted(repo_url, main_tweet_id)
             
             # Post reply thread
-            reply_success = twitter_service.reply_to_tweet(main_tweet_id, reply_text)
+            reply_tweet_id = twitter_service.reply_to_tweet(main_tweet_id, reply_text)
             
-            if reply_success:
+            if reply_tweet_id:
                 logger.info(
                     "Thread complet posté",
-                    **log_step("step_4_reply_success")
+                    **log_step("step_4_reply_success", reply_tweet_id=reply_tweet_id)
                 )
             else:
                 logger.warning("Thread échoué", **log_step("step_4_reply_warning"))
+                # Don't fail the whole workflow, main tweet is already posted
         else:
             logger.error("Tweet principal échoué", **log_step("step_4_main_error"))
+            return  # Exit workflow if main tweet fails
         
-        # Workflow completed
-        total_time = time.time() - start_time
-        logger.info(
-            "Workflow completed successfully",
-            **log_step("workflow_success", 
-                      repo_name=repo_name,
-                      duration=f"{total_time:.2f}s",
-                      main_tweet_id=main_tweet_id)
-        )
+        # Workflow completed - only if main tweet was successful
+        if main_tweet_id:
+            total_time = time.time() - start_time
+            logger.info(
+                "Workflow completed successfully",
+                **log_step("workflow_success", 
+                          repo_name=repo_name,
+                          duration=f"{total_time:.2f}s",
+                          main_tweet_id=main_tweet_id,
+                          reply_tweet_id=reply_tweet_id or "failed")
+            )
         
     except Exception as e:
         logger.error(

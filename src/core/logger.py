@@ -14,11 +14,22 @@ def setup_logging() -> structlog.BoundLogger:
     # Ensure logs directory exists
     Path(settings.logs_dir).mkdir(exist_ok=True)
     
-    # Configure standard logging
+    # Configure standard logging with file handler
+    log_file = Path(settings.logs_dir) / "app.log"
+    
+    # Create file handler
+    file_handler = logging.FileHandler(log_file, encoding='utf-8')
+    file_handler.setLevel(logging.INFO)
+    
+    # Create console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.INFO)
+    
+    # Configure root logger
     logging.basicConfig(
         format="%(message)s",
-        stream=sys.stdout,
         level=logging.INFO,
+        handlers=[file_handler, console_handler]
     )
     
     # Configure structlog

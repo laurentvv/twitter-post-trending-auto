@@ -25,6 +25,13 @@ class Settings(BaseSettings):
     # GitHub
     github_token: Optional[str] = Field(None, description="GitHub API token (optional)")
     
+    # OpenRouter (future use)
+    openrouter_api_key: Optional[str] = Field(None, description="OpenRouter API key (optional)")
+    
+    # Additional AI APIs
+    gemini_api_key: Optional[str] = Field(None, description="Google Gemini API key (optional)")
+    mistral_api_key: Optional[str] = Field(None, description="Mistral API key (optional)")
+    
     # App settings
     tweet_interval_hours: int = Field(4, description="Hours between tweets")
     max_trending_repos: int = Field(10, description="Max repos to fetch")
@@ -38,6 +45,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+        extra = "ignore"  # Ignore extra fields in .env
 
 
 # Global settings instance
