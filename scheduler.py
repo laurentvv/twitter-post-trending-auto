@@ -87,15 +87,16 @@ def parse_and_display_log(log_line):
             print(f"[{timestamp}] {log_line}")
 
 def should_run_now():
-    """Check if bot should run now (8h00-22h00 France time for 8 tweets max)."""
+    """Check if bot should run now (9h00-21h00 France time for 4 tweets max)."""
     now = datetime.now()
     current_hour = now.hour
     
     # DEBUG: Always run for testing (comment out for production)
     # return True
     
-    # Active hours: 8h00 to 22h00 (France timezone) = 8 slots × 2h = 8 tweets/day max
-    if 8 <= current_hour <= 22:
+    # Active hours: 9h00 to 21h00 (France timezone) = 4 slots × 4h = 4 tweets/day max
+    # Créneaux: 9h, 13h, 17h, 21h
+    if current_hour in [9, 13, 17, 21]:
         return True
     return False
 
@@ -109,13 +110,13 @@ def scheduled_run():
 def main():
     """Main scheduler loop."""
     print("🚀 GitHub Tweet Bot Scheduler Started")
-    print("📅 Schedule: Every 2 hours")
-    print("⏰ Active hours: 8h00 - 22h00 (France time)")
-    print("📊 Max tweets/day: 8 (safe for 17/24h limit)")
+    print("📅 Schedule: Every 4 hours")
+    print("⏰ Active hours: 9h, 13h, 17h, 21h (France time)")
+    print("📊 Max tweets/day: 4 (ultra-safe for 17/24h limit)")
     print("=" * 50)
     
-    # Schedule every 2 hours
-    schedule.every(2).hours.do(scheduled_run)
+    # Schedule every 4 hours
+    schedule.every(4).hours.do(scheduled_run)
     
     # Run once immediately if in active hours
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 🔄 Starting initial run...")
@@ -127,20 +128,26 @@ def main():
         schedule.run_pending()
         time.sleep(60)  # Check every minute
         
-        # Show status every 15 minutes
-        if datetime.now().minute % 15 == 0:
+        # Show status every 30 minutes
+        if datetime.now().minute % 30 == 0:
             current_hour = datetime.now().hour
-            current_minute = datetime.now().minute
             
-            # Calculate next run time (every 2 hours)
-            hours_since_start = (current_hour - 8) % 24
-            next_run_hours = 2 - (hours_since_start % 2)
-            next_run_minutes = (next_run_hours * 60) - current_minute
+            # Calculate next active slot
+            active_hours = [9, 13, 17, 21]
+            next_active = None
+            for hour in active_hours:
+                if hour > current_hour:
+                    next_active = hour
+                    break
+            if not next_active:
+                next_active = active_hours[0] + 24  # Tomorrow 9h
+            
+            hours_until_next = next_active - current_hour
             
             if should_run_now():
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 💓 Active hours - Next run in ~{next_run_minutes//60}h{next_run_minutes%60:02d}m")
+                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 💓 Active slot - Bot will run now")
             else:
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 😴 Outside active hours (8h-22h) - Waiting...")
+                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 😴 Outside active slots (9h,13h,17h,21h) - Next in {hours_until_next}h")
 
 if __name__ == "__main__":
     try:

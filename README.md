@@ -120,7 +120,7 @@ twitter-post-trending-auto/
 │   ├── core/              # Configuration et logging
 │   ├── services/          # Services métier (GitHub, AI, Twitter, etc.)
 │   └── main.py            # Point d'entrée principal
-├── scheduler.py           # Scheduler automatique (2h)
+├── scheduler.py           # Scheduler automatique (4h)
 ├── data/                  # Données persistantes
 │   └── posted_repos.json # Historique des posts
 ├── screenshots/           # Captures d'écran générées
@@ -133,12 +133,12 @@ twitter-post-trending-auto/
 
 ### Configuration
 
-- **Fréquence** : Toutes les 2 heures
-- **Heures actives** : 8h00 - 22h00 (France)
-- **Limite quotidienne** : 8 tweets max (safe pour 17/24h Twitter)
-- **Créneaux** : 8h, 10h, 12h, 14h, 16h, 18h, 20h, 22h
+- **Fréquence** : Toutes les 4 heures
+- **Heures actives** : 9h, 13h, 17h, 21h (France)
+- **Limite quotidienne** : 4 tweets max (ultra-safe pour 17/24h Twitter)
+- **Espacement** : 4h minimum entre tweets
 - **Retry automatique** : 3 tentatives par service
-- **Gestion intelligente** : Skip si hors heures actives
+- **Gestion intelligente** : Skip si hors créneaux fixes
 
 ### Lancement du scheduler
 
@@ -149,9 +149,9 @@ python scheduler.py
 **Sortie exemple** :
 ```
 🚀 GitHub Tweet Bot Scheduler Started
-📅 Schedule: Every 2 hours
-⏰ Active hours: 8h00 - 22h00 (France time)
-📊 Max tweets/day: 8 (safe pour 17/24h limit)
+📅 Schedule: Every 4 hours
+⏰ Active hours: 9h, 13h, 17h, 21h (France time)
+📊 Max tweets/day: 4 (ultra-safe pour 17/24h limit)
 [2025-01-26 09:00:00] ✅ Bot executed successfully
 ```
 
@@ -242,7 +242,7 @@ Logs JSON structurés dans `logs/app.log` :
 ### Performance
 
 - ⚡ **15-35s** par workflow complet
-- 🛡️ **8 tweets/jour** max (safe pour Twitter)
+- 🛡️ **4 tweets/jour** max (ultra-safe pour Twitter)
 - 📊 **100% succès** avec retry automatique
 - 🎯 **Production tested** et optimisé
 
