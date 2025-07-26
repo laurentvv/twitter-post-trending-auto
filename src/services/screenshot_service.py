@@ -39,7 +39,6 @@ class ScreenshotService:
                 "--no-sandbox",
                 "--disable-dev-shm-usage",
                 "--disable-gpu",
-                "--disable-web-security",
                 "--disable-features=VizDisplayCompositor"
             ]
         )
