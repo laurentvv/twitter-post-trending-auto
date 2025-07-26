@@ -115,8 +115,8 @@ def main():
     print("📊 Max tweets/day: 4 (ultra-safe for 17/24h limit)")
     print("=" * 50)
     
-    # Schedule every 4 hours
-    schedule.every(4).hours.do(scheduled_run)
+    # Check every hour for active slots
+    schedule.every().hour.do(scheduled_run)
     
     # Run once immediately if in active hours
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 🔄 Starting initial run...")
@@ -145,7 +145,8 @@ def main():
             hours_until_next = next_active - current_hour
             
             if should_run_now():
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 💓 Active slot - Bot will run now")
+                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 💓 Active slot - Running bot now!")
+                run_bot()
             else:
                 print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 😴 Outside active slots (9h,13h,17h,21h) - Next in {hours_until_next}h")
 
