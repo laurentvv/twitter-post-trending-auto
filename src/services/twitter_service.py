@@ -1,18 +1,20 @@
-"""Modern Twitter service using Tweepy v4 and Twitter API v2."""
+"""Modern Twitter service using Tweepy v4 and Twitter API v2 with Firefox fallback."""
 import tweepy
 from typing import Optional, Dict, Any
 from pathlib import Path
 
 from ..core.config import settings
 from ..core.logger import logger, log_step
+from ..core.firefox_config import firefox_config
 
 
 class TwitterService:
-    """Modern Twitter service with API v2."""
+    """Modern Twitter service with API v2 and Firefox fallback."""
     
     def __init__(self):
         self.client: Optional[tweepy.Client] = None
         self._setup_client()
+        self.firefox_fallback_enabled = firefox_config.is_enabled()
     
     def _has_oauth1_credentials(self) -> bool:
         """Check if OAuth 1.0a credentials are available."""
@@ -50,9 +52,22 @@ class TwitterService:
         else:
             raise ValueError("Twitter credentials required")
     
+    def _is_rate_limit_error(self, error) -> bool:
+        """Détecte si l'erreur est un rate limit."""
+        rate_limit_indicators = [
+            "Rate limit exceeded",
+            "Too Many Requests", 
+            "429",
+            "wait_on_rate_limit",
+            "rate_limit",
+            "quota"
+        ]
+        error_str = str(error).lower()
+        return any(indicator.lower() in error_str for indicator in rate_limit_indicators)
+    
     def create_tweet(self, text: str, media_path: Optional[str] = None) -> Optional[str]:
         """
-        Create a tweet with optional media (with 3 retry attempts).
+        Create a tweet with optional media (with 3 retry attempts and Firefox fallback).
         
         Args:
             text: Tweet text content
@@ -104,6 +119,14 @@ class TwitterService:
                     return tweet_id
                 
             except Exception as e:
+                # Vérifier si c'est un rate limit et si Firefox est disponible
+                if self._is_rate_limit_error(e) and self.firefox_fallback_enabled and attempt == 2:
+                    logger.warning(
+                        "Rate limit détecté, tentative avec Firefox fallback",
+                        **log_step("rate_limit_detected", error=str(e))
+                    )
+                    return self._try_firefox_fallback(text, media_path)
+                
                 logger.warning(
                     f"Tweet creation attempt {attempt+1} failed",
                     **log_step("tweet_retry", error=str(e), attempt=attempt+1)
@@ -116,9 +139,39 @@ class TwitterService:
         
         return None
     
+    def _try_firefox_fallback(self, text: str, media_path: Optional[str] = None) -> Optional[str]:
+        """Tente de poster via Firefox en cas de rate limit."""
+        try:
+            logger.info("Tentative de post via Firefox fallback", 
+                       **log_step("firefox_fallback_start"))
+            
+            from .firefox_twitter_service import FirefoxTwitterService
+            
+            with FirefoxTwitterService() as firefox_service:
+                # Firefox peut maintenant gérer les screenshots
+                if media_path and Path(media_path).exists():
+                    logger.info(f"Utilisation du screenshot avec Firefox: {media_path}",
+                               **log_step("firefox_with_screenshot"))
+                
+                result = firefox_service.post_tweet(text, screenshot_path=media_path)
+                
+                if result:
+                    logger.info("Post Firefox réussi", 
+                               **log_step("firefox_fallback_success", method="firefox", has_screenshot=bool(media_path)))
+                    return result
+                else:
+                    logger.error("Post Firefox échoué", 
+                               **log_step("firefox_fallback_error"))
+                    return None
+                    
+        except Exception as e:
+            logger.error(f"Erreur lors du fallback Firefox: {e}", 
+                        **log_step("firefox_fallback_error", error=str(e)))
+            return None
+    
     def reply_to_tweet(self, tweet_id: str, text: str) -> Optional[str]:
         """
-        Reply to a tweet (with 3 retry attempts).
+        Reply to a tweet (with 3 retry attempts and Firefox fallback).
         
         Args:
             tweet_id: ID of tweet to reply to
@@ -148,6 +201,14 @@ class TwitterService:
                     return reply_id
                     
             except Exception as e:
+                # Vérifier si c'est un rate limit et si Firefox est disponible
+                if self._is_rate_limit_error(e) and self.firefox_fallback_enabled and attempt == 2:
+                    logger.warning(
+                        "Rate limit détecté pour la réponse, tentative avec Firefox fallback",
+                        **log_step("rate_limit_detected_reply", error=str(e))
+                    )
+                    return self._try_firefox_reply_fallback(text)
+                
                 logger.warning(
                     f"Reply creation attempt {attempt+1} failed",
                     **log_step("reply_retry", error=str(e), attempt=attempt+1)
@@ -159,6 +220,32 @@ class TwitterService:
                     )
         
         return None
+    
+    def _try_firefox_reply_fallback(self, text: str) -> Optional[str]:
+        """Tente de poster une réponse via Firefox en cas de rate limit."""
+        try:
+            logger.info("Tentative de réponse via Firefox fallback", 
+                       **log_step("firefox_reply_fallback_start"))
+            
+            from .firefox_twitter_service import FirefoxTwitterService
+            
+            with FirefoxTwitterService() as firefox_service:
+                # Pour les réponses, on poste directement le texte
+                result = firefox_service.post_tweet(text)
+                
+                if result:
+                    logger.info("Réponse Firefox réussie", 
+                               **log_step("firefox_reply_fallback_success", method="firefox"))
+                    return result
+                else:
+                    logger.error("Réponse Firefox échouée", 
+                               **log_step("firefox_reply_fallback_error"))
+                    return None
+                    
+        except Exception as e:
+            logger.error(f"Erreur lors du fallback Firefox pour la réponse: {e}", 
+                        **log_step("firefox_reply_fallback_error", error=str(e)))
+            return None
     
     def create_viral_tweet_text(self, repo_data: Dict[str, Any], summary: str) -> str:
         """

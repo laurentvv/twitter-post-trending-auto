@@ -1,9 +1,24 @@
+# Core dependencies
 tweepy
-ollama
-playwright
-pydantic
-pydantic-settings
-python-dotenv
-structlog
 requests
+python-dotenv
 schedule
+
+# AI services
+google-generativeai
+openai
+mistralai
+
+# Screenshot and browser automation
+playwright
+selenium
+webdriver-manager
+
+# Logging and utilities
+structlog
+termcolor
+pydantic-settings
+
+# Development
+pytest
+pytest-asyncio
