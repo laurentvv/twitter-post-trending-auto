@@ -207,7 +207,7 @@ class TwitterService:
                         "Rate limit détecté pour la réponse, tentative avec Firefox fallback",
                         **log_step("rate_limit_detected_reply", error=str(e))
                     )
-                    return self._try_firefox_reply_fallback(text)
+                    return self._try_firefox_reply_fallback(tweet_id, text)
                 
                 logger.warning(
                     f"Reply creation attempt {attempt+1} failed",
@@ -221,29 +221,29 @@ class TwitterService:
         
         return None
     
-    def _try_firefox_reply_fallback(self, text: str) -> Optional[str]:
+    def _try_firefox_reply_fallback(self, tweet_id: str, text: str) -> Optional[str]:
         """Tente de poster une réponse via Firefox en cas de rate limit."""
         try:
-            logger.info("Tentative de réponse via Firefox fallback", 
+            logger.info("Tentative de réponse via Firefox fallback",
                        **log_step("firefox_reply_fallback_start"))
-            
+
             from .firefox_twitter_service import FirefoxTwitterService
-            
+
             with FirefoxTwitterService() as firefox_service:
-                # Pour les réponses, on poste directement le texte
-                result = firefox_service.post_tweet(text)
-                
+                # On utilise post_reply pour répondre à un tweet spécifique
+                result = firefox_service.post_reply(tweet_id, text)
+
                 if result:
-                    logger.info("Réponse Firefox réussie", 
+                    logger.info("Réponse Firefox réussie",
                                **log_step("firefox_reply_fallback_success", method="firefox"))
                     return result
                 else:
-                    logger.error("Réponse Firefox échouée", 
+                    logger.error("Réponse Firefox échouée",
                                **log_step("firefox_reply_fallback_error"))
                     return None
-                    
+
         except Exception as e:
-            logger.error(f"Erreur lors du fallback Firefox pour la réponse: {e}", 
+            logger.error(f"Erreur lors du fallback Firefox pour la réponse: {e}",
                         **log_step("firefox_reply_fallback_error", error=str(e)))
             return None
     

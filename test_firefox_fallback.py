@@ -5,11 +5,8 @@ import os
 import sys
 from pathlib import Path
 
-# Ajouter le répertoire src au path
-sys.path.insert(0, str(Path(__file__).parent / "src"))
-
-from core.firefox_config import firefox_config
-from services.firefox_twitter_service import FirefoxTwitterService
+from src.core.firefox_config import firefox_config
+from src.services.firefox_twitter_service import FirefoxTwitterService
 
 
 def test_firefox_config():
