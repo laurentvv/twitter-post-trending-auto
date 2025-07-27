@@ -185,16 +185,31 @@ class TwitterService:
         base_text = f"{emoji} {name}\n⭐ {stars:,} stars"
         hashtags = "\n#GitHub"
         
-        # Max 100 chars for summary
+        # Smart truncation to avoid cutting words
         max_summary = 100
         if len(summary) > max_summary:
-            summary = summary[:max_summary-3] + "..."
+            truncated = summary[:max_summary-3]
+            last_space = truncated.rfind(' ')
+            if last_space > 50:  # Keep reasonable length
+                summary = truncated[:last_space] + "..."
+            else:
+                summary = truncated + "..."
         
         tweet_text = f"{base_text}\n\n{summary}{hashtags}"
         
-        # Final safety check - max 200 chars total
+        # Final safety check - max 200 chars total with smart truncation
         if len(tweet_text) > 200:
-            summary = summary[:50] + "..."
+            available_space = 200 - len(base_text) - len(hashtags) - 4  # 4 for \n\n
+            if available_space > 20:
+                truncated = summary[:available_space-3]
+                last_space = truncated.rfind(' ')
+                if last_space > 15:
+                    summary = truncated[:last_space] + "..."
+                else:
+                    summary = truncated + "..."
+            else:
+                summary = "Projet intéressant..."
+            
             tweet_text = f"{base_text}\n\n{summary}{hashtags}"
         
         return tweet_text

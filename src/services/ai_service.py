@@ -1,7 +1,7 @@
 """AI service with multi-provider fallback system."""
 import ollama
 import requests
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from ..core.config import settings
 from ..core.logger import logger, log_step
@@ -104,6 +104,118 @@ Fonctionnalités:"""
         logger.error("All AI providers failed for features", **log_step("ai_features_all_failed"))
         return ["Fonctionnalité principale", "Interface moderne", "Open source"]
     
+    def validate_tweet_content(self, main_tweet: str, reply_tweet: str, repo_name: str) -> Dict[str, Any]:
+        """Validate tweet content quality using AI."""
+        prompt = f"""Analyse ces 2 tweets sur le projet GitHub "{repo_name}" et vérifie :
+
+1. TWEET PRINCIPAL :
+{main_tweet}
+
+2. TWEET RÉPONSE :
+{reply_tweet}
+
+Vérifie :
+- Cohérence entre les 2 tweets
+- Qualité du français (grammaire, accents)
+- Pertinence du contenu
+- Absence de troncature bizarre
+
+Réponds SEULEMENT par :
+"VALIDE" si tout est correct
+"ERREUR: [description courte]" si problème détecté"""
+        
+        # Try each provider for validation
+        for provider_name, provider_func in self.providers:
+            try:
+                result = provider_func(prompt)
+                if result and len(result.strip()) > 0:
+                    validation = result.strip().upper()
+                    
+                    logger.info(
+                        "Tweet validation completed",
+                        **log_step("tweet_validation", provider=provider_name, result=validation[:50])
+                    )
+                    
+                    return {
+                        'is_valid': validation.startswith('VALIDE'),
+                        'message': result.strip(),
+                        'provider': provider_name
+                    }
+            except Exception as e:
+                logger.warning(
+                    f"Validation failed with {provider_name}",
+                    **log_step("validation_error", provider=provider_name, error=str(e))
+                )
+                continue
+        
+        # If all providers fail, assume valid (don't block posting)
+        logger.warning("All validation providers failed, assuming valid", **log_step("validation_fallback"))
+        return {
+            'is_valid': True,
+            'message': 'Validation non disponible - assumé valide',
+            'provider': 'fallback'
+        }
+    
+    def correct_tweet_content(self, main_tweet: str, reply_tweet: str, repo_name: str, error_message: str) -> Dict[str, Any]:
+        """Correct tweet content based on validation errors."""
+        prompt = f"""CORRIGE ces tweets sur le projet GitHub "{repo_name}" :
+
+TWEET PRINCIPAL ACTUEL :
+{main_tweet}
+
+TWEET RÉPONSE ACTUEL :
+{reply_tweet}
+
+PROBLÈME DÉTECTÉ : {error_message}
+
+CORRIGE les erreurs et retourne EXACTEMENT ce format :
+
+TWEET_PRINCIPAL:
+[tweet principal corrigé]
+
+TWEET_REPONSE:
+[tweet réponse corrigé]
+
+Garde la même structure, longueur et style. Corrige seulement les erreurs signalées."""
+        
+        # Try each provider for correction
+        for provider_name, provider_func in self.providers:
+            try:
+                result = provider_func(prompt)
+                if result and 'TWEET_PRINCIPAL:' in result and 'TWEET_REPONSE:' in result:
+                    # Parse the corrected tweets
+                    parts = result.split('TWEET_REPONSE:')
+                    if len(parts) == 2:
+                        corrected_main = parts[0].replace('TWEET_PRINCIPAL:', '').strip()
+                        corrected_reply = parts[1].strip()
+                        
+                        logger.info(
+                            "Tweet correction completed",
+                            **log_step("tweet_correction", provider=provider_name)
+                        )
+                        
+                        return {
+                            'success': True,
+                            'main_tweet': corrected_main,
+                            'reply_tweet': corrected_reply,
+                            'provider': provider_name
+                        }
+            except Exception as e:
+                logger.warning(
+                    f"Correction failed with {provider_name}",
+                    **log_step("correction_error", provider=provider_name, error=str(e))
+                )
+                continue
+        
+        # If all providers fail, return original
+        logger.warning("All correction providers failed, keeping original", **log_step("correction_fallback"))
+        return {
+            'success': False,
+            'main_tweet': main_tweet,
+            'reply_tweet': reply_tweet,
+            'provider': 'fallback'
+        }
+    
     def _try_provider(self, provider_func, prompt: str, provider_name: str, task: str) -> Optional[str]:
         """Try a provider with 3 retry attempts."""
         for attempt in range(3):
@@ -133,7 +245,7 @@ Fonctionnalités:"""
             headers={"Content-Type": "application/json"},
             json={
                 "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"temperature": 0.5, "maxOutputTokens": 100}
+                "generationConfig": {"temperature": 0.5, "maxOutputTokens": 150}
             },
             timeout=30
         )
@@ -158,7 +270,7 @@ Fonctionnalités:"""
             json={
                 "model": "mistralai/mistral-small-3.2-24b-instruct:free",
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 100,
+                "max_tokens": 150,
                 "temperature": 0.5
             },
             timeout=30
@@ -184,7 +296,7 @@ Fonctionnalités:"""
             json={
                 "model": "mistral-small-latest",
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 100,
+                "max_tokens": 150,
                 "temperature": 0.5
             },
             timeout=30
@@ -202,21 +314,23 @@ Fonctionnalités:"""
             model=self.ollama_model,
             prompt=prompt,
             think=False,
-            options={"temperature": 0.5, "num_predict": 80}
+            options={"temperature": 0.5, "num_predict": 120}
         )
         return response['response']
     
     def _fix_accents(self, text: str) -> str:
         """Fix common missing French accents."""
         accent_fixes = {
-            'crez': 'créez', 'prsence': 'présence', 'ds': 'dès',
+            'crez': 'créez', 'prsence': 'présence',
             'revolutionnaire': 'révolutionnaire', 'avance': 'avancé',
             'editeur': 'éditeur', 'fonctionnalites': 'fonctionnalités',
             'donnees': 'données', 'cree': 'crée', 'integre': 'intègre',
             'genere': 'génère', 'ameliore': 'améliore'
         }
         
+        # Apply fixes only as whole words to avoid partial matches
+        import re
         for wrong, correct in accent_fixes.items():
-            text = text.replace(wrong, correct)
+            text = re.sub(r'\b' + re.escape(wrong) + r'\b', correct, text, flags=re.IGNORECASE)
         
         return text

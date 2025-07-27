@@ -101,13 +101,60 @@ async def process_trending_repository():
         main_tweet_text = twitter_service.create_viral_tweet_text(repo, summary)
         reply_text = twitter_service.create_reply_text(repo, features, repo_url)
         
-        # Log tweet info without emojis
+        # Step 4.5: Validate tweet content with AI
+        logger.info("🤖 Validating tweet content...", **log_step("tweet_validation_start"))
+        validation = ai_service.validate_tweet_content(main_tweet_text, reply_text, repo_name)
+        
+        if not validation['is_valid']:
+            logger.warning(
+                f"Tweet validation failed: {validation['message']}",
+                **log_step("tweet_validation_failed", reason=validation['message'], provider=validation['provider'])
+            )
+            
+            # Try to correct the tweets with AI
+            logger.info("🔧 Attempting AI correction...", **log_step("tweet_correction_start"))
+            correction = ai_service.correct_tweet_content(main_tweet_text, reply_text, repo_name, validation['message'])
+            
+            if correction['success']:
+                logger.info(
+                    f"✅ Tweet corrected by AI ({correction['provider']})",
+                    **log_step("tweet_correction_success", provider=correction['provider'])
+                )
+                # Use corrected tweets
+                main_tweet_text = correction['main_tweet']
+                reply_text = correction['reply_tweet']
+                
+                # Re-validate corrected tweets
+                logger.info("🔄 Re-validating corrected tweets...", **log_step("tweet_revalidation_start"))
+                revalidation = ai_service.validate_tweet_content(main_tweet_text, reply_text, repo_name)
+                
+                if revalidation['is_valid']:
+                    logger.info(
+                        f"✅ Corrected tweets validated ({revalidation['provider']})",
+                        **log_step("tweet_revalidation_success", provider=revalidation['provider'])
+                    )
+                else:
+                    logger.warning(
+                        "Corrected tweets still have issues, proceeding anyway",
+                        **log_step("tweet_revalidation_warning", reason=revalidation['message'])
+                    )
+            else:
+                logger.warning(
+                    "AI correction failed, proceeding with original tweets",
+                    **log_step("tweet_correction_failed")
+                )
+        else:
+            logger.info(
+                f"✅ Tweet validation passed ({validation['provider']})",
+                **log_step("tweet_validation_success", provider=validation['provider'])
+            )
+
         logger.info(
-            "Tweets ready for posting",
-            **log_step("tweets_ready", 
+            "Tweets validated and ready for posting",
+            **log_step("tweets_validated",
                       main_length=len(main_tweet_text),
                       reply_length=len(reply_text),
-                      has_screenshot=bool(screenshot_path))
+                      validation_status=validation['is_valid'])
         )
         
         # POST REAL TWEETS WITH SCREENSHOT

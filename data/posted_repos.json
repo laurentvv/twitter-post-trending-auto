@@ -1,14 +1,11 @@
 {
   "repos": [
-    "https://github.com/google-gemini/gemini-cli",
     "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/RVC-Boss/GPT-SoVITS"
+    "https://github.com/2noise/ChatTTS",
+    "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/browser-use/browser-use"
   ],
   "last_posts": {
-    "https://github.com/RVC-Boss/GPT-SoVITS": {
-      "tweet_id": "1948867194047070385",
-      "posted_at": "2025-07-26T00:05:20.369054"
-    },
     "https://github.com/Shubhamsaboo/awesome-llm-apps": {
       "tweet_id": "1949033597890904567",
       "posted_at": "2025-07-26T11:06:34.052400"
@@ -16,7 +13,15 @@
     "https://github.com/google-gemini/gemini-cli": {
       "tweet_id": "1949034742877163702",
       "posted_at": "2025-07-26T11:11:07.029405"
+    },
+    "https://github.com/2noise/ChatTTS": {
+      "tweet_id": "1949427678341185583",
+      "posted_at": "2025-07-27T13:12:29.351046"
+    },
+    "https://github.com/browser-use/browser-use": {
+      "tweet_id": "1948865587704148474",
+      "posted_at": "2025-07-27T13:15:00.000000"
     }
   },
-  "updated_at": "2025-07-26T11:41:35.084385"
+  "updated_at": "2025-07-27T13:15:00.000000"
 }
