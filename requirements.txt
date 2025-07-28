@@ -7,3 +7,5 @@ python-dotenv
 structlog
 requests
 schedule
+selenium
+webdriver_manager
