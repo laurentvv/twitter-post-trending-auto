@@ -47,8 +47,8 @@ def test_firefox_real_post():
         return False
     
     # Messages de test
-    main_tweet = "La gestion des logs est cruciale pour la sécurité et la maintenance des systèmes. Quels outils utilisez-vous pour centraliser et analyser vos logs ? #SysAdmin #DevOps"
-    reply_tweet = "Personnellement, j'utilise une combinaison de ELK Stack (Elasticsearch, Logstash, Kibana) pour la centralisation et l'analyse des logs. Et vous, quelles sont vos solutions préférées ?"
+    main_tweet = "Automatiser les tâches répétitives est un gain de temps énorme pour les sysadmins. Quels sont vos scripts ou outils préférés pour l'automatisation ? #Automatisation #SysAdmin"
+    reply_tweet = "J'utilise beaucoup Ansible pour l'automatisation des configurations et des déploiements. C'est incroyablement puissant et facile à utiliser une fois qu'on a pris le coup ! Et vous, quels outils recommandez-vous ?"
     
     print(f"\n📝 Tweet principal:")
     print(f"  {main_tweet}")
