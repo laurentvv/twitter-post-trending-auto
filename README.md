@@ -8,7 +8,7 @@ Bot Twitter intelligent qui découvre automatiquement les dépôts GitHub trendi
 - 🤖 **Résumés IA** multi-provider (Gemini/OpenRouter/Mistral/Ollama)
 - 📸 **Screenshots automatiques** centrés sur le README
 - 🐦 **Publication Twitter** avec thread de réponse
-- 🦊 **Fallback Firefox** automatique en cas de rate limit
+- 🦊 **Fallback Firefox** automatique en cas de rate limit, avec envoi d'images.
 - 📚 **Historique intelligent** évite les doublons
 - 🛡️ **Retry automatique** (3x) sur tous les services
 - ⏰ **Scheduler robuste** avec gestion des rate limits

@@ -124,12 +124,13 @@ class FirefoxTwitterService:
             logger.warning(f"Impossible de récupérer l'ID via le profil : {e}")
         return None
 
-    def post_tweet(self, text: str, reply_text: Optional[str] = None) -> Optional[str]:
+    def post_tweet(self, text: str, reply_text: Optional[str] = None, image_path: Optional[str] = None) -> Optional[str]:
         """
         Poste un tweet via Firefox automation.
         Args:
             text: Texte du tweet principal
             reply_text: Texte de la réponse (optionnel)
+            image_path: Chemin vers l'image à joindre (optionnel)
         Returns:
             Tweet ID si succès, None sinon
         """
@@ -178,10 +179,21 @@ class FirefoxTwitterService:
                 if not self._safe_send_keys(textbox, text, "saisie texte tweet (retry)"):
                     raise Exception("Échec de la saisie du texte du tweet")
 
+            # Ajout de l'image si fournie
+            if image_path:
+                try:
+                    logger.info(f"Ajout de l'image : {image_path}", **log_step("firefox_add_image"))
+                    file_input = self.driver.find_element(By.XPATH, "//input[@type='file']")
+                    file_input.send_keys(image_path)
+                    time.sleep(5)  # Attendre l'upload
+                    logger.info("Image ajoutée avec succès", **log_step("firefox_image_success"))
+                except Exception as e:
+                    logger.error(f"Erreur lors de l'ajout de l'image : {e}", **log_step("firefox_image_error", error=str(e)))
+
+
             time.sleep(1)
 
             # Envoi du tweet
-            textbox.send_keys(Keys.ENTER)
             tweet_button = self._wait_and_find_element(By.XPATH, "//button[@data-testid='tweetButton']")
             if not self._safe_click(tweet_button, "bouton tweet"):
                 raise Exception("Impossible de cliquer sur le bouton tweet")
