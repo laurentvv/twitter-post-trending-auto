@@ -14,7 +14,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import (
     NoSuchElementException, 
     TimeoutException,
-    WebDriverException
+    WebDriverException,
+    ElementClickInterceptedException,
+    ElementNotInteractableException
 )
 from webdriver_manager.firefox import GeckoDriverManager
 from ..core.firefox_config import firefox_config
@@ -69,16 +71,32 @@ class FirefoxTwitterService:
                 time.sleep(0.5)
         raise TimeoutException(f"Élément non trouvé: {value}")
 
-    def _safe_click(self, element, description: str = ""):
-        """Clic sécurisé avec retry."""
-        for attempt in range(3):
+    def _safe_click(self, element, description: str = "") -> bool:
+        """Clic sécurisé avec retry et fallback JavaScript."""
+        for attempt in range(self.config.get("retry_attempts", 3)):
             try:
+                # 1. Essayer un clic normal
                 element.click()
+                logger.info(f"Clic normal réussi sur '{description}' (tentative {attempt + 1})")
                 time.sleep(self.config["wait_between_actions"])
                 return True
+            except (ElementClickInterceptedException, ElementNotInteractableException):
+                logger.warning(
+                    f"Clic normal sur '{description}' intercepté (tentative {attempt + 1}). "
+                    "Tentative avec JavaScript."
+                )
+                # 2. Fallback sur un clic JavaScript
+                try:
+                    self.driver.execute_script("arguments[0].click();", element)
+                    logger.info(f"Clic JavaScript réussi sur '{description}' (tentative {attempt + 1})")
+                    time.sleep(self.config["wait_between_actions"])
+                    return True
+                except Exception as js_e:
+                    logger.warning(f"Clic JavaScript a aussi échoué pour '{description}': {js_e}")
             except Exception as e:
-                logger.warning(f"Tentative {attempt + 1} échouée pour {description}: {e}")
-                time.sleep(1)
+                logger.warning(f"Tentative de clic {attempt + 1} échouée pour '{description}': {e}")
+            time.sleep(1)  # Attendre avant la prochaine tentative
+        logger.error(f"Toutes les tentatives de clic ont échoué pour '{description}'")
         return False
 
     def _safe_send_keys(self, element, text: str, description: str = ""):
