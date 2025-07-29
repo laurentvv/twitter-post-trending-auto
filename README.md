@@ -114,25 +114,6 @@ python scheduler.py
 python -m src.main
 ```
 
-### Démarrage rapide (Windows)
-
-```bash
-# Script automatique avec menu
-start.bat
-```
-
-### Test du Fallback Firefox
-
-```bash
-# Activer l'environnement virtuel d'abord
-.venv\Scripts\Activate.ps1  # Windows PowerShell
-# ou
-.venv\Scripts\activate.bat   # Windows CMD
-
-# Tester la configuration Firefox
-python test_firefox_fallback.py
-```
-
 ### Workflow automatique
 
 Le bot exécute automatiquement :
@@ -220,7 +201,6 @@ twitter-post-trending-auto/
 │   │   └── firefox_twitter_service.py  # Service Firefox
 │   └── main.py            # Point d'entrée principal
 ├── scheduler.py           # Scheduler automatique (4h)
-├── test_firefox_fallback.py  # Test du service Firefox
 ├── data/                  # Données persistantes
 │   └── posted_repos.json # Historique des posts
 ├── screenshots/           # Captures d'écran générées

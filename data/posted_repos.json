@@ -1,8 +1,9 @@
 {
   "repos": [
-    "https://github.com/Shubhamsaboo/awesome-llm-apps",
+    "https://github.com/xai-org/grok-1",
     "https://github.com/2noise/ChatTTS",
     "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/Shubhamsaboo/awesome-llm-apps",
     "https://github.com/browser-use/browser-use"
   ],
   "last_posts": {
@@ -21,7 +22,11 @@
     "https://github.com/browser-use/browser-use": {
       "tweet_id": "1948865587704148474",
       "posted_at": "2025-07-27T13:15:00.000000"
+    },
+    "https://github.com/xai-org/grok-1": {
+      "tweet_id": "1950124065437503853",
+      "posted_at": "2025-07-29T11:19:38.846573"
     }
   },
-  "updated_at": "2025-07-27T13:15:00.000000"
+  "updated_at": "2025-07-29T11:19:38.846579"
 }
