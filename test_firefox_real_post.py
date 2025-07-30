@@ -47,11 +47,21 @@ def test_firefox_real_post():
         return False
     
     # Messages de test
-    main_tweet = "Automatiser les tâches répétitives est un gain de temps énorme pour les sysadmins. Quels sont vos scripts ou outils préférés pour l'automatisation ? #Automatisation #SysAdmin"
-    reply_tweet = "J'utilise beaucoup Ansible pour l'automatisation des configurations et des déploiements. C'est incroyablement puissant et facile à utiliser une fois qu'on a pris le coup ! Et vous, quels outils recommandez-vous ?"
+    main_tweet = "La surveillance réseau est indispensable pour détecter les problèmes avant qu'ils n'affectent les utilisateurs. Quels outils utilisez-vous pour surveiller votre réseau ? #SurveillanceRéseau #SysAdmin"
+    reply_tweet = "J'utilise principalement PRTG Network Monitor pour une vue d'ensemble en temps réel et Nagios pour les alertes critiques. Ces outils sont indispensables pour maintenir la stabilité du réseau. Quels sont vos outils de surveillance préférés ?"
+    
+    # Utiliser pathlib pour un chemin robuste et cross-platform
+    image_path = Path("img") / "337ced8b-dab8-415a-92d5-9f78f96f28b9.jpg"
     
     print(f"\n📝 Tweet principal:")
     print(f"  {main_tweet}")
+    # S'assurer que le fichier existe avant de continuer
+    if image_path.exists():
+        print(f"  🖼️  Avec image: {image_path}")
+    else:
+        print(f"  🖼️  Sans image (fichier non trouvé ou chemin non défini)")
+        image_path = None
+
     print(f"\n💬 Réponse:")
     print(f"  {reply_tweet}")
     
@@ -70,7 +80,10 @@ def test_firefox_real_post():
         
         # Poster le tweet principal
         print("\n🐦 Envoi du tweet principal...")
-        main_tweet_id = firefox_service.post_tweet(main_tweet)
+        # On suppose que la méthode post_tweet peut prendre un chemin d'image en argument
+        # La signature pourrait être : post_tweet(self, text: str, image_path: str = None)
+        # On passe le chemin absolu au cas où le driver en aurait besoin
+        main_tweet_id = firefox_service.post_tweet(main_tweet, image_path=str(image_path.resolve()) if image_path else None)
         
         if main_tweet_id:
             print(f"✅ Tweet principal envoyé! ID: {main_tweet_id}")
@@ -123,7 +136,7 @@ def test_firefox_config_only():
         # Tester la navigation vers Twitter
         print("🌐 Test de navigation vers Twitter...")
         with firefox_service._get_driver() as driver:
-            driver.get("https://twitter.com")
+            driver.get("https://x.com")
             time.sleep(3)
             
             # Vérifier que la page Twitter est chargée

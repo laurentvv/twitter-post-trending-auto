@@ -126,39 +126,19 @@ def main():
     print("=" * 50)
     
     # Check every hour for active slots
-    schedule.every().hour.do(scheduled_run)
+    # Plus précis : vérifier toutes les heures, au début de l'heure.
+    schedule.every().hour.at(":00").do(scheduled_run)
     
     # Run once immediately if in active hours
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 🔄 Starting initial run...")
     scheduled_run()
     
     # Keep running
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ⏰ Scheduler running, checking every minute...")
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ⏰ Scheduler running. Next check at the top of the next hour.")
     while True:
         schedule.run_pending()
-        time.sleep(60)  # Check every minute
-        
-        # Show status every 30 minutes
-        if datetime.now().minute % 30 == 0:
-            current_hour = datetime.now().hour
-            
-            # Calculate next active slot
-            active_hours = [9, 13, 17, 21]
-            next_active = None
-            for hour in active_hours:
-                if hour > current_hour:
-                    next_active = hour
-                    break
-            if not next_active:
-                next_active = active_hours[0] + 24  # Tomorrow 9h
-            
-            hours_until_next = next_active - current_hour
-            
-            if should_run_now():
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 💓 Active slot - Running bot now!")
-                run_bot()
-            else:
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 😴 Outside active slots (9h,13h,17h,21h) - Next in {hours_until_next}h")
+        # Le planificateur gère le timing, nous avons juste besoin d'une petite pause.
+        time.sleep(1)
 
 if __name__ == "__main__":
     try:
