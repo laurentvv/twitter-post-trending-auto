@@ -5,14 +5,14 @@ Bot Twitter intelligent qui découvre automatiquement les dépôts GitHub trendi
 ## ✨ Fonctionnalités
 
 - 🔥 **Détection automatique** des dépôts GitHub trending
-- 🤖 **Résumés IA** multi-provider (Gemini/OpenRouter/Mistral/Ollama)
-- 📸 **Screenshots automatiques** centrés sur le README
-- 🐦 **Publication Twitter** avec thread de réponse
-- 🦊 **Fallback Firefox** automatique si rate limit ou échec API Twitter (instancié uniquement si besoin)
-- 📚 **Historique intelligent** évite les doublons
-- 🛡️ **Retry automatique** (3x) sur tous les services
-- ⏰ **Scheduler robuste** toutes les 30 min (09h00–00h00)
-- 📊 **Logs structurés** pour monitoring complet
+- 🤖 **Résumés IA** multi-provider (Gemini → OpenRouter → Mistral → Ollama) avec fallback automatique
+- 📸 **Screenshots automatiques** centrés sur le README avec retry 3x
+- 🐦 **Publication Twitter** avec thread de réponse, OAuth 1.0a et retry 3x
+- 🦊 **Fallback Firefox** automatique en cas de rate limit ou d'échec API (instancié uniquement si nécessaire)
+- 📚 **Historique intelligent** évite les doublons avec nettoyage automatique (7 jours)
+- 🛡️ **Retry automatique** (3x) sur tous les services (IA, GitHub, Twitter, Firefox)
+- ⏰ **Scheduler robuste** toutes les 30 min (09h00–00h00, France) avec gestion intelligente des horaires
+- 📊 **Logs structurés** avec provider IA utilisé, durée et statut de chaque étape
 
 ## 🛠️ Installation
 
@@ -63,7 +63,7 @@ OLLAMA_MODEL=qwen3:14b
 OLLAMA_HOST=http://localhost:11434
 
 # Firefox Fallback (optionnel)
-FIREFOX_PROFILE_PATH=C:\Users\laurent\AppData\Roaming\Mozilla\Firefox\Profiles\7kfdokl3.default-release
+FIREFOX_PROFILE_PATH=C:\Users\user\AppData\Roaming\Mozilla\Firefox\Profiles\6fgdokl3.default-release
 FIREFOX_HEADLESS=true
 FIREFOX_ENABLED=true
 ```
@@ -141,12 +141,13 @@ twitter-post-trending-auto/
 
 ### Configuration
 
-- **Fréquence** : Toutes les 30 minutes
-- **Heures actives** : 09h00 à 00h00 (France)
-- **Limite quotidienne** : Jusqu'à 30 tweets/jour max
-- **Retry automatique** : 3 tentatives par service
-- **Fallback Firefox** : Automatique en cas de rate limit ou d'échec API (instancié uniquement si besoin)
-- **Gestion intelligente** : Skip si hors plage horaire
+- **Fréquence** : Toutes les 30 minutes (09h00–00h00, France)
+- **Plage horaire** : 09h00 à 00h00 (France, 13h de fenêtre quotidienne)
+- **Limite quotidienne** : Jusqu'à 30 tweets/jour max (attention aux quotas Twitter)
+- **Retry automatique** : 3 tentatives par service (IA, GitHub, Twitter, Firefox)
+- **Fallback Firefox** : Automatique en cas de rate limit ou d'échec API (instancié uniquement si nécessaire)
+- **Gestion intelligente** : Skip si hors plage horaire, avec affichage du prochain créneau
+- **Log détaillé** : Affichage du statut du scheduler toutes les 30 min
 
 ### Lancement du scheduler
 
@@ -170,11 +171,12 @@ python scheduler.py
 Système de fallback automatique dans `.env` :
 
 ```env
-# Ordre de priorité : Gemini -> OpenRouter -> Mistral -> Ollama
+# Ordre de priorité : Gemini (principal) → OpenRouter (backup gratuit) → Mistral (backup payant) → Ollama (local)
 GEMINI_API_KEY=votre_clé_gemini
 OPENROUTER_API_KEY=votre_clé_openrouter  
 MISTRAL_API_KEY=votre_clé_mistral
 OLLAMA_MODEL=qwen3:14b      # Fallback local
+OLLAMA_HOST=http://localhost:11434
 ```
 
 ### Firefox Fallback
@@ -183,7 +185,29 @@ Configuration complète du fallback :
 
 ```env
 # Profil Firefox (obligatoire)
-FIREFOX_PROFILE_PATH=C:\Users\laurent\AppData\Roaming\Mozilla\Firefox\Profiles\7kfdokl3.default-release
+FIREFOX_PROFILE_PATH=C:\Users\user\AppData\Roaming\Mozilla\Firefox\Profiles\7rtfgkl3.default-release
+
+# Options Firefox
+FIREFOX_HEADLESS=true        # Mode headless (recommandé)
+FIREFOX_ENABLED=true         # Activer le fallback
+```
+
+### Scheduler Logic
+```python
+# Plage continue 09h00–00h00
+if 9 <= current_hour < 24:
+    return True  # Run bot
+else:
+    return False  # Skip
+```
+
+### Firefox Fallback
+
+Configuration complète du fallback :
+
+```env
+# Profil Firefox (obligatoire)
+FIREFOX_PROFILE_PATH=C:\Users\user\AppData\Roaming\Mozilla\Firefox\Profiles\7kfdokl3.default-release
 
 # Options Firefox
 FIREFOX_HEADLESS=true        # Mode headless (recommandé)
@@ -235,17 +259,20 @@ Logs JSON structurés dans `logs/app.log` :
   "duration": "15.32s",
   "main_tweet_id": "1234567890",
   "reply_tweet_id": "1234567891",
-  "timestamp": "2025-01-26T10:30:00Z"
+  "timestamp": "2025-01-26T10:30:00Z",
+  "ai_provider_used": "Gemini",
+  "error_count": 0
 }
 ```
 
 ### Robustesse
 
-- ✅ **Retry 3x** sur tous les services
-- ✅ **Rate limit handling** automatique (fallback Firefox)
-- ✅ **Fallbacks** si services échouent
-- ✅ **Scheduler stable** avec progression détaillée
-- ✅ **Anti-doublons** avec historique persistant
+- ✅ **Retry 3x** sur tous les services (IA, GitHub, Twitter, Firefox)
+- ✅ **Rate limit handling** automatique avec fallback Firefox
+- ✅ **Fallbacks** multi-niveaux : IA (Gemini → OpenRouter → Mistral → Ollama) + Firefox
+- ✅ **Scheduler stable** avec progression détaillée et affichage du prochain créneau
+- ✅ **Anti-doublons** avec historique persistant (nettoyage automatique 7 jours)
+- ✅ **Logs détaillés** : Provider IA utilisé, durée, statut, erreurs (si any)
 
 ### Performance
 

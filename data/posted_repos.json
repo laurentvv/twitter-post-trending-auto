@@ -1,13 +1,18 @@
 {
   "repos": [
-    "https://github.com/DigitalPlatDev/FreeDomain",
-    "https://github.com/HeyPuter/puter",
     "https://github.com/modelcontextprotocol/servers",
-    "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/harry0703/MoneyPrinterTurbo",
     "https://github.com/2noise/ChatTTS",
-    "https://github.com/mendableai/firecrawl",
+    "https://github.com/punkpeye/awesome-mcp-servers",
     "https://github.com/browser-use/browser-use",
-    "https://github.com/Shubhamsaboo/awesome-llm-apps"
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/xai-org/grok-1",
+    "https://github.com/Shubhamsaboo/awesome-llm-apps",
+    "https://github.com/opendatalab/MinerU",
+    "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/mendableai/firecrawl",
+    "https://github.com/HeyPuter/puter",
+    "https://github.com/All-Hands-AI/OpenHands"
   ],
   "last_posts": {
     "https://github.com/DigitalPlatDev/FreeDomain": {
@@ -41,7 +46,27 @@
     "https://github.com/Shubhamsaboo/awesome-llm-apps": {
       "tweet_id": "1950570419649466708",
       "posted_at": "2025-07-30T16:53:16.508507"
+    },
+    "https://github.com/xai-org/grok-1": {
+      "tweet_id": "1950578071360151979",
+      "posted_at": "2025-07-30T17:23:40.770289"
+    },
+    "https://github.com/All-Hands-AI/OpenHands": {
+      "tweet_id": "1950585713742803199",
+      "posted_at": "2025-07-30T17:54:02.785198"
+    },
+    "https://github.com/harry0703/MoneyPrinterTurbo": {
+      "tweet_id": "1950593376300020205",
+      "posted_at": "2025-07-30T18:24:29.590716"
+    },
+    "https://github.com/punkpeye/awesome-mcp-servers": {
+      "tweet_id": "1950601031705882648",
+      "posted_at": "2025-07-30T18:54:54.760406"
+    },
+    "https://github.com/opendatalab/MinerU": {
+      "tweet_id": "1950608679377486032",
+      "posted_at": "2025-07-30T19:25:18.031585"
     }
   },
-  "updated_at": "2025-07-30T16:53:16.508510"
+  "updated_at": "2025-07-30T19:25:18.031598"
 }
