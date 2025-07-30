@@ -87,6 +87,12 @@ class TwitterService:
         Returns:
             Tweet ID if successful, None otherwise
         """
+
+        # Convertir en chemin absolu immédiatement
+        abs_media_path = str(Path(media_path).absolute()) if media_path else None
+        logger.info(f"Media path converted to absolute: {abs_media_path}", **log_step("media_path_conversion"))
+
+
         # First try Twitter API
         for attempt in range(2):  # Reduced to 2 attempts for API
             try:
@@ -161,7 +167,7 @@ class TwitterService:
             try:
                 self._init_firefox_fallback()
                 if self.firefox_service:
-                    tweet_id = self.firefox_service.post_tweet(text, image_path=media_path)
+                    tweet_id = self.firefox_service.post_tweet(text, image_path=abs_media_path)
                     if tweet_id:
                         logger.info(
                             "Tweet created successfully via Firefox",

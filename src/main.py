@@ -26,12 +26,12 @@ async def process_trending_repository():
     history_service = HistoryService()
     
     try:
-        # Step 1: Get trending repositories
-        logger.info("Step 1: Fetching trending repositories", **log_step("step_1_start"))
-        repositories = github_service.get_trending_repositories(limit=20)
+        # Step 1: Get trending repositories with fallbacks
+        logger.info("Step 1: Fetching trending repositories with fallbacks", **log_step("step_1_start"))
+        repositories = github_service.get_trending_repositories_with_fallbacks(limit=20)
         
         if not repositories:
-            logger.error("No repositories found", **log_step("workflow_error"))
+            logger.error("No repositories found from all sources", **log_step("workflow_error"))
             return
         
         # Filter out already posted repositories
@@ -49,7 +49,7 @@ async def process_trending_repository():
         
         # Select random unposted repository
         repo = random.choice(unposted_repos)
-        repo_name = repo['name']
+        repo_name = repo['name'] if 'name' in repo else repo['full_name']
         repo_url = repo['html_url']
         
         logger.info(
@@ -61,7 +61,7 @@ async def process_trending_repository():
         logger.info("Step 2: Capturing screenshot", **log_step("step_2_start"))
         
         async with ScreenshotService() as screenshot_service:
-            screenshot_filename = f"{repo_name}_{int(time.time())}.png"
+            screenshot_filename = f"{repo_name.replace('/', '_')}_{int(time.time())}.png"
             try:
                 screenshot_path = await screenshot_service.capture_repository(
                     repo_url, screenshot_filename
@@ -188,7 +188,7 @@ async def process_trending_repository():
         if reply_tweet_id:
             logger.info(
                 "Reply posted successfully",
-                **log_step("reply_tweet_success", reply_tweet_id=reply_tweet_id)
+                **log_step("reply_tweet_success", reply_id=reply_tweet_id)
             )
         else:
             logger.warning(

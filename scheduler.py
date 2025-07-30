@@ -126,33 +126,88 @@ def parse_and_display_log(log_line):
         event = log_data.get('event', '')
         timestamp = datetime.now().strftime('%H:%M:%S')
         
-        # Enhanced step messages with rate limit awareness
+        # Enhanced step messages with rate limit and AI provider awareness
         step_messages = {
             'workflow_start': '🔄 Starting workflow...',
-            'github_fetch': f"📡 Fetching {log_data.get('limit', 20)} trending repos (attempt {log_data.get('attempt', 1)})...",
-            'github_success': f"✅ Found {log_data.get('count', 0)} trending repositories",
+            'step_1_start': '📡 Step 1: Fetching trending repositories with fallbacks...',
             'step_1_success': f"🎯 Selected: {log_data.get('repo_name', 'repo')}",
-            'screenshot_start': f"📸 Capturing screenshot (attempt {log_data.get('attempt', 1)})...",
-            'screenshot_success': '✅ Screenshot captured',
-            'readme_fetch': f"📖 Fetching README (attempt {log_data.get('attempt', 1)})...",
-            'readme_success': f"✅ README loaded ({log_data.get('length', 0)} chars)",
-            'ai_summarize': '🤖 Generating AI summary...',
-            'ai_summary_success': f"✅ Summary generated ({log_data.get('summary_length', 0)} chars)",
-            'ai_features': '🔍 Extracting key features...',
-            'ai_features_success': f"✅ Features extracted ({log_data.get('count', 0)} items)",
-            'tweets_ready': f"📝 Tweets ready (main: {log_data.get('main_length', 0)}, reply: {log_data.get('reply_length', 0)} chars)",
+            'step_2_start': '📸 Step 2: Capturing screenshot...',
+            'step_2_success': '✅ Screenshot captured',
+            'step_2_warning': '⚠️ Screenshot failed, continuing without image',
+            'step_3_start': '🤖 Step 3: Processing README with AI...',
+            'step_3_success': f"✅ AI processing completed (summary: {log_data.get('summary_length', 0)} chars, features: {log_data.get('features_count', 0)} items)",
+            'step_4_start': '📝 Step 4: Creating and posting tweets...',
             'tweet_validation_start': '🤖 Validating tweet content...',
             'tweet_validation_success': f"✅ Tweet validation passed ({log_data.get('provider', 'AI')})",
             'tweet_validation_failed': f"⚠️ Tweet validation warning: {log_data.get('reason', 'Unknown')}",
-            'tweets_validated': f"✅ Tweets validated (status: {log_data.get('validation_status', 'unknown')})",
             'tweet_correction_start': '🔧 Attempting AI correction...',
             'tweet_correction_success': f"✅ Tweet corrected by AI ({log_data.get('provider', 'AI')})",
             'tweet_correction_failed': '⚠️ AI correction failed, using original',
             'tweet_revalidation_start': '🔄 Re-validating corrected tweets...',
             'tweet_revalidation_success': f"✅ Corrected tweets validated ({log_data.get('provider', 'AI')})",
             'tweet_revalidation_warning': f"⚠️ Corrected tweets still have issues: {log_data.get('reason', 'Unknown')}",
+            'tweets_validated': f"✅ Tweets validated (status: {log_data.get('validation_status', 'unknown')})",
             
-            # Enhanced API and Firefox tracking
+            # GitHub API steps
+            'github_api_fetch': '📡 Fetching trending repositories from GitHub API...',
+            'github_api_success': '✅ GitHub API trending repositories fetched',
+            'github_api_error': '❌ Failed to fetch from GitHub API',
+            
+            # Fallback steps
+            'github_scrape_start': '🌐 Attempting GitHub Trending scraping fallback...',
+            'github_scrape_success': '✅ GitHub Trending scraping fallback successful',
+            'github_scrape_error': '❌ GitHub Trending scraping fallback failed',
+            'libhunt_start': '📚 Attempting LibHunt API fallback...',
+            'libhunt_success': '✅ LibHunt API fallback successful',
+            'libhunt_error': '❌ LibHunt API fallback failed',
+            'gitstar_start': '⭐ Attempting Gitstar Ranking fallback...',
+            'gitstar_success': '✅ Gitstar Ranking fallback successful',
+            'gitstar_error': '❌ Gitstar Ranking fallback failed',
+            
+            # Success messages for each source
+            'primary_success': '✅ Successfully fetched from GitHub API',
+            'fallback1_success': '✅ Successfully fetched from GitHub scraping fallback',
+            'fallback2_success': '✅ Successfully fetched from LibHunt fallback',
+            'fallback3_success': '✅ Successfully fetched from Gitstar fallback',
+            
+            # Error messages
+            'scrape_parse_error': '⚠️ Error parsing repository during GitHub scraping',
+            'gitstar_parse_error': '⚠️ Error parsing repository during Gitstar scraping',
+            
+            # AI processing steps
+            'ai_summarize': '🤖 Generating AI summary...',
+            'ai_summary_success': f"✅ Summary generated ({log_data.get('summary_length', 0)} chars) - Provider: {log_data.get('provider', 'Unknown')}",
+            'ai_features': '🔍 Extracting key features...',
+            'ai_features_success': f"✅ Features extracted ({log_data.get('count', 0)} items) - Provider: {log_data.get('provider', 'Unknown')}",
+            
+            # Gemini AI attempts
+            'gemini_summary_attempt_failed': f"ℹ️ Gemini summary attempt {log_data.get('attempt', '?')} failed",
+            'gemini_summary_failed': 'ℹ️ Gemini failed after 3 attempts',
+            'gemini_features_attempt_failed': f"ℹ️ Gemini features attempt {log_data.get('attempt', '?')} failed",
+            'gemini_features_failed': 'ℹ️ Gemini failed after 3 attempts',
+            
+            # OpenRouter AI attempts
+            'openrouter_summary_attempt_failed': f"ℹ️ OpenRouter summary attempt {log_data.get('attempt', '?')} failed",
+            'openrouter_summary_failed': 'ℹ️ OpenRouter failed after 3 attempts',
+            'openrouter_features_attempt_failed': f"ℹ️ OpenRouter features attempt {log_data.get('attempt', '?')} failed",
+            'openrouter_features_failed': 'ℹ️ OpenRouter failed after 3 attempts',
+            
+            # Mistral AI attempts
+            'mistral_summary_attempt_failed': f"ℹ️ Mistral summary attempt {log_data.get('attempt', '?')} failed",
+            'mistral_summary_failed': 'ℹ️ Mistral failed after 3 attempts',
+            'mistral_features_attempt_failed': f"ℹ️ Mistral features attempt {log_data.get('attempt', '?')} failed",
+            'mistral_features_failed': 'ℹ️ Mistral failed after 3 attempts',
+            
+            # Ollama AI attempts
+            'ollama_summary_attempt_failed': f"ℹ️ Ollama summary attempt {log_data.get('attempt', '?')} failed",
+            'ollama_summary_failed': 'ℹ️ Ollama failed after 3 attempts',
+            'ollama_features_attempt_failed': f"ℹ️ Ollama features attempt {log_data.get('attempt', '?')} failed",
+            'ollama_features_failed': 'ℹ️ Ollama failed after 3 attempts',
+            
+            # AI validation attempts
+            'validation_error': f"⚠️ Validation failed with {log_data.get('provider', 'AI')}",
+            
+            # Tweet posting steps
             'main_tweet_post_start': '🐦 Posting main tweet with automatic fallback...',
             'tweet_create_api': f"📡 Trying Twitter API (attempt {log_data.get('attempt', 1)})...",
             'tweet_api_success': f"✅ Tweet posted via API: {log_data.get('tweet_id', 'ID')}",
@@ -171,6 +226,10 @@ def parse_and_display_log(log_line):
             'reply_tweet_success': f"✅ Reply posted: {log_data.get('reply_id', 'ID')}",
             
             'workflow_success': f"🎉 Workflow completed in {log_data.get('duration', 'N/A')} - Tweet: {log_data.get('main_tweet_id', 'N/A')}",
+            'workflow_error': f"❌ Workflow failed: {log_data.get('error', 'Unknown')}",
+            'all_posted': '⚠️ All trending repositories already posted',
+            'main_tweet_total_failure': '❌ Main tweet failed with both API and Firefox',
+            'reply_tweet_failure': '⚠️ Reply failed with both API and Firefox',
             'firefox_closed': '🔒 Firefox service closed'
         }
         
@@ -207,11 +266,11 @@ def parse_and_display_log(log_line):
 
 
 def should_run_now():
-    """Check if bot should run now (from 09h00 to 00h00 included)."""
+    """Check if bot should run now (from 09h00 to 01h00 included)."""
     now = datetime.now()
     current_hour = now.hour
-    # Autorisé de 9h00 à 23h59 (inclus), donc 9 <= hour < 24
-    return 9 <= current_hour < 24
+    # Autorisé de 9h00 à 1h00 (inclus), donc 9 <= hour <= 23 ou hour == 0 ou hour == 1
+    return (current_hour >= 9) or (current_hour <= 1)
 
 
 def scheduled_run():
@@ -227,14 +286,14 @@ def scheduled_run():
             schedule.clear()
             schedule.every(new_interval).minutes.do(scheduled_run)
     else:
-        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ⏰ Outside active hours (9h-23h59), skipping...")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ⏰ Outside active hours (9h-1h), skipping...")
 
 
 def main():
     """Main scheduler loop with adaptive rate limit management."""
     print("🚀 GitHub Tweet Bot Enhanced Scheduler Started")
     print("📅 Schedule: Every 30 minutes (adaptive based on rate limits)")
-    print("⏰ Active hours: 09h00 to 00h00 (France time)")
+    print("⏰ Active hours: 09h00 to 01h00 (France time, next day)")
     print("🦊 Firefox fallback: Automatic on rate limits")
     print("🔄 Smart interval adjustment: Enabled")
     print("=" * 60)

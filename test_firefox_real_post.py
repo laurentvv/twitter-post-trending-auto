@@ -47,11 +47,11 @@ def test_firefox_real_post():
         return False
     
     # Messages de test
-    main_tweet = "La surveillance réseau est indispensable pour détecter les problèmes avant qu'ils n'affectent les utilisateurs. Quels outils utilisez-vous pour surveiller votre réseau ? #SurveillanceRéseau #SysAdmin"
-    reply_tweet = "J'utilise principalement PRTG Network Monitor pour une vue d'ensemble en temps réel et Nagios pour les alertes critiques. Ces outils sont indispensables pour maintenir la stabilité du réseau. Quels sont vos outils de surveillance préférés ?"
+    main_tweet = "La virtualisation change la donne en matière de gestion des ressources serveur. Quels sont vos hyperviseurs préférés et pourquoi ? #Virtualisation #SysAdmin"
+    reply_tweet = "J'utilise VMware ESXi pour sa stabilité et ses fonctionnalités avancées, mais j'apprécie aussi Proxmox pour sa flexibilité et son coût. Et vous, quels hyperviseurs utilisez-vous ?"
     
     # Utiliser pathlib pour un chemin robuste et cross-platform
-    image_path = Path("img") / "337ced8b-dab8-415a-92d5-9f78f96f28b9.jpg"
+    image_path = Path("img") / "0ed70641-b62b-4678-9b76-7617d047f126.jpg"
     
     print(f"\n📝 Tweet principal:")
     print(f"  {main_tweet}")

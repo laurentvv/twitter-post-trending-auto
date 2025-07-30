@@ -1,18 +1,27 @@
 {
   "repos": [
-    "https://github.com/modelcontextprotocol/servers",
-    "https://github.com/harry0703/MoneyPrinterTurbo",
-    "https://github.com/2noise/ChatTTS",
-    "https://github.com/punkpeye/awesome-mcp-servers",
     "https://github.com/browser-use/browser-use",
-    "https://github.com/DigitalPlatDev/FreeDomain",
-    "https://github.com/xai-org/grok-1",
+    "https://github.com/RVC-Boss/GPT-SoVITS",
+    "https://github.com/inkonchain/ink-kit",
+    "https://github.com/microsoft/markitdown",
+    "https://github.com/zen-browser/desktop",
     "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/opendatalab/MinerU",
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+    "https://github.com/unclecode/crawl4ai",
     "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/xai-org/grok-1",
     "https://github.com/mendableai/firecrawl",
+    "https://github.com/All-Hands-AI/OpenHands",
+    "https://github.com/opendatalab/MinerU",
+    "https://github.com/modelcontextprotocol/servers",
+    "https://github.com/2noise/ChatTTS",
     "https://github.com/HeyPuter/puter",
-    "https://github.com/All-Hands-AI/OpenHands"
+    "https://github.com/harry0703/MoneyPrinterTurbo",
+    "https://github.com/karpathy/LLM101n",
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/punkpeye/awesome-mcp-servers",
+    "https://github.com/FoundationAgents/OpenManus",
+    "https://github.com/shardeum/shardeum"
   ],
   "last_posts": {
     "https://github.com/DigitalPlatDev/FreeDomain": {
@@ -66,7 +75,43 @@
     "https://github.com/opendatalab/MinerU": {
       "tweet_id": "1950608679377486032",
       "posted_at": "2025-07-30T19:25:18.031585"
+    },
+    "https://github.com/shardeum/shardeum": {
+      "tweet_id": "1950616414395486673",
+      "posted_at": "2025-07-30T19:56:10.511045"
+    },
+    "https://github.com/RVC-Boss/GPT-SoVITS": {
+      "tweet_id": "1950624318888538153",
+      "posted_at": "2025-07-30T20:27:34.906756"
+    },
+    "https://github.com/microsoft/markitdown": {
+      "tweet_id": "1950632220168696146",
+      "posted_at": "2025-07-30T20:58:58.842929"
+    },
+    "https://github.com/zen-browser/desktop": {
+      "tweet_id": "1950640097722048653",
+      "posted_at": "2025-07-30T21:30:16.872428"
+    },
+    "https://github.com/unclecode/crawl4ai": {
+      "tweet_id": "1950647973987418588",
+      "posted_at": "2025-07-30T22:01:34.541139"
+    },
+    "https://github.com/FoundationAgents/OpenManus": {
+      "tweet_id": "1950655864806817868",
+      "posted_at": "2025-07-30T22:32:56.367799"
+    },
+    "https://github.com/inkonchain/ink-kit": {
+      "tweet_id": "1950683375251173527",
+      "posted_at": "2025-07-31T00:22:14.132302"
+    },
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools": {
+      "tweet_id": "1950688615941689841",
+      "posted_at": "2025-07-31T00:43:03.488118"
+    },
+    "https://github.com/karpathy/LLM101n": {
+      "tweet_id": "1950690505672532331",
+      "posted_at": "2025-07-31T00:50:34.203849"
     }
   },
-  "updated_at": "2025-07-30T19:25:18.031598"
+  "updated_at": "2025-07-31T00:50:34.203855"
 }

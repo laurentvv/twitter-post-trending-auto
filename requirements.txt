@@ -9,3 +9,4 @@ requests
 schedule
 selenium
 webdriver_manager
+beautifulsoup4
