@@ -1,4 +1,4 @@
-"""Complete GitHub Tweet Bot workflow."""
+"""Complete GitHub Tweet Bot workflow with enhanced Firefox fallback."""
 import asyncio
 import time
 import random
@@ -10,7 +10,6 @@ from .services.github_service import GitHubService
 from .services.screenshot_service import ScreenshotService
 from .services.ai_service import AIService
 from .services.twitter_service import TwitterService
-from .services.firefox_twitter_service import FirefoxTwitterService
 from .services.history_service import HistoryService
 
 
@@ -25,7 +24,6 @@ async def process_trending_repository():
     ai_service = AIService()
     twitter_service = TwitterService()
     history_service = HistoryService()
-    # Instanciation du service Firefox uniquement en fallback
     
     try:
         # Step 1: Get trending repositories
@@ -159,55 +157,55 @@ async def process_trending_repository():
                       validation_status=validation['is_valid'])
         )
         
-        # POST REAL TWEETS WITH SCREENSHOT
-        main_tweet_id = twitter_service.create_tweet(main_tweet_text, screenshot_path)
+        # POST MAIN TWEET WITH ENHANCED FALLBACK
+        logger.info("Posting main tweet with automatic fallback", **log_step("main_tweet_post_start"))
+        main_tweet_id = twitter_service.create_tweet(
+            main_tweet_text, 
+            screenshot_path, 
+            use_firefox_fallback=True
+        )
         
-        # Fallback Firefox si échec du service principal
         if not main_tweet_id:
-            logger.warning("Échec du tweet principal via twitter_service, tentative via Firefox...", **log_step("step_4_main_fallback"))
-            firefox_service = FirefoxTwitterService()
-            main_tweet_id = firefox_service.post_tweet(main_tweet_text, image_path=screenshot_path)
-            if main_tweet_id:
-                logger.info("Tweet principal posté via Firefox", **log_step("step_4_main_success_firefox", tweet_id=main_tweet_id))
-            else:
-                logger.error("Tweet principal échoué (même via Firefox)", **log_step("step_4_main_error"))
-                return  # Exit workflow if main tweet fails
-        else:
-            logger.info(
-                "Main tweet posted",
-                **log_step("step_4_main_success", tweet_id=main_tweet_id)
-            )
+            logger.error("Main tweet failed with both API and Firefox", **log_step("main_tweet_total_failure"))
+            return  # Exit workflow if main tweet fails completely
+        
+        logger.info(
+            "Main tweet posted successfully",
+            **log_step("main_tweet_success", tweet_id=main_tweet_id)
+        )
         
         # Mark repository as posted
         history_service.mark_as_posted(repo_url, main_tweet_id)
         
-        # Post reply thread
-        reply_tweet_id = twitter_service.reply_to_tweet(main_tweet_id, reply_text)
-        if not reply_tweet_id:
-            logger.warning("Échec de la réponse via twitter_service, tentative via Firefox...", **log_step("step_4_reply_fallback"))
-            firefox_service = FirefoxTwitterService()
-            reply_tweet_id = firefox_service.post_reply(main_tweet_id, reply_text)
-            if reply_tweet_id:
-                logger.info("Réponse postée via Firefox", **log_step("step_4_reply_success_firefox", reply_tweet_id=reply_tweet_id))
-            else:
-                logger.warning("Thread échoué (même via Firefox)", **log_step("step_4_reply_warning"))
-        else:
+        # POST REPLY WITH ENHANCED FALLBACK
+        logger.info("Posting reply with automatic fallback", **log_step("reply_tweet_post_start"))
+        reply_tweet_id = twitter_service.reply_to_tweet(
+            main_tweet_id, 
+            reply_text, 
+            use_firefox_fallback=True
+        )
+        
+        if reply_tweet_id:
             logger.info(
-                "Thread complet posté",
-                **log_step("step_4_reply_success", reply_tweet_id=reply_tweet_id)
+                "Reply posted successfully",
+                **log_step("reply_tweet_success", reply_tweet_id=reply_tweet_id)
+            )
+        else:
+            logger.warning(
+                "Reply failed with both API and Firefox",
+                **log_step("reply_tweet_failure")
             )
         
-        # Workflow completed - only if main tweet was successful
-        if main_tweet_id:
-            total_time = time.time() - start_time
-            logger.info(
-                "Workflow completed successfully",
-                **log_step("workflow_success", 
-                          repo_name=repo_name,
-                          duration=f"{total_time:.2f}s",
-                          main_tweet_id=main_tweet_id,
-                          reply_tweet_id=reply_tweet_id or "failed")
-            )
+        # Workflow completed successfully
+        total_time = time.time() - start_time
+        logger.info(
+            "Workflow completed successfully",
+            **log_step("workflow_success", 
+                      repo_name=repo_name,
+                      duration=f"{total_time:.2f}s",
+                      main_tweet_id=main_tweet_id,
+                      reply_tweet_id=reply_tweet_id or "failed")
+        )
         
     except Exception as e:
         logger.error(
@@ -215,6 +213,12 @@ async def process_trending_repository():
             **log_step("workflow_error", error=str(e), duration=f"{time.time() - start_time:.2f}s")
         )
         raise
+    finally:
+        # Clean up Firefox service if initialized
+        try:
+            twitter_service.close_firefox()
+        except Exception as e:
+            logger.warning(f"Error during cleanup: {e}")
 
 
 async def main():

@@ -1,17 +1,19 @@
-"""Modern Twitter service using Tweepy v4 and Twitter API v2."""
+"""Modern Twitter service using Tweepy v4 and Twitter API v2 with Firefox fallback."""
 import tweepy
 from typing import Optional, Dict, Any
 from pathlib import Path
+import time
 
 from ..core.config import settings
 from ..core.logger import logger, log_step
 
 
 class TwitterService:
-    """Modern Twitter service with API v2."""
+    """Modern Twitter service with API v2 and Firefox fallback."""
     
     def __init__(self):
         self.client: Optional[tweepy.Client] = None
+        self.firefox_service = None
         self._setup_client()
     
     def _has_oauth1_credentials(self) -> bool:
@@ -35,7 +37,7 @@ class TwitterService:
                 access_token=settings.twitter_access_token,
                 access_token_secret=settings.twitter_access_token_secret,
                 bearer_token=settings.twitter_bearer_token,
-                wait_on_rate_limit=True
+                wait_on_rate_limit=False  # Disable auto-wait to handle rate limits manually
             )
             logger.info("Twitter client ready with OAuth 1.0a", **log_step("twitter_ready"))
             return
@@ -44,28 +46,53 @@ class TwitterService:
         if settings.twitter_bearer_token:
             self.client = tweepy.Client(
                 bearer_token=settings.twitter_bearer_token,
-                wait_on_rate_limit=True
+                wait_on_rate_limit=False
             )
             logger.info("Twitter client ready with Bearer Token", **log_step("twitter_ready"))
         else:
             raise ValueError("Twitter credentials required")
     
-    def create_tweet(self, text: str, media_path: Optional[str] = None) -> Optional[str]:
+    def _is_rate_limit_error(self, error: Exception) -> bool:
+        """Check if error is related to rate limiting."""
+        error_str = str(error).lower()
+        rate_limit_indicators = [
+            'rate limit exceeded',
+            '429',
+            'too many requests',
+            'rate limited',
+            'quota exceeded'
+        ]
+        return any(indicator in error_str for indicator in rate_limit_indicators)
+    
+    def _init_firefox_fallback(self):
+        """Initialize Firefox service as fallback."""
+        if self.firefox_service is None:
+            try:
+                from ..services.firefox_twitter_service import FirefoxTwitterService
+                self.firefox_service = FirefoxTwitterService()
+                logger.info("Firefox fallback service initialized", **log_step("firefox_fallback_init"))
+            except Exception as e:
+                logger.error(f"Failed to initialize Firefox fallback: {e}", **log_step("firefox_fallback_error"))
+                self.firefox_service = None
+    
+    def create_tweet(self, text: str, media_path: Optional[str] = None, use_firefox_fallback: bool = True) -> Optional[str]:
         """
-        Create a tweet with optional media (with 3 retry attempts).
+        Create a tweet with optional media and Firefox fallback for rate limits.
         
         Args:
             text: Tweet text content
             media_path: Optional path to media file
+            use_firefox_fallback: Whether to use Firefox if API fails
             
         Returns:
             Tweet ID if successful, None otherwise
         """
-        for attempt in range(3):
+        # First try Twitter API
+        for attempt in range(2):  # Reduced to 2 attempts for API
             try:
                 logger.info(
-                    "Creating tweet",
-                    **log_step("tweet_create", text_length=len(text), has_media=bool(media_path), attempt=attempt+1)
+                    "Creating tweet via API",
+                    **log_step("tweet_create_api", text_length=len(text), has_media=bool(media_path), attempt=attempt+1)
                 )
                 
                 media_ids = None
@@ -88,6 +115,12 @@ class TwitterService:
                             **log_step("media_upload_success", media_id=media.media_id)
                         )
                     except Exception as e:
+                        if self._is_rate_limit_error(e):
+                            logger.warning(
+                                "Rate limit hit during media upload",
+                                **log_step("media_rate_limit", error=str(e))
+                            )
+                            break  # Exit API attempts, go to Firefox
                         logger.warning(
                             "Media upload failed, posting without image",
                             **log_step("media_upload_error", error=str(e))
@@ -98,40 +131,70 @@ class TwitterService:
                 if response.data:
                     tweet_id = response.data['id']
                     logger.info(
-                        "Tweet created successfully",
-                        **log_step("tweet_success", tweet_id=tweet_id, attempt=attempt+1)
+                        "Tweet created successfully via API",
+                        **log_step("tweet_api_success", tweet_id=tweet_id, attempt=attempt+1)
                     )
                     return tweet_id
                 
             except Exception as e:
+                if self._is_rate_limit_error(e):
+                    logger.warning(
+                        "Rate limit exceeded on API, switching to Firefox fallback",
+                        **log_step("api_rate_limit", error=str(e))
+                    )
+                    break  # Exit API attempts, go to Firefox
+                
                 logger.warning(
                     f"Tweet creation attempt {attempt+1} failed",
-                    **log_step("tweet_retry", error=str(e), attempt=attempt+1)
+                    **log_step("tweet_api_retry", error=str(e), attempt=attempt+1)
                 )
-                if attempt == 2:  # Last attempt
+                
+                if attempt == 1:  # Last API attempt
                     logger.error(
-                        "Tweet creation failed after 3 attempts",
-                        **log_step("tweet_error", error=str(e))
+                        "Tweet creation failed after API attempts",
+                        **log_step("tweet_api_failed", error=str(e))
                     )
+        
+        # Fallback to Firefox if API failed or rate limited
+        if use_firefox_fallback:
+            logger.info("Attempting Firefox fallback for tweet", **log_step("firefox_fallback_start"))
+            try:
+                self._init_firefox_fallback()
+                if self.firefox_service:
+                    tweet_id = self.firefox_service.post_tweet(text, image_path=media_path)
+                    if tweet_id:
+                        logger.info(
+                            "Tweet created successfully via Firefox",
+                            **log_step("tweet_firefox_success", tweet_id=tweet_id)
+                        )
+                        return tweet_id
+                    else:
+                        logger.error("Firefox tweet creation failed", **log_step("tweet_firefox_failed"))
+                else:
+                    logger.error("Firefox service not available", **log_step("firefox_not_available"))
+            except Exception as e:
+                logger.error(f"Firefox fallback failed: {e}", **log_step("firefox_fallback_error", error=str(e)))
         
         return None
     
-    def reply_to_tweet(self, tweet_id: str, text: str) -> Optional[str]:
+    def reply_to_tweet(self, tweet_id: str, text: str, use_firefox_fallback: bool = True) -> Optional[str]:
         """
-        Reply to a tweet (with 3 retry attempts).
+        Reply to a tweet with Firefox fallback for rate limits.
         
         Args:
             tweet_id: ID of tweet to reply to
             text: Reply text
+            use_firefox_fallback: Whether to use Firefox if API fails
             
         Returns:
             Reply tweet ID if successful, None otherwise
         """
-        for attempt in range(3):
+        # First try Twitter API
+        for attempt in range(2):  # Reduced to 2 attempts for API
             try:
                 logger.info(
-                    "Creating reply",
-                    **log_step("reply_create", tweet_id=tweet_id, text_length=len(text), attempt=attempt+1)
+                    "Creating reply via API",
+                    **log_step("reply_create_api", tweet_id=tweet_id, text_length=len(text), attempt=attempt+1)
                 )
                 
                 response = self.client.create_tweet(
@@ -142,21 +205,49 @@ class TwitterService:
                 if response.data:
                     reply_id = response.data['id']
                     logger.info(
-                        "Reply created successfully",
-                        **log_step("reply_success", reply_id=reply_id, attempt=attempt+1)
+                        "Reply created successfully via API",
+                        **log_step("reply_api_success", reply_id=reply_id, attempt=attempt+1)
                     )
                     return reply_id
                     
             except Exception as e:
+                if self._is_rate_limit_error(e):
+                    logger.warning(
+                        "Rate limit exceeded on API for reply, switching to Firefox fallback",
+                        **log_step("api_reply_rate_limit", error=str(e))
+                    )
+                    break  # Exit API attempts, go to Firefox
+                
                 logger.warning(
                     f"Reply creation attempt {attempt+1} failed",
-                    **log_step("reply_retry", error=str(e), attempt=attempt+1)
+                    **log_step("reply_api_retry", error=str(e), attempt=attempt+1)
                 )
-                if attempt == 2:  # Last attempt
+                
+                if attempt == 1:  # Last API attempt
                     logger.error(
-                        "Reply creation failed after 3 attempts",
-                        **log_step("reply_error", error=str(e))
+                        "Reply creation failed after API attempts",
+                        **log_step("reply_api_failed", error=str(e))
                     )
+        
+        # Fallback to Firefox if API failed or rate limited
+        if use_firefox_fallback:
+            logger.info("Attempting Firefox fallback for reply", **log_step("firefox_reply_fallback_start"))
+            try:
+                self._init_firefox_fallback()
+                if self.firefox_service:
+                    reply_id = self.firefox_service.post_reply(tweet_id, text)
+                    if reply_id:
+                        logger.info(
+                            "Reply created successfully via Firefox",
+                            **log_step("reply_firefox_success", reply_id=reply_id)
+                        )
+                        return reply_id
+                    else:
+                        logger.error("Firefox reply creation failed", **log_step("reply_firefox_failed"))
+                else:
+                    logger.error("Firefox service not available for reply", **log_step("firefox_not_available"))
+            except Exception as e:
+                logger.error(f"Firefox reply fallback failed: {e}", **log_step("firefox_reply_fallback_error", error=str(e)))
         
         return None
     
@@ -241,3 +332,14 @@ class TwitterService:
             base_text = f"📌 {description}\n\n{features_text}\n\n🔗 {url}\n#Code"
         
         return base_text
+    
+    def close_firefox(self):
+        """Close Firefox service if initialized."""
+        if self.firefox_service:
+            try:
+                self.firefox_service.close()
+                logger.info("Firefox service closed", **log_step("firefox_closed"))
+            except Exception as e:
+                logger.warning(f"Error closing Firefox service: {e}")
+            finally:
+                self.firefox_service = None

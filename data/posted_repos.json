@@ -1,7 +1,13 @@
 {
   "repos": [
     "https://github.com/DigitalPlatDev/FreeDomain",
-    "https://github.com/2noise/ChatTTS"
+    "https://github.com/HeyPuter/puter",
+    "https://github.com/modelcontextprotocol/servers",
+    "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/2noise/ChatTTS",
+    "https://github.com/mendableai/firecrawl",
+    "https://github.com/browser-use/browser-use",
+    "https://github.com/Shubhamsaboo/awesome-llm-apps"
   ],
   "last_posts": {
     "https://github.com/DigitalPlatDev/FreeDomain": {
@@ -11,7 +17,31 @@
     "https://github.com/2noise/ChatTTS": {
       "tweet_id": "1950527006774358391",
       "posted_at": "2025-07-30T14:00:45.860753"
+    },
+    "https://github.com/modelcontextprotocol/servers": {
+      "tweet_id": "1950534666810749062",
+      "posted_at": "2025-07-30T14:31:12.100019"
+    },
+    "https://github.com/browser-use/browser-use": {
+      "tweet_id": "1950542591256084736",
+      "posted_at": "2025-07-30T15:02:41.520291"
+    },
+    "https://github.com/mendableai/firecrawl": {
+      "tweet_id": "1950551634087412188",
+      "posted_at": "2025-07-30T15:38:37.852492"
+    },
+    "https://github.com/HeyPuter/puter": {
+      "tweet_id": "1950558902602330188",
+      "posted_at": "2025-07-30T16:07:30.775522"
+    },
+    "https://github.com/google-gemini/gemini-cli": {
+      "tweet_id": "1950566571887227343",
+      "posted_at": "2025-07-30T16:37:59.204412"
+    },
+    "https://github.com/Shubhamsaboo/awesome-llm-apps": {
+      "tweet_id": "1950570419649466708",
+      "posted_at": "2025-07-30T16:53:16.508507"
     }
   },
-  "updated_at": "2025-07-30T14:00:45.860765"
+  "updated_at": "2025-07-30T16:53:16.508510"
 }
