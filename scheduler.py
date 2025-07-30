@@ -97,18 +97,11 @@ def parse_and_display_log(log_line):
             print(f"[{timestamp}] {log_line}")
 
 def should_run_now():
-    """Check if bot should run now (9h00-21h00 France time for 4 tweets max)."""
+    """Check if bot should run now (from 09h00 to 00h00 included, every 30 min)."""
     now = datetime.now()
     current_hour = now.hour
-    
-    # DEBUG: Always run for testing (comment out for production)
-    # return True
-    
-    # Active hours: 9h00 to 21h00 (France timezone) = 4 slots × 4h = 4 tweets/day max
-    # Créneaux: 9h, 13h, 17h, 21h
-    if current_hour in [9, 13, 17, 21]:
-        return True
-    return False
+    # Autorisé de 9h00 à 23h59 (inclus), donc 9 <= hour < 24
+    return 9 <= current_hour < 24
 
 def scheduled_run():
     """Run bot only during active hours."""
@@ -120,21 +113,19 @@ def scheduled_run():
 def main():
     """Main scheduler loop."""
     print("🚀 GitHub Tweet Bot Scheduler Started")
-    print("📅 Schedule: Every 4 hours")
-    print("⏰ Active hours: 9h, 13h, 17h, 21h (France time)")
-    print("📊 Max tweets/day: 4 (ultra-safe for 17/24h limit)")
+    print("📅 Schedule: Every 30 minutes")
+    print("⏰ Active hours: 09h00 to 00h00 (France time)")
     print("=" * 50)
     
-    # Check every hour for active slots
-    # Plus précis : vérifier toutes les heures, au début de l'heure.
-    schedule.every().hour.at(":00").do(scheduled_run)
+    # Run every 30 minutes
+    schedule.every(30).minutes.do(scheduled_run)
     
     # Run once immediately if in active hours
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 🔄 Starting initial run...")
     scheduled_run()
     
     # Keep running
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ⏰ Scheduler running. Next check at the top of the next hour.")
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ⏰ Scheduler running. Next check every 30 minutes.")
     while True:
         schedule.run_pending()
         # Le planificateur gère le timing, nous avons juste besoin d'une petite pause.

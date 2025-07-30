@@ -10,8 +10,8 @@ from .services.github_service import GitHubService
 from .services.screenshot_service import ScreenshotService
 from .services.ai_service import AIService
 from .services.twitter_service import TwitterService
-from .services.history_service import HistoryService
 from .services.firefox_twitter_service import FirefoxTwitterService
+from .services.history_service import HistoryService
 
 
 async def process_trending_repository():
@@ -25,6 +25,7 @@ async def process_trending_repository():
     ai_service = AIService()
     twitter_service = TwitterService()
     history_service = HistoryService()
+    # Instanciation du service Firefox uniquement en fallback
     
     try:
         # Step 1: Get trending repositories
@@ -161,39 +162,40 @@ async def process_trending_repository():
         # POST REAL TWEETS WITH SCREENSHOT
         main_tweet_id = twitter_service.create_tweet(main_tweet_text, screenshot_path)
         
+        # Fallback Firefox si échec du service principal
         if not main_tweet_id:
-            logger.warning("Tweet via API échoué, tentative avec Firefox", **log_step("firefox_fallback_start"))
-            try:
-                with FirefoxTwitterService() as firefox_service:
-                    main_tweet_id = firefox_service.post_tweet(main_tweet_text, reply_text=reply_text, image_path=screenshot_path)
-            except Exception as e:
-                logger.error(f"Erreur lors de la tentative avec Firefox : {e}", **log_step("firefox_fallback_error", error=str(e)))
-
-
-        if main_tweet_id:
+            logger.warning("Échec du tweet principal via twitter_service, tentative via Firefox...", **log_step("step_4_main_fallback"))
+            firefox_service = FirefoxTwitterService()
+            main_tweet_id = firefox_service.post_tweet(main_tweet_text, image_path=screenshot_path)
+            if main_tweet_id:
+                logger.info("Tweet principal posté via Firefox", **log_step("step_4_main_success_firefox", tweet_id=main_tweet_id))
+            else:
+                logger.error("Tweet principal échoué (même via Firefox)", **log_step("step_4_main_error"))
+                return  # Exit workflow if main tweet fails
+        else:
             logger.info(
                 "Main tweet posted",
                 **log_step("step_4_main_success", tweet_id=main_tweet_id)
             )
-            
-            # Mark repository as posted
-            history_service.mark_as_posted(repo_url, main_tweet_id)
-            
-            # Post reply thread
-            if "firefox" not in main_tweet_id:
-                reply_tweet_id = twitter_service.reply_to_tweet(main_tweet_id, reply_text)
-            
-                if reply_tweet_id:
-                    logger.info(
-                        "Thread complet posté",
-                        **log_step("step_4_reply_success", reply_tweet_id=reply_tweet_id)
-                    )
-                else:
-                    logger.warning("Thread échoué", **log_step("step_4_reply_warning"))
-                    # Don't fail the whole workflow, main tweet is already posted
+        
+        # Mark repository as posted
+        history_service.mark_as_posted(repo_url, main_tweet_id)
+        
+        # Post reply thread
+        reply_tweet_id = twitter_service.reply_to_tweet(main_tweet_id, reply_text)
+        if not reply_tweet_id:
+            logger.warning("Échec de la réponse via twitter_service, tentative via Firefox...", **log_step("step_4_reply_fallback"))
+            firefox_service = FirefoxTwitterService()
+            reply_tweet_id = firefox_service.post_reply(main_tweet_id, reply_text)
+            if reply_tweet_id:
+                logger.info("Réponse postée via Firefox", **log_step("step_4_reply_success_firefox", reply_tweet_id=reply_tweet_id))
+            else:
+                logger.warning("Thread échoué (même via Firefox)", **log_step("step_4_reply_warning"))
         else:
-            logger.error("Tweet principal échoué", **log_step("step_4_main_error"))
-            return  # Exit workflow if main tweet fails
+            logger.info(
+                "Thread complet posté",
+                **log_step("step_4_reply_success", reply_tweet_id=reply_tweet_id)
+            )
         
         # Workflow completed - only if main tweet was successful
         if main_tweet_id:

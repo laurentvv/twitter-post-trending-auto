@@ -1,60 +1,55 @@
-# Active Context: SCHEDULER ULTRA-CONSERVATEUR IMPLÉMENTÉ ✅
+# Active Context: SCHEDULER 30 MIN + FIREFOX FALLBACK OPTIMISÉ ✅
 
-## Status Final : PRODUCTION READY + SCHEDULER ULTRA-SAFE
+## Status : PRODUCTION READY + SCHEDULER 30 MINUTES + FALLBACK FIREFOX
 
-Le bot Twitter GitHub est maintenant configuré avec un **scheduler ultra-conservateur** pour éviter complètement les rate limits Twitter.
+Le bot Twitter GitHub est maintenant configuré avec un **scheduler toutes les 30 minutes** (09h00–00h00) et un fallback Firefox instancié uniquement en cas d'échec du service principal.
 
-## Scheduler Ultra-Conservateur
-- ✅ **Fréquence** : Toutes les 4 heures (au lieu de 2h)
-- ✅ **Créneaux fixes** : 9h, 13h, 17h, 21h (France)
-- ✅ **Limite quotidienne** : 4 tweets max (ultra-safe pour 17/24h)
-- ✅ **Espacement minimum** : 4h entre chaque tweet
-- ✅ **Heures restreintes** : Plus de plage continue, créneaux précis
+## Scheduler 30 Minutes
+- ✅ **Fréquence** : Toutes les 30 minutes
+- ✅ **Plage horaire** : 09h00 à 00h00 (France)
+- ✅ **Retry automatique** : 3 tentatives par service
+- ✅ **Fallback Firefox** : Instancié uniquement si nécessaire (pas de driver lancé inutilement)
+- ✅ **Plus de slots** : Jusqu'à 30 tweets/jour possible (attention à vos quotas Twitter)
 
 ## Avantages du Nouveau Système
-- 🛡️ **Ultra-safe** : 4 tweets << 17/24h (marge énorme)
-- ⏰ **Prévisible** : Créneaux fixes faciles à mémoriser
-- 🚫 **Anti-rate limit** : Espacement de 4h minimum
-- 📊 **Qualité** : Moins de tweets mais meilleure sélection
-- 🔄 **Sustainable** : Peut tourner indéfiniment sans problème
+- 🛡️ **Ultra-robuste** : Fallback automatique, multi-provider IA, retry 3x
+- ⏰ **Flexible** : Plage horaire large, fréquence ajustable
+- 🚫 **Anti-rate limit** : Fallback Firefox si quota ou erreur API
+- 🔄 **Sustainable** : Peut tourner indéfiniment sans intervention
 
-## Créneaux Optimisés
-- **9h** : Début de journée (audience active)
-- **13h** : Pause déjeuner (pic d'activité)
-- **17h** : Fin d'après-midi (retour du travail)
-- **21h** : Soirée (temps libre)
-
-## Système IA Multi-Provider (Inchangé)
+## Système IA Multi-Provider
 - ✅ **Gemini 1.5 Flash** : Provider principal (rapide, gratuit, fiable)
-- ✅ **OpenRouter Mistral** : Backup gratuit (mistral-small-3.2-24b-instruct:free)
-- ✅ **Mistral Direct** : Backup payant (mistral-small-latest)
-- ✅ **Ollama Local** : Dernier recours (qwen3:14b, think=False)
+- ✅ **OpenRouter/Mistral** : Backup gratuit/payant
+- ✅ **Ollama Local** : Dernier recours (qwen3:14b)
 
-## Fonctionnalités Finales (Inchangées)
+## Fonctionnalités Finales
 - ✅ **GitHub Trending** : Récupération automatique des dépôts populaires
-- ✅ **Screenshots** : Capture d'écran centrée sur README avec masquage intelligent
-- ✅ **IA Multi-Provider** : Système de fallback automatique pour résumés français
+- ✅ **Screenshots** : Capture d'écran centrée sur README
+- ✅ **IA Multi-Provider** : Fallback automatique pour résumés français
 - ✅ **Twitter Posting** : Publication avec OAuth 1.0a, upload d'images, thread de réponse
 - ✅ **Historique** : Système anti-doublons avec nettoyage automatique (7 jours)
 - ✅ **Logs structurés** : Monitoring complet avec provider utilisé
 - ✅ **Retry 3x** : Robustesse maximale sur tous les services
 
-## Configuration Ultra-Safe
+## Configuration
 ```env
 # IA Multi-Provider (ordre de priorité)
-GEMINI_API_KEY=votre_clé_gemini
-OPENROUTER_API_KEY=votre_clé_openrouter
-MISTRAL_API_KEY=votre_clé_mistral
-
-# Ollama (fallback local)
+GEMINI_API_KEY=...
+OPENROUTER_API_KEY=...
+MISTRAL_API_KEY=...
 OLLAMA_MODEL=qwen3:14b
 OLLAMA_HOST=http://localhost:11434
+
+# Firefox fallback
+FIREFOX_PROFILE_PATH=...
+FIREFOX_HEADLESS=true
+FIREFOX_ENABLED=true
 ```
 
 ## Scheduler Logic
 ```python
-# Créneaux fixes seulement
-if current_hour in [9, 13, 17, 21]:
+# Plage continue 09h00–00h00
+if 9 <= current_hour < 24:
     return True  # Run bot
 else:
     return False  # Skip
@@ -63,21 +58,12 @@ else:
 ## Monitoring Amélioré
 - **Status toutes les 30min** : Affichage du prochain créneau
 - **Logs détaillés** : Provider IA utilisé + durée
-- **Rate limit** : Devrait être éliminé avec 4h d'espacement
+- **Rate limit** : Fallback Firefox automatique
 
 ## Commandes de Production
 ```bash
-# Mode production (recommandé)
-python scheduler.py
-
-# Mode manuel
-python -m src.main
+python scheduler.py   # Mode production (recommandé)
+python -m src.main    # Mode manuel
 ```
 
-## Prédictions
-- **Rate limits** : Éliminés avec 4h d'espacement
-- **Qualité** : Meilleure sélection avec moins de volume
-- **Stabilité** : Peut tourner des mois sans problème
-- **Audience** : Créneaux optimisés pour engagement
-
-**Le bot est maintenant ultra-conservateur et devrait éliminer complètement les rate limits !** 🛡️
+**Le bot est maintenant flexible, robuste, et prêt à tourner en production avec fallback automatique !** 🚀

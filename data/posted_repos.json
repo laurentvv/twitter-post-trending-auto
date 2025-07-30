@@ -1,53 +1,17 @@
 {
   "repos": [
-    "https://github.com/xai-org/grok-1",
-    "https://github.com/2noise/ChatTTS",
-    "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/browser-use/browser-use",
-    "https://github.com/karpathy/LLM101n",
-    "https://github.com/microsoft/markitdown",
-    "https://github.com/google-gemini/gemini-cli",
-    "https://github.com/punkpeye/awesome-mcp-servers",
-    "https://github.com/xai-org/grok-1"
-    "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/browser-use/browser-use"
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/2noise/ChatTTS"
   ],
   "last_posts": {
-    "https://github.com/Shubhamsaboo/awesome-llm-apps": {
-      "tweet_id": "1949033597890904567",
-      "posted_at": "2025-07-26T11:06:34.052400"
-    },
-    "https://github.com/google-gemini/gemini-cli": {
-      "tweet_id": "1949034742877163702",
-      "posted_at": "2025-07-26T11:11:07.029405"
+    "https://github.com/DigitalPlatDev/FreeDomain": {
+      "tweet_id": "1950525627741733288",
+      "posted_at": "2025-07-30T13:55:17.091978"
     },
     "https://github.com/2noise/ChatTTS": {
-      "tweet_id": "1949427678341185583",
-      "posted_at": "2025-07-27T13:12:29.351046"
-    },
-    "https://github.com/browser-use/browser-use": {
-      "tweet_id": "1948865587704148474",
-      "posted_at": "2025-07-27T13:15:00.000000"
-    },
-    "https://github.com/xai-org/grok-1": {
-      "tweet_id": "1950124065437503853",
-      "posted_at": "2025-07-29T11:19:38.846573"
-    },
-    "https://github.com/microsoft/markitdown": {
-      "tweet_id": "1950191709297508777",
-      "posted_at": "2025-07-29T15:48:25.783117"
-    },
-    "https://github.com/karpathy/LLM101n": {
-      "tweet_id": "1950213361104224583",
-      "posted_at": "2025-07-29T17:14:27.899784"
-    },
-    "https://github.com/punkpeye/awesome-mcp-servers": {
-      "tweet_id": "1950318921501872191",
-      "posted_at": "2025-07-30T00:13:55.040257"
+      "tweet_id": "1950527006774358391",
+      "posted_at": "2025-07-30T14:00:45.860753"
     }
   },
-  "updated_at": "2025-07-30T00:13:55.040267"
-    }
-  },
-  "updated_at": "2025-07-29T11:19:38.846579"
+  "updated_at": "2025-07-30T14:00:45.860765"
 }

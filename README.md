@@ -5,25 +5,21 @@ Ce bot automatise la publication sur Twitter en récupérant les dépôts tendan
 ## Fonctionnalités
 
 - Récupère les dépôts GitHub tendance.
-- Utilise une IA (via Ollama) pour résumer les READMEs et extraire les fonctionnalités clés.
-- Prend une capture d'écran de la page du dépôt.
+- Utilise une IA multi-provider (Gemini, OpenRouter, Mistral, Ollama) pour résumer les READMEs et extraire les fonctionnalités clés.
+- Prend une capture d'écran de la page du dépôt (Playwright).
 - Poste un tweet principal avec le résumé et la capture d'écran.
 - Poste une réponse avec les fonctionnalités clés.
-- Utilise **Selenium avec Firefox** pour une automatisation robuste du navigateur, en s'appuyant sur un profil utilisateur réel pour l'authentification.
-- Inclut un **planificateur (`scheduler`)** pour exécuter le bot automatiquement aux heures configurées.
+- Utilise **Selenium avec Firefox** comme fallback automatique en cas de rate limit ou d'échec API Twitter.
+- Planificateur (`scheduler.py`) pour exécuter le bot automatiquement toutes les 30 minutes de 09h00 à 00h00.
 
-## Structure du Projet
-
-
-=======
-### Prérequis
+## Prérequis
 
 1. **Python 3.11+**
-2. **IA APIs** : Gemini (gratuit) + OpenRouter/Mistral (backup) + Ollama (local)
+2. **API IA** : Gemini (gratuit) + OpenRouter/Mistral (backup) + Ollama (local)
 3. **Compte Twitter Developer** avec OAuth 1.0a activé
 4. **Firefox** avec profil configuré (pour le fallback)
 
-### Installation rapide
+## Installation rapide
 
 ```bash
 # Cloner le projet
@@ -50,7 +46,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 ollama pull qwen3:14b
 ```
 
-### Configuration
+## Configuration
 
 1. **Créer le fichier `.env`** (basé sur `.env.example`) :
 
@@ -120,10 +116,10 @@ Le bot exécute automatiquement :
 
 1. **📊 Récupération** des 20 dépôts GitHub trending
 2. **🔍 Filtrage** des dépôts non encore postés
-3. **📸 Capture** d'écran du README
-4. **🤖 Génération** du résumé IA en français
+3. **���� Capture** d'écran du README
+4. **🤖 Génération** du résumé IA en français (multi-provider, fallback automatique)
 5. **🐦 Publication** du tweet principal + thread
-6. **🦊 Fallback Firefox** si rate limit détecté
+6. **🦊 Fallback Firefox** si rate limit ou échec API Twitter (après 3 tentatives)
 7. **💾 Sauvegarde** dans l'historique
 
 ### Exemple de sortie
@@ -153,6 +149,9 @@ Le bot utilise automatiquement Firefox comme fallback quand :
 - **Rate limit détecté** sur l'API Twitter
 - **Erreur 429** (Too Many Requests)
 - **Quota dépassé** sur l'API
+- **Échec API Twitter après 3 tentatives**
+
+Le service Firefox n'est instancié **que si nécessaire** (pas de lancement inutile du driver).
 
 ### Configuration Firefox
 
@@ -200,7 +199,7 @@ twitter-post-trending-auto/
 │   │   ├── twitter_service.py      # API Twitter + fallback
 │   │   └── firefox_twitter_service.py  # Service Firefox
 │   └── main.py            # Point d'entrée principal
-├── scheduler.py           # Scheduler automatique (4h)
+├── scheduler.py           # Scheduler automatique (30 min)
 ├── data/                  # Données persistantes
 │   └── posted_repos.json # Historique des posts
 ├── screenshots/           # Captures d'écran générées
@@ -213,12 +212,11 @@ twitter-post-trending-auto/
 
 ### Configuration
 
-- **Fréquence** : Toutes les 4 heures
-- **Heures actives** : 9h, 13h, 17h, 21h (France)
-- **Limite quotidienne** : 4 tweets max (ultra-safe pour 17/24h Twitter)
-- **Espacement** : 4h minimum entre tweets
+- **Fréquence** : Toutes les 30 minutes
+- **Heures actives** : 09h00 à 00h00 (France)
+- **Limite quotidienne** : Dépend du nombre de slots (jusqu'à 30 tweets/jour max)
 - **Retry automatique** : 3 tentatives par service
-- **Fallback Firefox** : Automatique en cas de rate limit
+- **Fallback Firefox** : Automatique en cas de rate limit ou d'échec API
 
 ### Lancement du scheduler
 
@@ -234,9 +232,8 @@ python scheduler.py
 **Sortie exemple** :
 ```
 🚀 GitHub Tweet Bot Scheduler Started
-📅 Schedule: Every 4 hours
-⏰ Active hours: 9h, 13h, 17h, 21h (France time)
-📊 Max tweets/day: 4 (ultra-safe pour 17/24h limit)
+📅 Schedule: Every 30 minutes
+⏰ Active hours: 09h00 to 00h00 (France time)
 🦊 Firefox fallback: Enabled
 [2025-01-26 09:00:00] ✅ Bot executed successfully
 ```
@@ -266,42 +263,7 @@ FIREFOX_PROFILE_PATH=C:\Users\laurent\AppData\Roaming\Mozilla\Firefox\Profiles\7
 # Options Firefox
 FIREFOX_HEADLESS=true        # Mode headless (recommandé)
 FIREFOX_ENABLED=true         # Activer le fallback
-
-# Configuration automatique si non spécifié
-# Le bot cherchera automatiquement un profil .default-release
 ```
-.
-├── img/                  # Captures d'écran et images pour les tweets
-├── src/
-│   ├── core/             # Composants principaux (config, logger)
-│   ├── services/         # Services (GitHub, AI, Firefox)
-│   └── main.py           # Logique principale du workflow
-├── .amazonq/             # Fichier de mémoire pour l'assistant IA
-├── config.json           # Fichier de configuration principal
-├── scheduler.py          # Script pour exécuter le bot sur un planning
-└── test_firefox_real_post.py # Script de test manuel pour le service Firefox
-```
-
-## Configuration (`config.json`)
-
-Tous les paramètres du bot sont gérés dans `config.json`. La partie la plus importante est la configuration de `firefox_service`.
-
-```json
-{
-  "firefox_service": {
-    "enabled": true,
-    "profile_path": "C:\\Users\\VotreUtilisateur\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\votre-profil.default-release",
-    "headless": true,
-    "timeout": 30,
-    "retry_attempts": 3,
-    "wait_between_actions": 2
-  }
-}
-```
-
-- **`enabled`**: Mettre à `true` pour utiliser l'automatisation Firefox.
-- **`profile_path`**: **Crucial**. Vous devez fournir le chemin complet vers votre répertoire de profil Firefox. Le bot utilise ce profil pour être déjà connecté à Twitter.
-- **`headless`**: Mettre à `true` pour exécuter Firefox en arrière-plan sans fenêtre visible. Mettre à `false` pour le débogage.
 
 ## Automatisation Firefox
 
@@ -320,6 +282,6 @@ Vous pouvez tester manuellement si l'automatisation Firefox fonctionne correctem
 
 Le script `scheduler.py` est le point d'entrée pour exécuter le bot automatiquement.
 
-- **Logique**: Il exécute la logique principale du bot (`src/main.py`) à des heures précises (9h00, 13h00, 17h00, 21h00). Il vérifie au début de chaque heure s'il doit lancer le bot.
+- **Logique**: Il exécute la logique principale du bot (`src/main.py`) toutes les 30 minutes, uniquement entre 09h00 et 00h00.
 - **Utilisation**: Pour démarrer le bot et le faire fonctionner selon le planning, exécutez simplement :
   `python scheduler.py`
