@@ -4,6 +4,7 @@
 - ✅ **GitHub API** : Récupération des 20 dépôts trending avec retry 3x
 - ✅ **Screenshots** : Capture Playwright avec retry 3x et positionnement optimal
 - ✅ **IA Multi-Provider** : Système de fallback Gemini→OpenRouter→Mistral→Ollama
+- ✅ **Validation & Correction IA** : Tweets validés et corrigés par l'IA avant publication.
 - ✅ **Twitter Posting** : Publication complète avec OAuth 1.0a et retry 3x
 - ✅ **Historique** : Système anti-doublons avec persistance JSON
 - ✅ **Architecture** : Services modulaires avec gestion d'erreurs complète
@@ -16,7 +17,7 @@
 ## What's Built 🏗️
 - **Core Services** : GitHub, AI Multi-Provider, Screenshot, Twitter, History, Firefox Fallback
 - **IA Providers** : Gemini (principal), OpenRouter (backup), Mistral (backup), Ollama (local)
-- **Workflow complet** : De la détection à la publication automatique
+- **Workflow complet** : De la détection à la publication, incluant la validation et correction IA des tweets.
 - **Gestion d'erreurs** : Recovery et fallbacks sur tous les services
 - **Documentation** : README professionnel et memory bank complet
 - **Tests** : Validation de tous les providers IA et du fallback Firefox

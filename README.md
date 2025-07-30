@@ -7,6 +7,7 @@ Bot Twitter intelligent qui découvre automatiquement les dépôts GitHub trendi
 - 🔥 **Détection automatique** des dépôts GitHub trending
 - 🤖 **Résumés IA** multi-provider (Gemini → OpenRouter → Mistral → Ollama) avec fallback automatique
 - 📸 **Screenshots automatiques** centrés sur le README avec retry 3x
+- ✅ **Validation & Correction IA** : Les tweets sont validés et corrigés par l'IA avant publication pour une qualité optimale.
 - 🐦 **Publication Twitter** avec thread de réponse, OAuth 1.0a et retry 3x
 - 🦊 **Fallback Firefox** automatique en cas de rate limit ou d'échec API (instancié uniquement si nécessaire)
 - 📚 **Historique intelligent** évite les doublons avec nettoyage automatique (7 jours)
@@ -97,10 +98,11 @@ Le bot exécute automatiquement :
 1. **📊 Récupération** des 20 dépôts GitHub trending
 2. **🔍 Filtrage** des dépôts non encore postés
 3. **📸 Capture** d'écran du README
-4. **🤖 Génération** du résumé IA en français (multi-provider, fallback automatique)
-5. **🐦 Publication** du tweet principal + thread
-6. **🦊 Fallback Firefox** si rate limit ou échec API Twitter (après 3 tentatives)
-7. **💾 Sauvegarde** dans l'historique
+4. **🤖 Génération** du contenu du tweet en français (multi-provider, fallback automatique)
+5. **✅ Validation & Correction IA** des tweets générés pour garantir la qualité
+6. **🐦 Publication** du tweet principal + thread
+7. **🦊 Fallback Firefox** si rate limit ou échec API Twitter (après 3 tentatives)
+8. **💾 Sauvegarde** dans l'historique
 
 ### Exemple de sortie
 

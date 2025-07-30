@@ -6,11 +6,12 @@ Automated Twitter bot that discovers trending GitHub repositories, generates AI-
 ## Key Requirements
 1. **GitHub Integration**: Fetch trending repositories via GitHub API
 2. **AI Summarization**: Use multi-provider (Gemini, OpenRouter, Mistral, Ollama) for intelligent content generation
-3. **Screenshot Automation**: Capture repository pages with Playwright
-4. **Twitter Publishing**: Post tweets with Twitter API v2 (OAuth 1.0a)
-5. **Scheduling**: Automated posting every 30 minutes, 09h00–00h00
-6. **Modern Architecture**: Async/await, structured logging, type safety
-7. **Fallback Firefox**: Selenium automation as backup if API fails or rate limited
+3. **AI Quality Control**: Validate and correct generated tweets using AI to ensure high quality and relevance.
+4. **Screenshot Automation**: Capture repository pages with Playwright
+5. **Twitter Publishing**: Post tweets with Twitter API v2 (OAuth 1.0a)
+6. **Scheduling**: Automated posting every 30 minutes, 09h00–00h00
+7. **Modern Architecture**: Async/await, structured logging, type safety
+8. **Fallback Firefox**: Selenium automation as backup if API fails or rate limited
 
 ## Success Criteria
 - Generate engaging tweets that drive GitHub repository discovery
@@ -34,6 +35,7 @@ Automated Twitter bot that discovers trending GitHub repositories, generates AI-
 ✅ Structured logging with JSON output
 ✅ Twitter service with API v2 + fallback Firefox
 ✅ Screenshot service with Playwright
+✅ AI-powered tweet validation and correction
 ✅ GitHub service and AI service multi-provider
 ✅ Full integration testing
 ✅ Scheduler toutes les 30 minutes, 09h00–00h00

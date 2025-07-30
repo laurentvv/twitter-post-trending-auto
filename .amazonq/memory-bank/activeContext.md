@@ -26,6 +26,7 @@ Le bot Twitter GitHub est maintenant configuré avec un **scheduler toutes les 3
 - ✅ **GitHub Trending** : Récupération automatique des dépôts populaires
 - ✅ **Screenshots** : Capture d'écran centrée sur README
 - ✅ **IA Multi-Provider** : Fallback automatique pour résumés français
+- ✅ **Validation & Correction IA** : Qualité des tweets assurée par une passe de validation et correction par l'IA.
 - ✅ **Twitter Posting** : Publication avec OAuth 1.0a, upload d'images, thread de réponse
 - ✅ **Historique** : Système anti-doublons avec nettoyage automatique (7 jours)
 - ✅ **Logs structurés** : Monitoring complet avec provider utilisé
