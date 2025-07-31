@@ -7,7 +7,6 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-
 class RateLimitManager:
     """Manages rate limit information and scheduling adjustments."""
     
@@ -62,9 +61,7 @@ class RateLimitManager:
         
         return base_interval
 
-
 rate_limit_manager = RateLimitManager()
-
 
 def run_bot():
     """Execute the GitHub Tweet Bot with enhanced progress display and rate limit handling."""
@@ -117,7 +114,6 @@ def run_bot():
     except Exception as e:
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ❌ Error: {e}")
 
-
 def parse_and_display_log(log_line):
     """Parse JSON log and display user-friendly progress with rate limit detection."""
     try:
@@ -157,9 +153,9 @@ def parse_and_display_log(log_line):
             'github_scrape_start': '🌐 Attempting GitHub Trending scraping fallback...',
             'github_scrape_success': '✅ GitHub Trending scraping fallback successful',
             'github_scrape_error': '❌ GitHub Trending scraping fallback failed',
-            'libhunt_start': '📚 Attempting LibHunt API fallback...',
-            'libhunt_success': '✅ LibHunt API fallback successful',
-            'libhunt_error': '❌ LibHunt API fallback failed',
+            'ossinsight_start': '📊 Attempting OSS Insight API fallback...',
+            'ossinsight_success': '✅ OSS Insight API fallback successful',
+            'ossinsight_error': '❌ OSS Insight API fallback failed',
             'gitstar_start': '⭐ Attempting Gitstar Ranking fallback...',
             'gitstar_success': '✅ Gitstar Ranking fallback successful',
             'gitstar_error': '❌ Gitstar Ranking fallback failed',
@@ -167,7 +163,7 @@ def parse_and_display_log(log_line):
             # Success messages for each source
             'primary_success': '✅ Successfully fetched from GitHub API',
             'fallback1_success': '✅ Successfully fetched from GitHub scraping fallback',
-            'fallback2_success': '✅ Successfully fetched from LibHunt fallback',
+            'fallback2_success': '✅ Successfully fetched from OSS Insight fallback',
             'fallback3_success': '✅ Successfully fetched from Gitstar fallback',
             
             # Error messages
@@ -264,14 +260,12 @@ def parse_and_display_log(log_line):
             print(f"[{timestamp}] {log_line}")
         return None
 
-
 def should_run_now():
     """Check if bot should run now (from 09h00 to 01h00 included)."""
     now = datetime.now()
     current_hour = now.hour
     # Autorisé de 9h00 à 1h00 (inclus), donc 9 <= hour <= 23 ou hour == 0 ou hour == 1
     return (current_hour >= 9) or (current_hour <= 1)
-
 
 def scheduled_run():
     """Run bot only during active hours with rate limit awareness."""
@@ -287,7 +281,6 @@ def scheduled_run():
             schedule.every(new_interval).minutes.do(scheduled_run)
     else:
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ⏰ Outside active hours (9h-1h), skipping...")
-
 
 def main():
     """Main scheduler loop with adaptive rate limit management."""
@@ -335,7 +328,6 @@ def main():
             last_status_time = datetime.now()
         
         time.sleep(60)  # Check every minute
-
 
 if __name__ == "__main__":
     try:

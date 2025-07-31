@@ -157,9 +157,9 @@ class GitHubService:
             )
             return []
     
-    def fetch_libhunt_trending(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def fetch_ossinsight_trending(self, limit: int = 10) -> List[Dict[str, Any]]:
         """
-        Fetch trending repositories from LibHunt API.
+        Fetch trending repositories from OSS Insight API.
         
         Args:
             limit: Maximum number of repositories to return
@@ -168,36 +168,40 @@ class GitHubService:
             List of repository data
         """
         try:
-            logger.info("Attempting LibHunt API fallback", **log_step("libhunt_start", limit=limit))
+            logger.info("Attempting OSS Insight API fallback", **log_step("ossinsight_start", limit=limit))
             
-            url = "https://libhunt.com/api/v1/trending/github"
-            response = requests.get(url, timeout=10)
+            url = "https://api.ossinsight.io/v1/trends/repos/"
+            params = {
+                "period": "past_24_hours",  # Peut être ajusté selon les besoins
+            }
+            
+            response = requests.get(url, params=params, timeout=10)
             response.raise_for_status()
             
             data = response.json()
             repositories = []
             
-            for repo in data.get("repositories", [])[:limit]:
-                full_name = repo["full_name"]
+            for repo in data.get("data", {}).get("rows", [])[:limit]:
+                repo_name = repo["repo_name"]
                 repositories.append({
-                    "name": full_name.split('/')[-1],  # Ajout de la clé 'name'
-                    "full_name": full_name,
+                    "name": repo_name.split('/')[-1],  # Extraire le nom du dépôt
+                    "full_name": repo_name,
                     "description": repo.get("description", ""),
-                    "language": repo.get("language", ""),
-                    "stargazers_count": repo.get("stars", 0),
-                    "html_url": f"https://github.com/{repo['full_name']}"
+                    "language": repo.get("primary_language", ""),
+                    "stargazers_count": int(repo.get("stars", 0)),
+                    "html_url": f"https://github.com/{repo_name}"
                 })
             
             logger.info(
-                "LibHunt API fallback successful",
-                **log_step("libhunt_success", count=len(repositories))
+                "OSS Insight API fallback successful",
+                **log_step("ossinsight_success", count=len(repositories))
             )
             return repositories
             
         except Exception as e:
             logger.error(
-                f"LibHunt API fallback failed: {str(e)}",
-                **log_step("libhunt_error", error=str(e))
+                f"OSS Insight API fallback failed: {str(e)}",
+                **log_step("ossinsight_error", error=str(e))
             )
             return []
     
@@ -283,10 +287,10 @@ class GitHubService:
             logger.info("Successfully fetched from GitHub scraping fallback", **log_step("fallback1_success", count=len(repos)))
             return repos
         
-        # 3. Fallback 2: LibHunt API
-        repos = self.fetch_libhunt_trending(limit)
+        # 3. Fallback 2: OSS Insight API (remplace LibHunt)
+        repos = self.fetch_ossinsight_trending(limit)
         if repos:
-            logger.info("Successfully fetched from LibHunt fallback", **log_step("fallback2_success", count=len(repos)))
+            logger.info("Successfully fetched from OSS Insight fallback", **log_step("fallback2_success", count=len(repos)))
             return repos
         
         # 4. Fallback 3: Gitstar Ranking

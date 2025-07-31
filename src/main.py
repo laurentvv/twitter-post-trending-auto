@@ -48,7 +48,7 @@ async def process_trending_repository():
                 # Essayer explicitement chaque méthode de fallback
                 fallback_methods = [
                     ("GitHub scraping", github_service.scrape_github_trending_fallback),
-                    ("LibHunt API", github_service.fetch_libhunt_trending),
+                    ("OSS Insight API", github_service.fetch_ossinsight_trending),
                     ("Gitstar Ranking", github_service.fetch_gitstar_ranking)
                 ]
                 
