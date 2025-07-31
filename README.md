@@ -1,18 +1,18 @@
 # 🚀 GitHub Tweet Bot
 
-Bot Twitter intelligent qui découvre automatiquement les dépôts GitHub trending, génère des résumés IA en français et publie des tweets avec captures d'écran. **Production ready** avec scheduler automatique (toutes les 30 min, 09h00–00h00) et gestion complète des rate limits avec fallback Firefox.
+Bot Twitter intelligent qui découvre automatiquement les dépôts GitHub trending, génère des résumés IA en français et publie des tweets avec captures d'écran. **Production ready** avec scheduler adaptatif (09h00–01h00) et gestion complète des rate limits avec fallback Firefox.
 
 ## ✨ Fonctionnalités
 
 - 🌐 **Détection multi-source** des dépôts GitHub trending (API, Scraping, LibHunt, Gitstar Ranking) avec fallback automatique
 - 🤖 **Résumés IA** multi-provider (Gemini → OpenRouter → Mistral → Ollama)
 - 📸 **Screenshots automatiques** centrés sur le README avec retry 3x
-- ✅ **Validation & Correction IA** : Les tweets sont validés et corrigés par l'IA avant publication pour une qualité optimale.
+- ✅ **Validation & Correction IA** : Les tweets sont validés et corrigés par l'IA avant publication pour une qualité optimale
 - 🐦 **Publication Twitter** avec thread de réponse, OAuth 1.0a et retry 3x
 - 🦊 **Fallback Firefox** automatique en cas de rate limit ou d'échec API (instancié uniquement si nécessaire)
 - 📚 **Historique intelligent** évite les doublons avec nettoyage automatique (7 jours)
 - 🛡️ **Retry automatique** (3x) sur tous les services (IA, GitHub, Twitter, Firefox)
-- ⏰ **Scheduler robuste** toutes les 30 min (09h00–00h00, France) avec gestion intelligente des horaires
+- ⏰ **Scheduler adaptatif** : L'intervalle de publication s'ajuste automatiquement (30, 60, 90, 120 min) en fonction des rate limits de l'API Twitter
 - 📊 **Logs structurés** avec provider IA utilisé, durée et statut de chaque étape
 
 ## 🛠️ Installation
@@ -143,13 +143,13 @@ twitter-post-trending-auto/
 
 ### Configuration
 
-- **Fréquence** : Toutes les 30 minutes (09h00–00h00, France)
-- **Plage horaire** : 09h00 à 00h00 (France, 13h de fenêtre quotidienne)
-- **Limite quotidienne** : Jusqu'à 30 tweets/jour max (attention aux quotas Twitter)
+- **Fréquence adaptative** : Toutes les 30 minutes par défaut, s'ajuste à 60, 90 ou 120 minutes en cas de rate limits répétés
+- **Plage horaire** : 09h00 à 01h00 (le lendemain), France
+- **Limite quotidienne** : Flexible, s'adapte pour éviter les blocages de l'API Twitter
 - **Retry automatique** : 3 tentatives par service (IA, GitHub, Twitter, Firefox)
 - **Fallback Firefox** : Automatique en cas de rate limit ou d'échec API (instancié uniquement si nécessaire)
 - **Gestion intelligente** : Skip si hors plage horaire, avec affichage du prochain créneau
-- **Log détaillé** : Affichage du statut du scheduler toutes les 30 min
+- **Log détaillé** : Progression en temps réel du workflow et statut horaire du scheduler
 
 ### Lancement du scheduler
 
