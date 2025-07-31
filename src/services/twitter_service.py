@@ -295,8 +295,8 @@ class TwitterService:
         tweet_text = f"{base_text}\n\n{summary}{hashtags}"
         
         # Final safety check - max 200 chars total with smart truncation
-        if len(tweet_text) > 200:
-            available_space = 200 - len(base_text) - len(hashtags) - 4  # 4 for \n\n
+        if len(tweet_text) > 280:
+            available_space = 280 - len(base_text) - len(hashtags) - 4  # 4 for \n\n
             if available_space > 20:
                 truncated = summary[:available_space-3]
                 last_space = truncated.rfind(' ')

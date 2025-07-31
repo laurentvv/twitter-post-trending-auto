@@ -1,39 +1,50 @@
 {
   "repos": [
-    "https://github.com/dockur/windows",
-    "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/google-gemini/gemini-cli",
-    "https://github.com/2noise/ChatTTS",
-    "https://github.com/inkonchain/ink-kit",
-    "https://github.com/virattt/ai-hedge-fund",
     "https://github.com/browser-use/browser-use",
-    "https://github.com/xai-org/grok-1",
-    "https://github.com/karpathy/LLM101n",
+    "https://github.com/virattt/ai-hedge-fund",
     "https://github.com/docling-project/docling",
-    "https://github.com/shardeum/shardeum",
-    "https://github.com/All-Hands-AI/OpenHands",
-    "https://github.com/danielmiessler/Fabric",
-    "https://github.com/cline/cline",
-    "https://github.com/mendableai/firecrawl",
-    "https://github.com/zen-browser/desktop",
-    "https://github.com/inkonchain/docs",
-    "https://github.com/HeyPuter/puter",
-    "https://github.com/LadybirdBrowser/ladybird",
+    "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/linkwarden/linkwarden",
     "https://github.com/deepseek-ai/DeepSeek-V3",
-    "https://github.com/punkpeye/awesome-mcp-servers",
-    "https://github.com/DigitalPlatDev/FreeDomain",
-    "https://github.com/RVC-Boss/GPT-SoVITS",
-    "https://github.com/deepseek-ai/DeepSeek-R1",
-    "https://github.com/opendatalab/MinerU",
+    "https://github.com/Canner/WrenAI",
     "https://github.com/modelcontextprotocol/servers",
-    "https://github.com/unclecode/crawl4ai",
+    "https://github.com/rustdesk/rustdesk",
     "https://github.com/9001/copyparty",
-    "https://github.com/harry0703/MoneyPrinterTurbo",
+    "https://github.com/punkpeye/awesome-mcp-servers",
+    "https://github.com/inkonchain/docs",
+    "https://github.com/karpathy/LLM101n",
+    "https://github.com/fastrepl/hyprnote",
+    "https://github.com/zen-browser/desktop",
+    "https://github.com/NemProject/nem",
+    "https://github.com/xai-org/grok-1",
     "https://github.com/microsoft/markitdown",
-    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
     "https://github.com/inkonchain/node",
     "https://github.com/FoundationAgents/OpenManus",
-    "https://github.com/microsoft/ai-agents-for-beginners"
+    "https://github.com/stenzek/duckstation",
+    "https://github.com/pointfreeco/swift-composable-architecture",
+    "https://github.com/danielmiessler/Fabric",
+    "https://github.com/harry0703/MoneyPrinterTurbo",
+    "https://github.com/All-Hands-AI/OpenHands",
+    "https://github.com/cline/cline",
+    "https://github.com/2noise/ChatTTS",
+    "https://github.com/shardeum/shardeum",
+    "https://github.com/Shubhamsaboo/awesome-llm-apps",
+    "https://github.com/dockur/windows",
+    "https://github.com/deepseek-ai/DeepSeek-R1",
+    "https://github.com/RVC-Boss/GPT-SoVITS",
+    "https://github.com/puppeteer/puppeteer",
+    "https://github.com/unclecode/crawl4ai",
+    "https://github.com/EmenstaNougat/ESP32-BlueJammer",
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/cloudwego/eino",
+    "https://github.com/inkonchain/ink-kit",
+    "https://github.com/LadybirdBrowser/ladybird",
+    "https://github.com/microsoft/ai-agents-for-beginners",
+    "https://github.com/opendatalab/MinerU",
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+    "https://github.com/mendableai/firecrawl",
+    "https://github.com/OpenPipe/ART",
+    "https://github.com/HeyPuter/puter"
   ],
   "last_posts": {
     "https://github.com/DigitalPlatDev/FreeDomain": {
@@ -171,7 +182,51 @@
     "https://github.com/9001/copyparty": {
       "tweet_id": "1950962363097575492",
       "posted_at": "2025-07-31T18:50:41.563143"
+    },
+    "https://github.com/pointfreeco/swift-composable-architecture": {
+      "tweet_id": "1950969990754013628",
+      "posted_at": "2025-07-31T19:21:00.050510"
+    },
+    "https://github.com/linkwarden/linkwarden": {
+      "tweet_id": "1950977613704413269",
+      "posted_at": "2025-07-31T19:51:17.418227"
+    },
+    "https://github.com/Canner/WrenAI": {
+      "tweet_id": "1950985234482090085",
+      "posted_at": "2025-07-31T20:21:34.226771"
+    },
+    "https://github.com/EmenstaNougat/ESP32-BlueJammer": {
+      "tweet_id": "1950992864927797444",
+      "posted_at": "2025-07-31T20:51:53.407865"
+    },
+    "https://github.com/stenzek/duckstation": {
+      "tweet_id": "1951000759174308257",
+      "posted_at": "2025-07-31T21:23:23.624477"
+    },
+    "https://github.com/puppeteer/puppeteer": {
+      "tweet_id": "1951002226240979294",
+      "posted_at": "2025-07-31T21:29:13.373454"
+    },
+    "https://github.com/fastrepl/hyprnote": {
+      "tweet_id": "1951005262003019870",
+      "posted_at": "2025-07-31T21:41:25.382345"
+    },
+    "https://github.com/OpenPipe/ART": {
+      "tweet_id": "1951006693535453358",
+      "posted_at": "2025-07-31T21:47:06.659749"
+    },
+    "https://github.com/NemProject/nem": {
+      "tweet_id": "1951007512297349361",
+      "posted_at": "2025-07-31T21:50:22.006199"
+    },
+    "https://github.com/rustdesk/rustdesk": {
+      "tweet_id": "1951008400814514594",
+      "posted_at": "2025-07-31T21:53:53.678955"
+    },
+    "https://github.com/cloudwego/eino": {
+      "tweet_id": "1951009840018629007",
+      "posted_at": "2025-07-31T21:59:36.794293"
     }
   },
-  "updated_at": "2025-07-31T18:50:41.563147"
+  "updated_at": "2025-07-31T21:59:36.794297"
 }

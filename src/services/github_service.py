@@ -103,13 +103,22 @@ class GitHubService:
             
             for repo in soup.select("article.Box-row")[:limit]:
                 try:
-                    # Extract repository name
+                    # Extract repository name - CORRECTION COMPLÈTE ICI
                     name_elem = repo.select_one("h2 a")
                     if not name_elem:
                         continue
                     
-                    full_name = name_elem.text.strip().replace("\n", "").replace(" ", "")
-                    repo_url = "https://github.com" + name_elem["href"]
+                    # Extraire le href qui contient le chemin complet du dépôt
+                    href = name_elem.get('href', '')
+                    if not href:
+                        continue
+                    
+                    # Nettoyer le href pour obtenir le nom complet du dépôt
+                    full_name = href.strip('/')
+                    repo_url = "https://github.com" + href
+                    
+                    # Extraire le nom du dépôt (sans le propriétaire) pour la clé 'name'
+                    name = full_name.split('/')[-1] if '/' in full_name else full_name
                     
                     # Extract description
                     desc_elem = repo.select_one("p")
@@ -124,6 +133,7 @@ class GitHubService:
                     stars = self._parse_number(stars_elem.text.strip()) if stars_elem else 0
                     
                     repos.append({
+                        "name": name,  # Ajout de la clé 'name'
                         "full_name": full_name,
                         "description": description,
                         "language": language,
@@ -168,8 +178,10 @@ class GitHubService:
             repositories = []
             
             for repo in data.get("repositories", [])[:limit]:
+                full_name = repo["full_name"]
                 repositories.append({
-                    "full_name": repo["full_name"],
+                    "name": full_name.split('/')[-1],  # Ajout de la clé 'name'
+                    "full_name": full_name,
                     "description": repo.get("description", ""),
                     "language": repo.get("language", ""),
                     "stargazers_count": repo.get("stars", 0),
@@ -223,6 +235,7 @@ class GitHubService:
                     stars = self._parse_number(stars_elem.text.strip()) if stars_elem else 0
                     
                     repos.append({
+                        "name": full_name.split('/')[-1],  # Ajout de la clé 'name'
                         "full_name": full_name,
                         "description": "",  # Gitstar doesn't provide descriptions
                         "language": "",     # Gitstar doesn't provide language
