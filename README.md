@@ -4,8 +4,8 @@ Bot Twitter intelligent qui découvre automatiquement les dépôts GitHub trendi
 
 ## ✨ Fonctionnalités
 
-- 🔥 **Détection automatique** des dépôts GitHub trending
-- 🤖 **Résumés IA** multi-provider (Gemini → OpenRouter → Mistral → Ollama) avec fallback automatique
+- 🌐 **Détection multi-source** des dépôts GitHub trending (API, Scraping, LibHunt, Gitstar Ranking) avec fallback automatique
+- 🤖 **Résumés IA** multi-provider (Gemini → OpenRouter → Mistral → Ollama)
 - 📸 **Screenshots automatiques** centrés sur le README avec retry 3x
 - ✅ **Validation & Correction IA** : Les tweets sont validés et corrigés par l'IA avant publication pour une qualité optimale.
 - 🐦 **Publication Twitter** avec thread de réponse, OAuth 1.0a et retry 3x
@@ -95,7 +95,7 @@ python -m src.main
 
 Le bot exécute automatiquement :
 
-1. **📊 Récupération** des 20 dépôts GitHub trending
+1. **📊 Récupération multi-source** des dépôts GitHub trending (API, scraping, etc.) avec fallback
 2. **🔍 Filtrage** des dépôts non encore postés
 3. **📸 Capture** d'écran du README
 4. **🤖 Génération** du contenu du tweet en français (multi-provider, fallback automatique)
@@ -271,7 +271,7 @@ Logs JSON structurés dans `logs/app.log` :
 
 - ✅ **Retry 3x** sur tous les services (IA, GitHub, Twitter, Firefox)
 - ✅ **Rate limit handling** automatique avec fallback Firefox
-- ✅ **Fallbacks** multi-niveaux : IA (Gemini → OpenRouter → Mistral → Ollama) + Firefox
+- ✅ **Fallbacks** multi-niveaux : Sources de données (API → Scraping → LibHunt...) + IA (Gemini → OpenRouter → ...) + Publication (API → Firefox)
 - ✅ **Scheduler stable** avec progression détaillée et affichage du prochain créneau
 - ✅ **Anti-doublons** avec historique persistant (nettoyage automatique 7 jours)
 - ✅ **Logs détaillés** : Provider IA utilisé, durée, statut, erreurs (si any)

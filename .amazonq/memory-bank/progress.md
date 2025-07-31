@@ -1,7 +1,7 @@
 # Progress Tracking
 
 ## What's Working ✅
-- ✅ **GitHub API** : Récupération des 20 dépôts trending avec retry 3x
+- ✅ **GitHub Multi-Source** : Récupération des dépôts trending via API, scraping, LibHunt et Gitstar Ranking avec fallback automatique.
 - ✅ **Screenshots** : Capture Playwright avec retry 3x et positionnement optimal
 - ✅ **IA Multi-Provider** : Système de fallback Gemini→OpenRouter→Mistral→Ollama
 - ✅ **Validation & Correction IA** : Tweets validés et corrigés par l'IA avant publication.
@@ -15,7 +15,7 @@
 - ✅ **Robustesse maximale** : Retry 3x sur TOUS les services + fallback IA + fallback Firefox
 
 ## What's Built 🏗️
-- **Core Services** : GitHub, AI Multi-Provider, Screenshot, Twitter, History, Firefox Fallback
+- **Core Services** : GitHub (multi-source), AI Multi-Provider, Screenshot, Twitter, History, Firefox Fallback
 - **IA Providers** : Gemini (principal), OpenRouter (backup), Mistral (backup), Ollama (local)
 - **Workflow complet** : De la détection à la publication, incluant la validation et correction IA des tweets.
 - **Gestion d'erreurs** : Recovery et fallbacks sur tous les services

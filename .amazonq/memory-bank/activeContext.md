@@ -13,7 +13,7 @@ Le bot Twitter GitHub est maintenant configuré avec un **scheduler toutes les 3
 
 ## Avantages du Nouveau Système
 - 🛡️ **Ultra-robuste** : Fallback automatique, multi-provider IA, retry 3x
-- ⏰ **Flexible** : Plage horaire large, fréquence ajustable
+- 🌐 **Sources de données multiples** : Détection des tendances via API GitHub, scraping, LibHunt, etc. pour une couverture maximale.
 - 🚫 **Anti-rate limit** : Fallback Firefox si quota ou erreur API
 - 🔄 **Sustainable** : Peut tourner indéfiniment sans intervention
 
@@ -23,7 +23,7 @@ Le bot Twitter GitHub est maintenant configuré avec un **scheduler toutes les 3
 - ✅ **Ollama Local** : Dernier recours (qwen3:14b)
 
 ## Fonctionnalités Finales
-- ✅ **GitHub Trending** : Récupération automatique des dépôts populaires
+- ✅ **GitHub Trending Multi-Source** : Récupération automatique des dépôts via API, scraping et autres sources avec fallback.
 - ✅ **Screenshots** : Capture d'écran centrée sur README
 - ✅ **IA Multi-Provider** : Fallback automatique pour résumés français
 - ✅ **Validation & Correction IA** : Qualité des tweets assurée par une passe de validation et correction par l'IA.
