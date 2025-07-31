@@ -44,8 +44,33 @@ async def process_trending_repository():
             unposted_repos = history_service.get_unposted_repos(repositories)
             
             if not unposted_repos:
-                logger.error("No new repositories to post", **log_step("workflow_error"))
-                return
+                logger.warning("Still no new repositories after clearing history, trying next fallback methods")
+                # Essayer explicitement chaque méthode de fallback
+                fallback_methods = [
+                    ("GitHub scraping", github_service.scrape_github_trending_fallback),
+                    ("LibHunt API", github_service.fetch_libhunt_trending),
+                    ("Gitstar Ranking", github_service.fetch_gitstar_ranking)
+                ]
+                
+                for method_name, method in fallback_methods:
+                    logger.info(f"Trying fallback method: {method_name}", **log_step("fallback_attempt", method=method_name))
+                    try:
+                        fallback_repos = method(limit=20)
+                        if fallback_repos:
+                            unposted_repos = history_service.get_unposted_repos(fallback_repos)
+                            if unposted_repos:
+                                logger.info(f"Found {len(unposted_repos)} unposted repositories from {method_name}")
+                                break
+                            else:
+                                logger.info(f"All repositories from {method_name} are already posted")
+                        else:
+                            logger.warning(f"Fallback method {method_name} returned no repositories")
+                    except Exception as e:
+                        logger.error(f"Error with fallback method {method_name}: {str(e)}")
+                
+                if not unposted_repos:
+                    logger.error("No new repositories to post from any source", **log_step("workflow_error"))
+                    return
         
         # Select random unposted repository
         repo = random.choice(unposted_repos)

@@ -1,27 +1,39 @@
 {
   "repos": [
-    "https://github.com/browser-use/browser-use",
-    "https://github.com/RVC-Boss/GPT-SoVITS",
-    "https://github.com/inkonchain/ink-kit",
-    "https://github.com/microsoft/markitdown",
-    "https://github.com/zen-browser/desktop",
+    "https://github.com/dockur/windows",
     "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
-    "https://github.com/unclecode/crawl4ai",
     "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/2noise/ChatTTS",
+    "https://github.com/inkonchain/ink-kit",
+    "https://github.com/virattt/ai-hedge-fund",
+    "https://github.com/browser-use/browser-use",
     "https://github.com/xai-org/grok-1",
-    "https://github.com/mendableai/firecrawl",
+    "https://github.com/karpathy/LLM101n",
+    "https://github.com/docling-project/docling",
+    "https://github.com/shardeum/shardeum",
     "https://github.com/All-Hands-AI/OpenHands",
+    "https://github.com/danielmiessler/Fabric",
+    "https://github.com/cline/cline",
+    "https://github.com/mendableai/firecrawl",
+    "https://github.com/zen-browser/desktop",
+    "https://github.com/inkonchain/docs",
+    "https://github.com/HeyPuter/puter",
+    "https://github.com/LadybirdBrowser/ladybird",
+    "https://github.com/deepseek-ai/DeepSeek-V3",
+    "https://github.com/punkpeye/awesome-mcp-servers",
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/RVC-Boss/GPT-SoVITS",
+    "https://github.com/deepseek-ai/DeepSeek-R1",
     "https://github.com/opendatalab/MinerU",
     "https://github.com/modelcontextprotocol/servers",
-    "https://github.com/2noise/ChatTTS",
-    "https://github.com/HeyPuter/puter",
+    "https://github.com/unclecode/crawl4ai",
+    "https://github.com/9001/copyparty",
     "https://github.com/harry0703/MoneyPrinterTurbo",
-    "https://github.com/karpathy/LLM101n",
-    "https://github.com/DigitalPlatDev/FreeDomain",
-    "https://github.com/punkpeye/awesome-mcp-servers",
+    "https://github.com/microsoft/markitdown",
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+    "https://github.com/inkonchain/node",
     "https://github.com/FoundationAgents/OpenManus",
-    "https://github.com/shardeum/shardeum"
+    "https://github.com/microsoft/ai-agents-for-beginners"
   ],
   "last_posts": {
     "https://github.com/DigitalPlatDev/FreeDomain": {
@@ -111,7 +123,55 @@
     "https://github.com/karpathy/LLM101n": {
       "tweet_id": "1950690505672532331",
       "posted_at": "2025-07-31T00:50:34.203849"
+    },
+    "https://github.com/cline/cline": {
+      "tweet_id": "1950863872035782842",
+      "posted_at": "2025-07-31T12:19:28.401204"
+    },
+    "https://github.com/virattt/ai-hedge-fund": {
+      "tweet_id": "1950871509708189773",
+      "posted_at": "2025-07-31T12:49:49.344029"
+    },
+    "https://github.com/deepseek-ai/DeepSeek-R1": {
+      "tweet_id": "1950879380818874766",
+      "posted_at": "2025-07-31T13:21:05.841898"
+    },
+    "https://github.com/inkonchain/node": {
+      "tweet_id": "1950887253674213529",
+      "posted_at": "2025-07-31T13:52:22.865548"
+    },
+    "https://github.com/danielmiessler/Fabric": {
+      "tweet_id": "1950895125829239111",
+      "posted_at": "2025-07-31T14:23:39.699097"
+    },
+    "https://github.com/dockur/windows": {
+      "tweet_id": "1950903046390603813",
+      "posted_at": "2025-07-31T14:55:08.264644"
+    },
+    "https://github.com/inkonchain/docs": {
+      "tweet_id": "1950910988598853643",
+      "posted_at": "2025-07-31T15:26:41.770573"
+    },
+    "https://github.com/docling-project/docling": {
+      "tweet_id": "1950918773164089505",
+      "posted_at": "2025-07-31T15:57:29.271818"
+    },
+    "https://github.com/LadybirdBrowser/ladybird": {
+      "tweet_id": "1950924730157978090",
+      "posted_at": "2025-07-31T16:21:09.522110"
+    },
+    "https://github.com/microsoft/ai-agents-for-beginners": {
+      "tweet_id": "1950932401451859972",
+      "posted_at": "2025-07-31T16:51:38.369285"
+    },
+    "https://github.com/deepseek-ai/DeepSeek-V3": {
+      "tweet_id": "1950940021277528370",
+      "posted_at": "2025-07-31T17:21:55.009892"
+    },
+    "https://github.com/9001/copyparty": {
+      "tweet_id": "1950962363097575492",
+      "posted_at": "2025-07-31T18:50:41.563143"
     }
   },
-  "updated_at": "2025-07-31T00:50:34.203855"
+  "updated_at": "2025-07-31T18:50:41.563147"
 }
