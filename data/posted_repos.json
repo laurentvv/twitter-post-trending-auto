@@ -1,55 +1,68 @@
 {
   "repos": [
-    "https://github.com/rustdesk/rustdesk",
-    "https://github.com/linkwarden/linkwarden",
-    "https://github.com/zen-browser/desktop",
-    "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/mendableai/firecrawl",
-    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
-    "https://github.com/browser-use/browser-use",
-    "https://github.com/unclecode/crawl4ai",
-    "https://github.com/inkonchain/ink-kit",
-    "https://github.com/deepseek-ai/DeepSeek-V3",
-    "https://github.com/virattt/ai-hedge-fund",
-    "https://github.com/NemProject/nem",
-    "https://github.com/cloudwego/eino",
-    "https://github.com/OpenPipe/ART",
-    "https://github.com/opendatalab/MinerU",
-    "https://github.com/harry0703/MoneyPrinterTurbo",
-    "https://github.com/SkyworkAI/SkyReels-V2",
-    "https://github.com/Canner/WrenAI",
-    "https://github.com/fastrepl/hyprnote",
-    "https://github.com/deepseek-ai/awesome-deepseek-integration",
-    "https://github.com/dockur/windows",
-    "https://github.com/deepseek-ai/DeepSeek-R1",
-    "https://github.com/pointfreeco/swift-composable-architecture",
-    "https://github.com/ashishpatel26/500-AI-Agents-Projects",
-    "https://github.com/stenzek/duckstation",
-    "https://github.com/cline/cline",
-    "https://github.com/danielmiessler/Fabric",
-    "https://github.com/HeyPuter/puter",
-    "https://github.com/docling-project/docling",
-    "https://github.com/karpathy/LLM101n",
-    "https://github.com/2noise/ChatTTS",
-    "https://github.com/xai-org/grok-1",
-    "https://github.com/modelcontextprotocol/servers",
-    "https://github.com/9001/copyparty",
-    "https://github.com/LadybirdBrowser/ladybird",
-    "https://github.com/DigitalPlatDev/FreeDomain",
     "https://github.com/shardeum/shardeum",
-    "https://github.com/EmenstaNougat/ESP32-BlueJammer",
-    "https://github.com/microsoft/ai-agents-for-beginners",
-    "https://github.com/FoundationAgents/OpenManus",
-    "https://github.com/inkonchain/docs",
-    "https://github.com/RVC-Boss/GPT-SoVITS",
-    "https://github.com/punkpeye/awesome-mcp-servers",
-    "https://github.com/Arcenox-co/TickerQ",
-    "https://github.com/All-Hands-AI/OpenHands",
+    "https://github.com/kubesphere/kubesphere",
+    "https://github.com/devlikeapro/waha",
+    "https://github.com/TideDra/zotero-arxiv-daily",
     "https://github.com/puppeteer/puppeteer",
+    "https://github.com/deepseek-ai/DeepSeek-V3",
     "https://github.com/inkonchain/node",
+    "https://github.com/zouzhekang/YJYpaper",
+    "https://github.com/LadybirdBrowser/ladybird",
+    "https://github.com/rustdesk/rustdesk",
+    "https://github.com/LibreSpark/LibreTV",
+    "https://github.com/EmenstaNougat/ESP32-BlueJammer",
+    "https://github.com/zen-browser/desktop",
+    "https://github.com/playcanvas/editor",
+    "https://github.com/RVC-Boss/GPT-SoVITS",
+    "https://github.com/linkwarden/linkwarden",
+    "https://github.com/kijai/ComfyUI-WanVideoWrapper",
+    "https://github.com/cline/cline",
+    "https://github.com/NemProject/nem",
+    "https://github.com/SkyworkAI/SkyReels-V2",
+    "https://github.com/fastrepl/hyprnote",
+    "https://github.com/mendableai/firecrawl",
+    "https://github.com/HeyPuter/puter",
+    "https://github.com/mcp-use/mcp-use",
+    "https://github.com/Arcenox-co/TickerQ",
+    "https://github.com/cloudwego/eino",
+    "https://github.com/ashishpatel26/500-AI-Agents-Projects",
+    "https://github.com/docling-project/docling",
+    "https://github.com/browser-use/browser-use",
+    "https://github.com/Shubhamsaboo/awesome-llm-apps",
+    "https://github.com/inkonchain/docs",
+    "https://github.com/9001/copyparty",
+    "https://github.com/TandoorRecipes/recipes",
+    "https://github.com/microsoft/ai-agents-for-beginners",
+    "https://github.com/harry0703/MoneyPrinterTurbo",
     "https://github.com/microsoft/markitdown",
+    "https://github.com/deepseek-ai/awesome-deepseek-integration",
+    "https://github.com/punkpeye/awesome-mcp-servers",
+    "https://github.com/opendatalab/MinerU",
+    "https://github.com/stenzek/duckstation",
+    "https://github.com/unclecode/crawl4ai",
+    "https://github.com/danielmiessler/Fabric",
+    "https://github.com/senshinya/MoonTV",
+    "https://github.com/modelcontextprotocol/servers",
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/All-Hands-AI/OpenHands",
+    "https://github.com/deepseek-ai/DeepSeek-R1",
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+    "https://github.com/Canner/WrenAI",
+    "https://github.com/eclipse-sumo/sumo",
     "https://github.com/google-gemini/gemini-cli",
-    "https://github.com/kijai/ComfyUI-WanVideoWrapper"
+    "https://github.com/inkonchain/ink-kit",
+    "https://github.com/Huanshere/VideoLingo",
+    "https://github.com/2noise/ChatTTS",
+    "https://github.com/OpenPipe/ART",
+    "https://github.com/virattt/ai-hedge-fund",
+    "https://github.com/FoundationAgents/OpenManus",
+    "https://github.com/pointfreeco/swift-composable-architecture",
+    "https://github.com/dyad-sh/dyad",
+    "https://github.com/dockur/windows",
+    "https://github.com/yeongpin/cursor-free-vip",
+    "https://github.com/karpathy/LLM101n",
+    "https://github.com/xai-org/grok-1"
   ],
   "last_posts": {
     "https://github.com/DigitalPlatDev/FreeDomain": {
@@ -251,7 +264,59 @@
     "https://github.com/Arcenox-co/TickerQ": {
       "tweet_id": "1951062856746582426",
       "posted_at": "2025-08-01T01:30:16.443287"
+    },
+    "https://github.com/senshinya/MoonTV": {
+      "tweet_id": "1951214136379035664",
+      "posted_at": "2025-08-01T11:31:25.151517"
+    },
+    "https://github.com/zouzhekang/YJYpaper": {
+      "tweet_id": "1951222796173840691",
+      "posted_at": "2025-08-01T12:05:49.850090"
+    },
+    "https://github.com/LibreSpark/LibreTV": {
+      "tweet_id": "1951230434093764842",
+      "posted_at": "2025-08-01T12:36:10.806688"
+    },
+    "https://github.com/TideDra/zotero-arxiv-daily": {
+      "tweet_id": "1951238331544514970",
+      "posted_at": "2025-08-01T13:07:33.580263"
+    },
+    "https://github.com/eclipse-sumo/sumo": {
+      "tweet_id": "1951246206010560813",
+      "posted_at": "2025-08-01T13:38:50.893085"
+    },
+    "https://github.com/yeongpin/cursor-free-vip": {
+      "tweet_id": "1951254086784889205",
+      "posted_at": "2025-08-01T14:10:09.743487"
+    },
+    "https://github.com/playcanvas/editor": {
+      "tweet_id": "1951261967299018941",
+      "posted_at": "2025-08-01T14:41:28.525195"
+    },
+    "https://github.com/Huanshere/VideoLingo": {
+      "tweet_id": "1951269849285431403",
+      "posted_at": "2025-08-01T15:12:47.706293"
+    },
+    "https://github.com/devlikeapro/waha": {
+      "tweet_id": "1951277730755981410",
+      "posted_at": "2025-08-01T15:44:06.689338"
+    },
+    "https://github.com/dyad-sh/dyad": {
+      "tweet_id": "1951285513333113309",
+      "posted_at": "2025-08-01T16:14:53.978337"
+    },
+    "https://github.com/TandoorRecipes/recipes": {
+      "tweet_id": "1951293135947985232",
+      "posted_at": "2025-08-01T16:45:11.267501"
+    },
+    "https://github.com/kubesphere/kubesphere": {
+      "tweet_id": "1951300760840315212",
+      "posted_at": "2025-08-01T17:15:29.146778"
+    },
+    "https://github.com/mcp-use/mcp-use": {
+      "tweet_id": "1951308391734739346",
+      "posted_at": "2025-08-01T17:45:48.575077"
     }
   },
-  "updated_at": "2025-08-01T01:30:16.443292"
+  "updated_at": "2025-08-01T17:45:48.575094"
 }
