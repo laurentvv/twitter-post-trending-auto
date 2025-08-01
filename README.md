@@ -306,5 +306,3 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ⭐ **N'hésitez pas à star le projet si il vous a été utile !**
 ```
-
-amazonq\memory-bank\activeContext.md
