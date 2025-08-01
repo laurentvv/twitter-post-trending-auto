@@ -28,7 +28,7 @@ Bot Twitter intelligent qui découvre automatiquement les dépôts GitHub trendi
 
 ```bash
 # Cloner le projet
-git clone https://github.com/votre-username/twitter-post-trending-auto.git
+git clone https://github.com/laurentvv/twitter-post-trending-auto.git
 cd twitter-post-trending-auto
 
 # Installer les dépendances
