@@ -4,15 +4,15 @@
 Automated Twitter bot that discovers trending GitHub repositories, generates AI-powered summaries, captures screenshots, and publishes engaging tweets to promote open-source projects.
 
 ## Key Requirements
-1. **GitHub Integration**: Fetch trending repositories via GitHub API
-2. **AI Summarization**: Use multi-provider (Gemini, OpenRouter, Mistral, Ollama) for intelligent content generation.
-3. **AI Quality Control**: Validate and correct generated tweets using AI to ensure high quality and relevance.
-4. **Screenshot Automation**: Capture repository pages with Playwright
-5. **Twitter Publishing**: Post tweets with Twitter API v2 (OAuth 1.0a)
-6. **Scheduling**: Automated posting every 30 minutes, 09h00–00h00
-7. **Modern Architecture**: Async/await, structured logging, type safety
-8. **Fallback Firefox**: Selenium automation as backup if API fails or rate limited
-9. **Data Source Robustness**: Implement multiple fallback strategies (e.g., scraping, alternative APIs) for discovering trending repositories to ensure continuous operation even if the primary GitHub API source is unavailable or exhausted.
+1. **GitHub Integration**: Fetch trending repositories via GitHub API.
+2. **AI Summarization**: Use a multi-provider system (Gemini → OpenRouter → Mistral → Ollama) for robust content generation.
+3. **AI Quality Control**: Implement an AI-driven validation and correction loop. Generated tweets are validated by a separate AI call for quality and coherence. If issues are found, another AI call attempts to correct them before publication.
+4. **Screenshot Automation**: Capture repository pages using Playwright.
+5. **Twitter Publishing**: Post tweets with Twitter API v2 (OAuth 1.0a) and a robust Firefox fallback.
+6. **Adaptive Scheduling**: Automated posting with an adaptive interval. Starts at 30 minutes and automatically increases to 60, 90, or 120 minutes if rate limits are detected. Active from 09h00 to 01h00.
+7. **Modern Architecture**: Async/await, structured logging, and type safety.
+8. **Intelligent Fallback**: Use Firefox automation as a backup if the Twitter API fails or is rate-limited. The scheduler can prioritize Firefox based on recent rate limit history.
+9. **Data Source Robustness**: Implement multiple fallback strategies (GitHub API, direct scraping, OSS Insight API, and Gitstar Ranking) for discovering trending repositories, ensuring continuous operation.
 
 ## Success Criteria
 - Generate engaging tweets that drive GitHub repository discovery
@@ -33,13 +33,14 @@ Automated Twitter bot that discovers trending GitHub repositories, generates AI-
 ## Current Status
 ✅ Modern architecture implemented (src/)
 ✅ Configuration management with Pydantic
-✅ Structured logging with JSON output
-✅ Twitter service with API v2 + fallback Firefox
+✅ Structured JSON logging for observability
+✅ Twitter service with API v2 + intelligent Firefox fallback
 ✅ Screenshot service with Playwright
-✅ AI-powered tweet validation and correction.
-✅ GitHub service (multi-source: API, scraping, LibHunt) and AI service (multi-provider).
+✅ AI-powered tweet validation and correction loop
+✅ GitHub service (multi-source: API, scraping, OSS Insight API, Gitstar Ranking)
+✅ AI service (multi-provider: Gemini, OpenRouter, Mistral, Ollama)
 ✅ Full integration testing
-✅ Scheduler toutes les 30 minutes, 09h00–00h00
-✅ Fallback Firefox instancié uniquement si nécessaire
+✅ Adaptive scheduler (30-120 min) running from 09h00-01h00
+✅ Firefox fallback instantiated only when needed or prioritized by scheduler
 
 **The bot is now production-ready, robust, and can run indefinitely with automatic fallback and multi-provider AI!**
