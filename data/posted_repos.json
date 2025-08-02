@@ -1,68 +1,83 @@
 {
   "repos": [
-    "https://github.com/shardeum/shardeum",
-    "https://github.com/kubesphere/kubesphere",
-    "https://github.com/devlikeapro/waha",
-    "https://github.com/TideDra/zotero-arxiv-daily",
-    "https://github.com/puppeteer/puppeteer",
-    "https://github.com/deepseek-ai/DeepSeek-V3",
-    "https://github.com/inkonchain/node",
-    "https://github.com/zouzhekang/YJYpaper",
-    "https://github.com/LadybirdBrowser/ladybird",
-    "https://github.com/rustdesk/rustdesk",
-    "https://github.com/LibreSpark/LibreTV",
-    "https://github.com/EmenstaNougat/ESP32-BlueJammer",
-    "https://github.com/zen-browser/desktop",
-    "https://github.com/playcanvas/editor",
-    "https://github.com/RVC-Boss/GPT-SoVITS",
-    "https://github.com/linkwarden/linkwarden",
-    "https://github.com/kijai/ComfyUI-WanVideoWrapper",
-    "https://github.com/cline/cline",
-    "https://github.com/NemProject/nem",
-    "https://github.com/SkyworkAI/SkyReels-V2",
-    "https://github.com/fastrepl/hyprnote",
-    "https://github.com/mendableai/firecrawl",
-    "https://github.com/HeyPuter/puter",
-    "https://github.com/mcp-use/mcp-use",
-    "https://github.com/Arcenox-co/TickerQ",
-    "https://github.com/cloudwego/eino",
-    "https://github.com/ashishpatel26/500-AI-Agents-Projects",
-    "https://github.com/docling-project/docling",
-    "https://github.com/browser-use/browser-use",
-    "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/inkonchain/docs",
-    "https://github.com/9001/copyparty",
-    "https://github.com/TandoorRecipes/recipes",
-    "https://github.com/microsoft/ai-agents-for-beginners",
-    "https://github.com/harry0703/MoneyPrinterTurbo",
-    "https://github.com/microsoft/markitdown",
-    "https://github.com/deepseek-ai/awesome-deepseek-integration",
-    "https://github.com/punkpeye/awesome-mcp-servers",
-    "https://github.com/opendatalab/MinerU",
-    "https://github.com/stenzek/duckstation",
     "https://github.com/unclecode/crawl4ai",
-    "https://github.com/danielmiessler/Fabric",
-    "https://github.com/senshinya/MoonTV",
-    "https://github.com/modelcontextprotocol/servers",
-    "https://github.com/DigitalPlatDev/FreeDomain",
-    "https://github.com/All-Hands-AI/OpenHands",
     "https://github.com/deepseek-ai/DeepSeek-R1",
-    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
-    "https://github.com/Canner/WrenAI",
-    "https://github.com/eclipse-sumo/sumo",
-    "https://github.com/google-gemini/gemini-cli",
-    "https://github.com/inkonchain/ink-kit",
-    "https://github.com/Huanshere/VideoLingo",
-    "https://github.com/2noise/ChatTTS",
-    "https://github.com/OpenPipe/ART",
-    "https://github.com/virattt/ai-hedge-fund",
-    "https://github.com/FoundationAgents/OpenManus",
-    "https://github.com/pointfreeco/swift-composable-architecture",
-    "https://github.com/dyad-sh/dyad",
-    "https://github.com/dockur/windows",
-    "https://github.com/yeongpin/cursor-free-vip",
     "https://github.com/karpathy/LLM101n",
-    "https://github.com/xai-org/grok-1"
+    "https://github.com/mendableai/firecrawl",
+    "https://github.com/CursorTouch/Windows-MCP",
+    "https://github.com/Shubhamsaboo/awesome-llm-apps",
+    "https://github.com/TandoorRecipes/recipes",
+    "https://github.com/bepass-org/oblivion-desktop",
+    "https://github.com/OpenPipe/ART",
+    "https://github.com/browser-use/browser-use",
+    "https://github.com/dyad-sh/dyad",
+    "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/Huanshere/VideoLingo",
+    "https://github.com/inkonchain/node",
+    "https://github.com/deepseek-ai/DeepSeek-V3",
+    "https://github.com/Canner/WrenAI",
+    "https://github.com/kubesphere/kubesphere",
+    "https://github.com/yeongpin/cursor-free-vip",
+    "https://github.com/inkonchain/ink-kit",
+    "https://github.com/LadybirdBrowser/ladybird",
+    "https://github.com/inkonchain/docs",
+    "https://github.com/microsoft/ai-agents-for-beginners",
+    "https://github.com/fastrepl/hyprnote",
+    "https://github.com/danielmiessler/Fabric",
+    "https://github.com/xai-org/grok-1",
+    "https://github.com/jd-opensource/joyagent-jdgenie",
+    "https://github.com/stenzek/duckstation",
+    "https://github.com/cline/cline",
+    "https://github.com/devlikeapro/waha",
+    "https://github.com/playcanvas/editor",
+    "https://github.com/openai/codex",
+    "https://github.com/linkwarden/linkwarden",
+    "https://github.com/glanceapp/glance",
+    "https://github.com/coze-dev/coze-studio",
+    "https://github.com/virattt/ai-hedge-fund",
+    "https://github.com/sst/opentui",
+    "https://github.com/LibreSpark/LibreTV",
+    "https://github.com/NemProject/nem",
+    "https://github.com/PatrickJS/awesome-cursorrules",
+    "https://github.com/eclipse-sumo/sumo",
+    "https://github.com/pointfreeco/swift-composable-architecture",
+    "https://github.com/SkyworkAI/SkyReels-V2",
+    "https://github.com/modelcontextprotocol/servers",
+    "https://github.com/HeyPuter/puter",
+    "https://github.com/LuckyOne7777/ChatGPT-Micro-Cap-Experiment",
+    "https://github.com/FoundationAgents/OpenManus",
+    "https://github.com/9001/copyparty",
+    "https://github.com/TideDra/zotero-arxiv-daily",
+    "https://github.com/senshinya/MoonTV",
+    "https://github.com/microsoft/markitdown",
+    "https://github.com/opendatalab/MinerU",
+    "https://github.com/shardeum/shardeum",
+    "https://github.com/EmenstaNougat/ESP32-BlueJammer",
+    "https://github.com/QwenLM/qwen-code",
+    "https://github.com/docling-project/docling",
+    "https://github.com/harry0703/MoneyPrinterTurbo",
+    "https://github.com/contains-studio/agents",
+    "https://github.com/kijai/ComfyUI-WanVideoWrapper",
+    "https://github.com/zen-browser/desktop",
+    "https://github.com/puppeteer/puppeteer",
+    "https://github.com/2noise/ChatTTS",
+    "https://github.com/RVC-Boss/GPT-SoVITS",
+    "https://github.com/Arcenox-co/TickerQ",
+    "https://github.com/ashishpatel26/500-AI-Agents-Projects",
+    "https://github.com/deepseek-ai/awesome-deepseek-integration",
+    "https://github.com/charmbracelet/crush",
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+    "https://github.com/sansan0/TrendRadar",
+    "https://github.com/All-Hands-AI/OpenHands",
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/punkpeye/awesome-mcp-servers",
+    "https://github.com/zouzhekang/YJYpaper",
+    "https://github.com/dockur/windows",
+    "https://github.com/CherryHQ/cherry-studio",
+    "https://github.com/rustdesk/rustdesk",
+    "https://github.com/fenggeliaoai/cozeworkflows",
+    "https://github.com/cloudwego/eino",
+    "https://github.com/mcp-use/mcp-use"
   ],
   "last_posts": {
     "https://github.com/DigitalPlatDev/FreeDomain": {
@@ -316,7 +331,67 @@
     "https://github.com/mcp-use/mcp-use": {
       "tweet_id": "1951308391734739346",
       "posted_at": "2025-08-01T17:45:48.575077"
+    },
+    "https://github.com/glanceapp/glance": {
+      "tweet_id": "1951316009261875520",
+      "posted_at": "2025-08-01T18:16:04.489798"
+    },
+    "https://github.com/sansan0/TrendRadar": {
+      "tweet_id": "1951323633663492478",
+      "posted_at": "2025-08-01T18:46:22.240301"
+    },
+    "https://github.com/PatrickJS/awesome-cursorrules": {
+      "tweet_id": "1951331249781449180",
+      "posted_at": "2025-08-01T19:16:37.995745"
+    },
+    "https://github.com/fenggeliaoai/cozeworkflows": {
+      "tweet_id": "1951338876502511848",
+      "posted_at": "2025-08-01T19:46:56.286505"
+    },
+    "https://github.com/openai/codex": {
+      "tweet_id": "1951346542809367005",
+      "posted_at": "2025-08-01T20:17:24.001680"
+    },
+    "https://github.com/CherryHQ/cherry-studio": {
+      "tweet_id": "1951354461500350558",
+      "posted_at": "2025-08-01T20:49:00.009559"
+    },
+    "https://github.com/jd-opensource/joyagent-jdgenie": {
+      "tweet_id": "1951362377070555611",
+      "posted_at": "2025-08-01T21:20:26.885494"
+    },
+    "https://github.com/coze-dev/coze-studio": {
+      "tweet_id": "1951370284734488911",
+      "posted_at": "2025-08-01T21:51:52.325526"
+    },
+    "https://github.com/bepass-org/oblivion-desktop": {
+      "tweet_id": "1951378210924753215",
+      "posted_at": "2025-08-01T22:23:22.050082"
+    },
+    "https://github.com/LuckyOne7777/ChatGPT-Micro-Cap-Experiment": {
+      "tweet_id": "1951386131964002367",
+      "posted_at": "2025-08-01T22:54:50.900089"
+    },
+    "https://github.com/QwenLM/qwen-code": {
+      "tweet_id": "1951394085027143744",
+      "posted_at": "2025-08-01T23:26:26.794797"
+    },
+    "https://github.com/contains-studio/agents": {
+      "tweet_id": "1951402008348381272",
+      "posted_at": "2025-08-01T23:57:55.732346"
+    },
+    "https://github.com/sst/opentui": {
+      "tweet_id": "1951409918319133147",
+      "posted_at": "2025-08-02T00:29:21.386278"
+    },
+    "https://github.com/charmbracelet/crush": {
+      "tweet_id": "1951412956052271584",
+      "posted_at": "2025-08-02T00:41:25.617641"
+    },
+    "https://github.com/CursorTouch/Windows-MCP": {
+      "tweet_id": "1951567569929875603",
+      "posted_at": "2025-08-02T10:55:49.007785"
     }
   },
-  "updated_at": "2025-08-01T17:45:48.575094"
+  "updated_at": "2025-08-02T10:55:49.007792"
 }

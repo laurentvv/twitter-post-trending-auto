@@ -1,28 +1,28 @@
 # Progress Tracking
 
 ## What's Working ✅
-- ✅ **GitHub Multi-Source** : Récupération des dépôts via API, scraping, API OSS Insight et Gitstar Ranking avec fallback automatique.
-- ✅ **Screenshots** : Capture Playwright avec retry 3x et positionnement optimal.
-- ✅ **IA Multi-Provider** : Système de fallback robuste (Gemini→OpenRouter→Mistral→Ollama).
-- ✅ **Validation & Correction IA** : Boucle de validation et correction par l'IA pour garantir la qualité des tweets.
-- ✅ **Twitter Posting** : Publication complète avec OAuth 1.0a, retry, et fallback Firefox.
-- ✅ **Historique Intelligent** : Système anti-doublons avec nettoyage automatique après 7 jours.
-- ✅ **Architecture** : Services modulaires avec gestion d'erreurs complète.
-- ✅ **Logs Structurés** : Monitoring JSON détaillé pour l'observabilité.
-- ✅ **Configuration** : Gestion centralisée avec Pydantic et `.env`.
-- ✅ **Scheduler Adaptatif** : Automation avec intervalle adaptatif (30-120 min) de 09h00 à 01h00.
-- ✅ **Fallback Firefox Intelligent** : Automatique et peut être priorisé par le scheduler.
-- ✅ **Robustesse Maximale** : Retry 3x sur tous les services, fallback IA, et fallback de publication.
+- ✅ **GitHub Multi-Source** : Récupération des dépôts trending via API, scraping, LibHunt et Gitstar Ranking avec fallback automatique.
+- ✅ **Screenshots** : Capture Playwright avec retry 3x et positionnement optimal
+- ✅ **IA Multi-Provider** : Système de fallback Gemini→OpenRouter→Mistral→Ollama
+- ✅ **Validation & Correction IA** : Tweets validés et corrigés par l'IA avant publication.
+- ✅ **Twitter Posting** : Publication complète avec OAuth 1.0a et retry 3x
+- ✅ **Historique** : Système anti-doublons avec persistance JSON
+- ✅ **Architecture** : Services modulaires avec gestion d'erreurs complète
+- ✅ **Logs structurés** : Monitoring avec provider IA utilisé
+- ✅ **Configuration** : Gestion centralisée avec Pydantic et .env
+- ✅ **Scheduler optimisé** : Automation toutes les 30 minutes (09h00–00h00)
+- ✅ **Fallback Firefox** : Automatique, instancié uniquement si nécessaire
+- ✅ **Robustesse maximale** : Retry 3x sur TOUS les services + fallback IA + fallback Firefox
 
 ## What's Built 🏗️
 - **Core Services** : GitHub (multi-source), AI Multi-Provider, Screenshot, Twitter, History, Firefox Fallback
 - **IA Providers** : Gemini (principal), OpenRouter (backup), Mistral (backup), Ollama (local)
 - **Workflow complet** : De la détection à la publication, incluant la validation et correction IA des tweets.
 - **Gestion d'erreurs** : Recovery et fallbacks sur tous les services
-- **Documentation** : README professionnel et memory bank complet.
-- **Tests** : Validation de tous les providers IA et du fallback Firefox.
-- **Scheduler Adaptatif** : Exécution automatique avec intervalle adaptatif (30-120 min) et monitoring en temps réel.
-- **Rate Limits** : Gérés de manière proactive par le scheduler et le fallback Firefox.
+- **Documentation** : README professionnel et memory bank complet
+- **Tests** : Validation de tous les providers IA et du fallback Firefox
+- **Scheduler** : Exécution automatique toutes les 30 minutes, plage 09h00–00h00
+- **Rate limits** : Gérés par fallback Firefox, plus de boucle infinie
 
 ## Projet Finalisé avec IA Multi-Provider 🎯
 **Phase** : PRODUCTION READY + IA MULTI-PROVIDER + FIREFOX FALLBACK
