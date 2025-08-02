@@ -1,27 +1,397 @@
 {
   "repos": [
+    "https://github.com/unclecode/crawl4ai",
+    "https://github.com/deepseek-ai/DeepSeek-R1",
+    "https://github.com/karpathy/LLM101n",
+    "https://github.com/mendableai/firecrawl",
+    "https://github.com/CursorTouch/Windows-MCP",
     "https://github.com/Shubhamsaboo/awesome-llm-apps",
-    "https://github.com/2noise/ChatTTS",
+    "https://github.com/TandoorRecipes/recipes",
+    "https://github.com/bepass-org/oblivion-desktop",
+    "https://github.com/OpenPipe/ART",
+    "https://github.com/browser-use/browser-use",
+    "https://github.com/dyad-sh/dyad",
     "https://github.com/google-gemini/gemini-cli",
-    "https://github.com/browser-use/browser-use"
+    "https://github.com/Huanshere/VideoLingo",
+    "https://github.com/inkonchain/node",
+    "https://github.com/deepseek-ai/DeepSeek-V3",
+    "https://github.com/Canner/WrenAI",
+    "https://github.com/kubesphere/kubesphere",
+    "https://github.com/yeongpin/cursor-free-vip",
+    "https://github.com/inkonchain/ink-kit",
+    "https://github.com/LadybirdBrowser/ladybird",
+    "https://github.com/inkonchain/docs",
+    "https://github.com/microsoft/ai-agents-for-beginners",
+    "https://github.com/fastrepl/hyprnote",
+    "https://github.com/danielmiessler/Fabric",
+    "https://github.com/xai-org/grok-1",
+    "https://github.com/jd-opensource/joyagent-jdgenie",
+    "https://github.com/stenzek/duckstation",
+    "https://github.com/cline/cline",
+    "https://github.com/devlikeapro/waha",
+    "https://github.com/playcanvas/editor",
+    "https://github.com/openai/codex",
+    "https://github.com/linkwarden/linkwarden",
+    "https://github.com/glanceapp/glance",
+    "https://github.com/coze-dev/coze-studio",
+    "https://github.com/virattt/ai-hedge-fund",
+    "https://github.com/sst/opentui",
+    "https://github.com/LibreSpark/LibreTV",
+    "https://github.com/NemProject/nem",
+    "https://github.com/PatrickJS/awesome-cursorrules",
+    "https://github.com/eclipse-sumo/sumo",
+    "https://github.com/pointfreeco/swift-composable-architecture",
+    "https://github.com/SkyworkAI/SkyReels-V2",
+    "https://github.com/modelcontextprotocol/servers",
+    "https://github.com/HeyPuter/puter",
+    "https://github.com/LuckyOne7777/ChatGPT-Micro-Cap-Experiment",
+    "https://github.com/FoundationAgents/OpenManus",
+    "https://github.com/9001/copyparty",
+    "https://github.com/TideDra/zotero-arxiv-daily",
+    "https://github.com/senshinya/MoonTV",
+    "https://github.com/microsoft/markitdown",
+    "https://github.com/opendatalab/MinerU",
+    "https://github.com/shardeum/shardeum",
+    "https://github.com/EmenstaNougat/ESP32-BlueJammer",
+    "https://github.com/QwenLM/qwen-code",
+    "https://github.com/docling-project/docling",
+    "https://github.com/harry0703/MoneyPrinterTurbo",
+    "https://github.com/contains-studio/agents",
+    "https://github.com/kijai/ComfyUI-WanVideoWrapper",
+    "https://github.com/zen-browser/desktop",
+    "https://github.com/puppeteer/puppeteer",
+    "https://github.com/2noise/ChatTTS",
+    "https://github.com/RVC-Boss/GPT-SoVITS",
+    "https://github.com/Arcenox-co/TickerQ",
+    "https://github.com/ashishpatel26/500-AI-Agents-Projects",
+    "https://github.com/deepseek-ai/awesome-deepseek-integration",
+    "https://github.com/charmbracelet/crush",
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+    "https://github.com/sansan0/TrendRadar",
+    "https://github.com/All-Hands-AI/OpenHands",
+    "https://github.com/DigitalPlatDev/FreeDomain",
+    "https://github.com/punkpeye/awesome-mcp-servers",
+    "https://github.com/zouzhekang/YJYpaper",
+    "https://github.com/dockur/windows",
+    "https://github.com/CherryHQ/cherry-studio",
+    "https://github.com/rustdesk/rustdesk",
+    "https://github.com/fenggeliaoai/cozeworkflows",
+    "https://github.com/cloudwego/eino",
+    "https://github.com/mcp-use/mcp-use"
   ],
   "last_posts": {
-    "https://github.com/Shubhamsaboo/awesome-llm-apps": {
-      "tweet_id": "1949033597890904567",
-      "posted_at": "2025-07-26T11:06:34.052400"
-    },
-    "https://github.com/google-gemini/gemini-cli": {
-      "tweet_id": "1949034742877163702",
-      "posted_at": "2025-07-26T11:11:07.029405"
+    "https://github.com/DigitalPlatDev/FreeDomain": {
+      "tweet_id": "1950525627741733288",
+      "posted_at": "2025-07-30T13:55:17.091978"
     },
     "https://github.com/2noise/ChatTTS": {
-      "tweet_id": "1949427678341185583",
-      "posted_at": "2025-07-27T13:12:29.351046"
+      "tweet_id": "1950527006774358391",
+      "posted_at": "2025-07-30T14:00:45.860753"
+    },
+    "https://github.com/modelcontextprotocol/servers": {
+      "tweet_id": "1950534666810749062",
+      "posted_at": "2025-07-30T14:31:12.100019"
     },
     "https://github.com/browser-use/browser-use": {
-      "tweet_id": "1948865587704148474",
-      "posted_at": "2025-07-27T13:15:00.000000"
+      "tweet_id": "1950542591256084736",
+      "posted_at": "2025-07-30T15:02:41.520291"
+    },
+    "https://github.com/mendableai/firecrawl": {
+      "tweet_id": "1950551634087412188",
+      "posted_at": "2025-07-30T15:38:37.852492"
+    },
+    "https://github.com/HeyPuter/puter": {
+      "tweet_id": "1950558902602330188",
+      "posted_at": "2025-07-30T16:07:30.775522"
+    },
+    "https://github.com/google-gemini/gemini-cli": {
+      "tweet_id": "1950566571887227343",
+      "posted_at": "2025-07-30T16:37:59.204412"
+    },
+    "https://github.com/Shubhamsaboo/awesome-llm-apps": {
+      "tweet_id": "1950570419649466708",
+      "posted_at": "2025-07-30T16:53:16.508507"
+    },
+    "https://github.com/xai-org/grok-1": {
+      "tweet_id": "1950578071360151979",
+      "posted_at": "2025-07-30T17:23:40.770289"
+    },
+    "https://github.com/All-Hands-AI/OpenHands": {
+      "tweet_id": "1950585713742803199",
+      "posted_at": "2025-07-30T17:54:02.785198"
+    },
+    "https://github.com/harry0703/MoneyPrinterTurbo": {
+      "tweet_id": "1950593376300020205",
+      "posted_at": "2025-07-30T18:24:29.590716"
+    },
+    "https://github.com/punkpeye/awesome-mcp-servers": {
+      "tweet_id": "1950601031705882648",
+      "posted_at": "2025-07-30T18:54:54.760406"
+    },
+    "https://github.com/opendatalab/MinerU": {
+      "tweet_id": "1950608679377486032",
+      "posted_at": "2025-07-30T19:25:18.031585"
+    },
+    "https://github.com/shardeum/shardeum": {
+      "tweet_id": "1950616414395486673",
+      "posted_at": "2025-07-30T19:56:10.511045"
+    },
+    "https://github.com/RVC-Boss/GPT-SoVITS": {
+      "tweet_id": "1950624318888538153",
+      "posted_at": "2025-07-30T20:27:34.906756"
+    },
+    "https://github.com/microsoft/markitdown": {
+      "tweet_id": "1950632220168696146",
+      "posted_at": "2025-07-30T20:58:58.842929"
+    },
+    "https://github.com/zen-browser/desktop": {
+      "tweet_id": "1950640097722048653",
+      "posted_at": "2025-07-30T21:30:16.872428"
+    },
+    "https://github.com/unclecode/crawl4ai": {
+      "tweet_id": "1950647973987418588",
+      "posted_at": "2025-07-30T22:01:34.541139"
+    },
+    "https://github.com/FoundationAgents/OpenManus": {
+      "tweet_id": "1950655864806817868",
+      "posted_at": "2025-07-30T22:32:56.367799"
+    },
+    "https://github.com/inkonchain/ink-kit": {
+      "tweet_id": "1950683375251173527",
+      "posted_at": "2025-07-31T00:22:14.132302"
+    },
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools": {
+      "tweet_id": "1950688615941689841",
+      "posted_at": "2025-07-31T00:43:03.488118"
+    },
+    "https://github.com/karpathy/LLM101n": {
+      "tweet_id": "1950690505672532331",
+      "posted_at": "2025-07-31T00:50:34.203849"
+    },
+    "https://github.com/cline/cline": {
+      "tweet_id": "1950863872035782842",
+      "posted_at": "2025-07-31T12:19:28.401204"
+    },
+    "https://github.com/virattt/ai-hedge-fund": {
+      "tweet_id": "1950871509708189773",
+      "posted_at": "2025-07-31T12:49:49.344029"
+    },
+    "https://github.com/deepseek-ai/DeepSeek-R1": {
+      "tweet_id": "1950879380818874766",
+      "posted_at": "2025-07-31T13:21:05.841898"
+    },
+    "https://github.com/inkonchain/node": {
+      "tweet_id": "1950887253674213529",
+      "posted_at": "2025-07-31T13:52:22.865548"
+    },
+    "https://github.com/danielmiessler/Fabric": {
+      "tweet_id": "1950895125829239111",
+      "posted_at": "2025-07-31T14:23:39.699097"
+    },
+    "https://github.com/dockur/windows": {
+      "tweet_id": "1950903046390603813",
+      "posted_at": "2025-07-31T14:55:08.264644"
+    },
+    "https://github.com/inkonchain/docs": {
+      "tweet_id": "1950910988598853643",
+      "posted_at": "2025-07-31T15:26:41.770573"
+    },
+    "https://github.com/docling-project/docling": {
+      "tweet_id": "1950918773164089505",
+      "posted_at": "2025-07-31T15:57:29.271818"
+    },
+    "https://github.com/LadybirdBrowser/ladybird": {
+      "tweet_id": "1950924730157978090",
+      "posted_at": "2025-07-31T16:21:09.522110"
+    },
+    "https://github.com/microsoft/ai-agents-for-beginners": {
+      "tweet_id": "1950932401451859972",
+      "posted_at": "2025-07-31T16:51:38.369285"
+    },
+    "https://github.com/deepseek-ai/DeepSeek-V3": {
+      "tweet_id": "1950940021277528370",
+      "posted_at": "2025-07-31T17:21:55.009892"
+    },
+    "https://github.com/9001/copyparty": {
+      "tweet_id": "1950962363097575492",
+      "posted_at": "2025-07-31T18:50:41.563143"
+    },
+    "https://github.com/pointfreeco/swift-composable-architecture": {
+      "tweet_id": "1950969990754013628",
+      "posted_at": "2025-07-31T19:21:00.050510"
+    },
+    "https://github.com/linkwarden/linkwarden": {
+      "tweet_id": "1950977613704413269",
+      "posted_at": "2025-07-31T19:51:17.418227"
+    },
+    "https://github.com/Canner/WrenAI": {
+      "tweet_id": "1950985234482090085",
+      "posted_at": "2025-07-31T20:21:34.226771"
+    },
+    "https://github.com/EmenstaNougat/ESP32-BlueJammer": {
+      "tweet_id": "1950992864927797444",
+      "posted_at": "2025-07-31T20:51:53.407865"
+    },
+    "https://github.com/stenzek/duckstation": {
+      "tweet_id": "1951000759174308257",
+      "posted_at": "2025-07-31T21:23:23.624477"
+    },
+    "https://github.com/puppeteer/puppeteer": {
+      "tweet_id": "1951002226240979294",
+      "posted_at": "2025-07-31T21:29:13.373454"
+    },
+    "https://github.com/fastrepl/hyprnote": {
+      "tweet_id": "1951005262003019870",
+      "posted_at": "2025-07-31T21:41:25.382345"
+    },
+    "https://github.com/OpenPipe/ART": {
+      "tweet_id": "1951006693535453358",
+      "posted_at": "2025-07-31T21:47:06.659749"
+    },
+    "https://github.com/NemProject/nem": {
+      "tweet_id": "1951007512297349361",
+      "posted_at": "2025-07-31T21:50:22.006199"
+    },
+    "https://github.com/rustdesk/rustdesk": {
+      "tweet_id": "1951008400814514594",
+      "posted_at": "2025-07-31T21:53:53.678955"
+    },
+    "https://github.com/cloudwego/eino": {
+      "tweet_id": "1951009840018629007",
+      "posted_at": "2025-07-31T21:59:36.794293"
+    },
+    "https://github.com/deepseek-ai/awesome-deepseek-integration": {
+      "tweet_id": "1951017505624818118",
+      "posted_at": "2025-07-31T22:30:04.605632"
+    },
+    "https://github.com/kijai/ComfyUI-WanVideoWrapper": {
+      "tweet_id": "1951025396163514627",
+      "posted_at": "2025-07-31T23:01:25.676253"
+    },
+    "https://github.com/SkyworkAI/SkyReels-V2": {
+      "tweet_id": "1951033297942831334",
+      "posted_at": "2025-07-31T23:32:49.426762"
+    },
+    "https://github.com/ashishpatel26/500-AI-Agents-Projects": {
+      "tweet_id": "1951062050773369032",
+      "posted_at": "2025-08-01T01:27:04.340266"
+    },
+    "https://github.com/Arcenox-co/TickerQ": {
+      "tweet_id": "1951062856746582426",
+      "posted_at": "2025-08-01T01:30:16.443287"
+    },
+    "https://github.com/senshinya/MoonTV": {
+      "tweet_id": "1951214136379035664",
+      "posted_at": "2025-08-01T11:31:25.151517"
+    },
+    "https://github.com/zouzhekang/YJYpaper": {
+      "tweet_id": "1951222796173840691",
+      "posted_at": "2025-08-01T12:05:49.850090"
+    },
+    "https://github.com/LibreSpark/LibreTV": {
+      "tweet_id": "1951230434093764842",
+      "posted_at": "2025-08-01T12:36:10.806688"
+    },
+    "https://github.com/TideDra/zotero-arxiv-daily": {
+      "tweet_id": "1951238331544514970",
+      "posted_at": "2025-08-01T13:07:33.580263"
+    },
+    "https://github.com/eclipse-sumo/sumo": {
+      "tweet_id": "1951246206010560813",
+      "posted_at": "2025-08-01T13:38:50.893085"
+    },
+    "https://github.com/yeongpin/cursor-free-vip": {
+      "tweet_id": "1951254086784889205",
+      "posted_at": "2025-08-01T14:10:09.743487"
+    },
+    "https://github.com/playcanvas/editor": {
+      "tweet_id": "1951261967299018941",
+      "posted_at": "2025-08-01T14:41:28.525195"
+    },
+    "https://github.com/Huanshere/VideoLingo": {
+      "tweet_id": "1951269849285431403",
+      "posted_at": "2025-08-01T15:12:47.706293"
+    },
+    "https://github.com/devlikeapro/waha": {
+      "tweet_id": "1951277730755981410",
+      "posted_at": "2025-08-01T15:44:06.689338"
+    },
+    "https://github.com/dyad-sh/dyad": {
+      "tweet_id": "1951285513333113309",
+      "posted_at": "2025-08-01T16:14:53.978337"
+    },
+    "https://github.com/TandoorRecipes/recipes": {
+      "tweet_id": "1951293135947985232",
+      "posted_at": "2025-08-01T16:45:11.267501"
+    },
+    "https://github.com/kubesphere/kubesphere": {
+      "tweet_id": "1951300760840315212",
+      "posted_at": "2025-08-01T17:15:29.146778"
+    },
+    "https://github.com/mcp-use/mcp-use": {
+      "tweet_id": "1951308391734739346",
+      "posted_at": "2025-08-01T17:45:48.575077"
+    },
+    "https://github.com/glanceapp/glance": {
+      "tweet_id": "1951316009261875520",
+      "posted_at": "2025-08-01T18:16:04.489798"
+    },
+    "https://github.com/sansan0/TrendRadar": {
+      "tweet_id": "1951323633663492478",
+      "posted_at": "2025-08-01T18:46:22.240301"
+    },
+    "https://github.com/PatrickJS/awesome-cursorrules": {
+      "tweet_id": "1951331249781449180",
+      "posted_at": "2025-08-01T19:16:37.995745"
+    },
+    "https://github.com/fenggeliaoai/cozeworkflows": {
+      "tweet_id": "1951338876502511848",
+      "posted_at": "2025-08-01T19:46:56.286505"
+    },
+    "https://github.com/openai/codex": {
+      "tweet_id": "1951346542809367005",
+      "posted_at": "2025-08-01T20:17:24.001680"
+    },
+    "https://github.com/CherryHQ/cherry-studio": {
+      "tweet_id": "1951354461500350558",
+      "posted_at": "2025-08-01T20:49:00.009559"
+    },
+    "https://github.com/jd-opensource/joyagent-jdgenie": {
+      "tweet_id": "1951362377070555611",
+      "posted_at": "2025-08-01T21:20:26.885494"
+    },
+    "https://github.com/coze-dev/coze-studio": {
+      "tweet_id": "1951370284734488911",
+      "posted_at": "2025-08-01T21:51:52.325526"
+    },
+    "https://github.com/bepass-org/oblivion-desktop": {
+      "tweet_id": "1951378210924753215",
+      "posted_at": "2025-08-01T22:23:22.050082"
+    },
+    "https://github.com/LuckyOne7777/ChatGPT-Micro-Cap-Experiment": {
+      "tweet_id": "1951386131964002367",
+      "posted_at": "2025-08-01T22:54:50.900089"
+    },
+    "https://github.com/QwenLM/qwen-code": {
+      "tweet_id": "1951394085027143744",
+      "posted_at": "2025-08-01T23:26:26.794797"
+    },
+    "https://github.com/contains-studio/agents": {
+      "tweet_id": "1951402008348381272",
+      "posted_at": "2025-08-01T23:57:55.732346"
+    },
+    "https://github.com/sst/opentui": {
+      "tweet_id": "1951409918319133147",
+      "posted_at": "2025-08-02T00:29:21.386278"
+    },
+    "https://github.com/charmbracelet/crush": {
+      "tweet_id": "1951412956052271584",
+      "posted_at": "2025-08-02T00:41:25.617641"
+    },
+    "https://github.com/CursorTouch/Windows-MCP": {
+      "tweet_id": "1951567569929875603",
+      "posted_at": "2025-08-02T10:55:49.007785"
     }
   },
-  "updated_at": "2025-07-27T13:15:00.000000"
+  "updated_at": "2025-08-02T10:55:49.007792"
 }

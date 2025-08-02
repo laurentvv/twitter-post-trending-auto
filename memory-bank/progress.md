@@ -1,31 +1,33 @@
 # Progress Tracking
 
 ## What's Working ✅
-- ✅ **GitHub API** : Récupération des 20 dépôts trending avec retry 3x
+- ✅ **GitHub Multi-Source** : Récupération des dépôts trending via API, scraping, LibHunt et Gitstar Ranking avec fallback automatique.
 - ✅ **Screenshots** : Capture Playwright avec retry 3x et positionnement optimal
 - ✅ **IA Multi-Provider** : Système de fallback Gemini→OpenRouter→Mistral→Ollama
+- ✅ **Validation & Correction IA** : Tweets validés et corrigés par l'IA avant publication.
 - ✅ **Twitter Posting** : Publication complète avec OAuth 1.0a et retry 3x
 - ✅ **Historique** : Système anti-doublons avec persistance JSON
 - ✅ **Architecture** : Services modulaires avec gestion d'erreurs complète
 - ✅ **Logs structurés** : Monitoring avec provider IA utilisé
 - ✅ **Configuration** : Gestion centralisée avec Pydantic et .env
-- ✅ **Scheduler optimisé** : Automation 2h avec gestion rate limits
-- ✅ **Robustesse maximale** : Retry 3x sur TOUS les services + fallback IA
+- ✅ **Scheduler optimisé** : Automation toutes les 30 minutes (09h00–00h00)
+- ✅ **Fallback Firefox** : Automatique, instancié uniquement si nécessaire
+- ✅ **Robustesse maximale** : Retry 3x sur TOUS les services + fallback IA + fallback Firefox
 
 ## What's Built 🏗️
-- **Core Services** : GitHub, AI Multi-Provider, Screenshot, Twitter, History
+- **Core Services** : GitHub (multi-source), AI Multi-Provider, Screenshot, Twitter, History, Firefox Fallback
 - **IA Providers** : Gemini (principal), OpenRouter (backup), Mistral (backup), Ollama (local)
-- **Workflow complet** : De la détection à la publication automatique
+- **Workflow complet** : De la détection à la publication, incluant la validation et correction IA des tweets.
 - **Gestion d'erreurs** : Recovery et fallbacks sur tous les services
 - **Documentation** : README professionnel et memory bank complet
-- **Tests** : Validation de tous les providers IA
-- **Scheduler optimisé** : Exécution automatique toutes les 2 heures
-- **Rate limits** : Respect des 17 tweets/24h avec 8 tweets/jour max
+- **Tests** : Validation de tous les providers IA et du fallback Firefox
+- **Scheduler** : Exécution automatique toutes les 30 minutes, plage 09h00–00h00
+- **Rate limits** : Gérés par fallback Firefox, plus de boucle infinie
 
 ## Projet Finalisé avec IA Multi-Provider 🎯
-**Phase** : PRODUCTION READY + IA MULTI-PROVIDER
+**Phase** : PRODUCTION READY + IA MULTI-PROVIDER + FIREFOX FALLBACK
 **Completion** : 100%
-**Status** : Déployable immédiatement avec IA ultra-robuste
+**Status** : Déployable immédiatement avec IA ultra-robuste et fallback automatique
 
 ## Système IA Multi-Provider Implémenté
 - **Ordre de priorité** : Gemini → OpenRouter → Mistral → Ollama
@@ -54,22 +56,17 @@ src/services/ai_service.py
 ## Configuration Multi-Provider
 ```env
 # Ordre de priorité
-GEMINI_API_KEY=votre_clé_gemini
-OPENROUTER_API_KEY=votre_clé_openrouter
-MISTRAL_API_KEY=votre_clé_mistral
-
-# Fallback local
+GEMINI_API_KEY=...
+OPENROUTER_API_KEY=...
+MISTRAL_API_KEY=...
 OLLAMA_MODEL=qwen3:14b
 OLLAMA_HOST=http://localhost:11434
 ```
 
 ## Commandes de Production
 ```bash
-# Mode production (recommandé)
-python scheduler.py
-
-# Mode manuel
-python -m src.main
+python scheduler.py   # Mode production (recommandé)
+python -m src.main    # Mode manuel
 ```
 
 ## Robustesse IA Maximale Atteinte
@@ -87,4 +84,4 @@ python -m src.main
 - ✅ **Mistral Direct** : 0.6s, backup payant fonctionnel
 - ✅ **Ollama** : 2-5s, fallback local fiable
 
-**Le bot dispose maintenant de l'IA la plus robuste possible avec 4 providers et fallback automatique !** 🚀
+**Le bot dispose maintenant de l'IA la plus robuste possible avec 4 providers, fallback Firefox, et une architecture de production !** 🚀

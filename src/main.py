@@ -1,4 +1,4 @@
-"""Complete GitHub Tweet Bot workflow."""
+"""Complete GitHub Tweet Bot workflow with enhanced Firefox fallback."""
 import asyncio
 import time
 import random
@@ -26,12 +26,12 @@ async def process_trending_repository():
     history_service = HistoryService()
     
     try:
-        # Step 1: Get trending repositories
-        logger.info("Step 1: Fetching trending repositories", **log_step("step_1_start"))
-        repositories = github_service.get_trending_repositories(limit=20)
+        # Step 1: Get trending repositories with fallbacks
+        logger.info("Step 1: Fetching trending repositories with fallbacks", **log_step("step_1_start"))
+        repositories = github_service.get_trending_repositories_with_fallbacks(limit=20)
         
         if not repositories:
-            logger.error("No repositories found", **log_step("workflow_error"))
+            logger.error("No repositories found from all sources", **log_step("workflow_error"))
             return
         
         # Filter out already posted repositories
@@ -44,12 +44,37 @@ async def process_trending_repository():
             unposted_repos = history_service.get_unposted_repos(repositories)
             
             if not unposted_repos:
-                logger.error("No new repositories to post", **log_step("workflow_error"))
-                return
+                logger.warning("Still no new repositories after clearing history, trying next fallback methods")
+                # Essayer explicitement chaque méthode de fallback
+                fallback_methods = [
+                    ("GitHub scraping", github_service.scrape_github_trending_fallback),
+                    ("OSS Insight API", github_service.fetch_ossinsight_trending),
+                    ("Gitstar Ranking", github_service.fetch_gitstar_ranking)
+                ]
+                
+                for method_name, method in fallback_methods:
+                    logger.info(f"Trying fallback method: {method_name}", **log_step("fallback_attempt", method=method_name))
+                    try:
+                        fallback_repos = method(limit=20)
+                        if fallback_repos:
+                            unposted_repos = history_service.get_unposted_repos(fallback_repos)
+                            if unposted_repos:
+                                logger.info(f"Found {len(unposted_repos)} unposted repositories from {method_name}")
+                                break
+                            else:
+                                logger.info(f"All repositories from {method_name} are already posted")
+                        else:
+                            logger.warning(f"Fallback method {method_name} returned no repositories")
+                    except Exception as e:
+                        logger.error(f"Error with fallback method {method_name}: {str(e)}")
+                
+                if not unposted_repos:
+                    logger.error("No new repositories to post from any source", **log_step("workflow_error"))
+                    return
         
         # Select random unposted repository
         repo = random.choice(unposted_repos)
-        repo_name = repo['name']
+        repo_name = repo['name'] if 'name' in repo else repo['full_name']
         repo_url = repo['html_url']
         
         logger.info(
@@ -61,7 +86,7 @@ async def process_trending_repository():
         logger.info("Step 2: Capturing screenshot", **log_step("step_2_start"))
         
         async with ScreenshotService() as screenshot_service:
-            screenshot_filename = f"{repo_name}_{int(time.time())}.png"
+            screenshot_filename = f"{repo_name.replace('/', '_')}_{int(time.time())}.png"
             try:
                 screenshot_path = await screenshot_service.capture_repository(
                     repo_url, screenshot_filename
@@ -157,44 +182,55 @@ async def process_trending_repository():
                       validation_status=validation['is_valid'])
         )
         
-        # POST REAL TWEETS WITH SCREENSHOT
-        main_tweet_id = twitter_service.create_tweet(main_tweet_text, screenshot_path)
+        # POST MAIN TWEET WITH ENHANCED FALLBACK
+        logger.info("Posting main tweet with automatic fallback", **log_step("main_tweet_post_start"))
+        main_tweet_id = twitter_service.create_tweet(
+            main_tweet_text, 
+            screenshot_path, 
+            use_firefox_fallback=True
+        )
         
-        if main_tweet_id:
+        if not main_tweet_id:
+            logger.error("Main tweet failed with both API and Firefox", **log_step("main_tweet_total_failure"))
+            return  # Exit workflow if main tweet fails completely
+        
+        logger.info(
+            "Main tweet posted successfully",
+            **log_step("main_tweet_success", tweet_id=main_tweet_id)
+        )
+        
+        # Mark repository as posted
+        history_service.mark_as_posted(repo_url, main_tweet_id)
+        
+        # POST REPLY WITH ENHANCED FALLBACK
+        logger.info("Posting reply with automatic fallback", **log_step("reply_tweet_post_start"))
+        reply_tweet_id = twitter_service.reply_to_tweet(
+            main_tweet_id, 
+            reply_text, 
+            use_firefox_fallback=True
+        )
+        
+        if reply_tweet_id:
             logger.info(
-                "Main tweet posted",
-                **log_step("step_4_main_success", tweet_id=main_tweet_id)
+                "Reply posted successfully",
+                **log_step("reply_tweet_success", reply_id=reply_tweet_id)
             )
-            
-            # Mark repository as posted
-            history_service.mark_as_posted(repo_url, main_tweet_id)
-            
-            # Post reply thread
-            reply_tweet_id = twitter_service.reply_to_tweet(main_tweet_id, reply_text)
-            
-            if reply_tweet_id:
-                logger.info(
-                    "Thread complet posté",
-                    **log_step("step_4_reply_success", reply_tweet_id=reply_tweet_id)
-                )
-            else:
-                logger.warning("Thread échoué", **log_step("step_4_reply_warning"))
-                # Don't fail the whole workflow, main tweet is already posted
         else:
-            logger.error("Tweet principal échoué", **log_step("step_4_main_error"))
-            return  # Exit workflow if main tweet fails
-        
-        # Workflow completed - only if main tweet was successful
-        if main_tweet_id:
-            total_time = time.time() - start_time
-            logger.info(
-                "Workflow completed successfully",
-                **log_step("workflow_success", 
-                          repo_name=repo_name,
-                          duration=f"{total_time:.2f}s",
-                          main_tweet_id=main_tweet_id,
-                          reply_tweet_id=reply_tweet_id or "failed")
+            logger.warning(
+                "Reply failed with both API and Firefox",
+                **log_step("reply_tweet_failure")
             )
+        
+        # Workflow completed successfully
+        total_time = time.time() - start_time
+        logger.info(
+            "Workflow completed successfully",
+            **log_step("workflow_success", 
+                      repo_name=repo_name,
+                      duration=f"{total_time:.2f}s",
+                      main_tweet_id=main_tweet_id,
+                      reply_tweet_id=reply_tweet_id or "failed")
+        )
         
     except Exception as e:
         logger.error(
@@ -202,6 +238,12 @@ async def process_trending_repository():
             **log_step("workflow_error", error=str(e), duration=f"{time.time() - start_time:.2f}s")
         )
         raise
+    finally:
+        # Clean up Firefox service if initialized
+        try:
+            twitter_service.close_firefox()
+        except Exception as e:
+            logger.warning(f"Error during cleanup: {e}")
 
 
 async def main():
